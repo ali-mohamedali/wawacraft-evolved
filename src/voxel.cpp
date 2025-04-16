@@ -368,29 +368,53 @@ voxcoord chunk::voxel_raycast(vector_3d initial_position, vector_3d target, bool
   float y=initial_position.y;
   float z=initial_position.z;
 
-  float px=x;
-  float py=y;
-  float pz=z;
-  
   float fx=0;
   float fy=0;
   float fz=0;
   
-  float tx=target.x;
-  float ty=target.y;
-  float tz=target.z;
+  float vx=target.x;
+  float vy=target.y;
+  float vz=target.z;
   
-  float sx=(tx>0) ? 1 : -1;
-  float sy=(ty>0) ? 1 : -1;
-  float sz=(tz>0) ? 1 : -1;
+  float sx=(vx>0) ? 1 : -1;
+  float sy=(vy>0) ? 1 : -1;
+  float sz=(vz>0) ? 1 : -1;
   
-  float dx=sx/tx;
-  float dy=sy/ty;
-  float dz=sz/tz;
+  float ax=DEFAULT_CHUNK_SIZE*4;
+  float dx=DEFAULT_CHUNK_SIZE*4;
   
-  float ax=((floor(x)+sx)-x)/tx;
-  float ay=((floor(y)+sy)-y)/ty;
-  float az=((floor(z)+sz)-z)/tz;
+  if(vx!=0){
+    dx=(sx/vx);
+    
+    float ax1=(floor(x)-x)/vx;
+    float ax2=ax1+dx;
+
+    ax=(ax2>ax1) ? ax2 : ax1;
+  }
+
+  float ay=DEFAULT_CHUNK_SIZE*4;
+  float dy=DEFAULT_CHUNK_SIZE*4;
+  
+  if(vy!=0){
+    dy=(sy/vy);
+    
+    float ay1=(floor(y)-y)/vy;
+    float ay2=ay1+dy;
+
+    ay=(ay2>ay1) ? ay2 : ay1;
+  }
+
+  float az=DEFAULT_CHUNK_SIZE*4;
+  float dz=DEFAULT_CHUNK_SIZE*4;
+  
+  if(vz!=0){
+    dz=(sz/vz);
+    
+    float az1=(floor(z)-z)/vz;
+    float az2=az1+dz;
+
+    az=(az2>az1) ? az2 : az1;
+  }
   
   while(x<=DEFAULT_CHUNK_SIZE && y<=DEFAULT_CHUNK_SIZE && z<=DEFAULT_CHUNK_SIZE &&
 	x>=-1 && y>=-1 && z>=-1){
