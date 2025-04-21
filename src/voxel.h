@@ -84,7 +84,7 @@ class chunk{
   voxcoord position_get();
   
   voxel voxel_get(int x, int y, int z);
-  voxcoord voxel_raycast(vector_3d initial_position, vector_3d target, bool current_or_previous=true);
+  vector_3d voxel_raycast(vector_3d initial_position, vector_3d target, bool current_or_previous=true, voxcoord* face=NULL);
   
   mesh_3d* mesh_get();
 
@@ -135,7 +135,10 @@ class chunk_manager{
   bool chunk_exists(voxcoord ppos);
 
   bool block_break(vector_3d initial_position, vector_3d target);
+  bool block_break(vector_3d initial_position, voxcoord initial_chunk, vector_3d target);
+  
   bool block_place(vector_3d initial_position, vector_3d target, voxtype type);
+  bool block_place(vector_3d initial_position, voxcoord initial_chunk, vector_3d target, voxtype type, voxcoord face={0,0,0});
   
   int chunk_search(voxcoord pos);
   

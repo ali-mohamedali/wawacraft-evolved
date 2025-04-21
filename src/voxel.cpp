@@ -24,7 +24,7 @@ const int chunk_manager::DEFAULT_VISIBLE_AREA=(1+2*DEFAULT_VISIBLE_RADIUS)*(1+2*
 
 const float chunk_manager::DEFAULT_RAYCAST_RADIUS=5;
 
-int chunk_manager::DEFAULT_BLOCK_OPS_PER_FRAME=1;
+int chunk_manager::DEFAULT_BLOCK_OPS_PER_FRAME=256;
 
 float chunk::DEFAULT_BLOCK_SCALE=0.25;
 
@@ -362,7 +362,7 @@ voxel chunk::voxel_get(int x, int y, int z)
   return ret;
 }
 
-voxcoord chunk::voxel_raycast(vector_3d initial_position, vector_3d target, bool current_or_previous=true)
+vector_3d chunk::voxel_raycast(vector_3d initial_position, vector_3d target, bool current_or_previous=true, voxcoord* face=NULL)
 {
   float x=initial_position.x;
   float y=initial_position.y;
@@ -371,6 +371,12 @@ voxcoord chunk::voxel_raycast(vector_3d initial_position, vector_3d target, bool
   float fx=0;
   float fy=0;
   float fz=0;
+
+  if(face){
+    fx=face->x;
+    fy=face->y;
+    fz=face->z;
+  }
   
   float vx=target.x;
   float vy=target.y;
@@ -384,10 +390,10 @@ voxcoord chunk::voxel_raycast(vector_3d initial_position, vector_3d target, bool
   float dx=DEFAULT_CHUNK_SIZE*4;
   
   if(vx!=0){
-    dx=(sx/vx);
+    dx=abs(sx/vx);
     
     float ax1=(floor(x)-x)/vx;
-    float ax2=ax1+dx;
+    float ax2=ax1+(sx/vx);
 
     ax=(ax2>ax1) ? ax2 : ax1;
   }
@@ -396,10 +402,10 @@ voxcoord chunk::voxel_raycast(vector_3d initial_position, vector_3d target, bool
   float dy=DEFAULT_CHUNK_SIZE*4;
   
   if(vy!=0){
-    dy=(sy/vy);
+    dy=abs(sy/vy);
     
     float ay1=(floor(y)-y)/vy;
-    float ay2=ay1+dy;
+    float ay2=ay1+(sy/vy);
 
     ay=(ay2>ay1) ? ay2 : ay1;
   }
@@ -408,17 +414,22 @@ voxcoord chunk::voxel_raycast(vector_3d initial_position, vector_3d target, bool
   float dz=DEFAULT_CHUNK_SIZE*4;
   
   if(vz!=0){
-    dz=(sz/vz);
+    dz=abs(sz/vz);
     
     float az1=(floor(z)-z)/vz;
-    float az2=az1+dz;
+    float az2=az1+(sz/vz);
 
     az=(az2>az1) ? az2 : az1;
   }
+
+  bool hit=false;
   
   while(x<=DEFAULT_CHUNK_SIZE && y<=DEFAULT_CHUNK_SIZE && z<=DEFAULT_CHUNK_SIZE &&
 	x>=-1 && y>=-1 && z>=-1){
-    if(c_data[voxel::index_get(x, y, z, DEFAULT_CHUNK_SIZE, DEFAULT_CHUNK_SIZE)]!=VOX_NONE && x<DEFAULT_CHUNK_SIZE && y<DEFAULT_CHUNK_SIZE && z<DEFAULT_CHUNK_SIZE &&	x>=0 && y>=0 && z>=0){
+    if(c_data[voxel::index_get(x, y, z, DEFAULT_CHUNK_SIZE, DEFAULT_CHUNK_SIZE)]!=VOX_NONE){
+      hit=true;
+      break;
+    }else if(x<0 || y<0 || z<0 || x>=DEFAULT_CHUNK_SIZE || y>=DEFAULT_CHUNK_SIZE || z>=DEFAULT_CHUNK_SIZE){
       break;
     }
     
@@ -457,11 +468,17 @@ voxcoord chunk::voxel_raycast(vector_3d initial_position, vector_3d target, bool
     }
   }
 
-  if(!current_or_previous){
-    return{fx, fy, fz};
+  if(!current_or_previous && hit){
+    return vector_3d(x+fx, y+fy, z+fz);
+  }
+
+  if(face){
+    (*face).x=fx;
+    (*face).y=fy;
+    (*face).z=fz;
   }
   
-  return {x, y, z};
+  return vector_3d(x, y, z);
 }
 
 void chunk::mesh_form()
@@ -780,35 +797,47 @@ bool chunk_manager::block_break(vector_3d initial_position, vector_3d target){
   int cy=(initial_position.y/chunk::DEFAULT_BLOCK_SCALE)/chunk::DEFAULT_CHUNK_SIZE;
   int cz=(initial_position.z/chunk::DEFAULT_BLOCK_SCALE)/chunk::DEFAULT_CHUNK_SIZE;
 
-  float ix=fmod((initial_position.x/chunk::DEFAULT_BLOCK_SCALE), chunk::DEFAULT_CHUNK_SIZE);
-  float iy=fmod((initial_position.y/chunk::DEFAULT_BLOCK_SCALE), chunk::DEFAULT_CHUNK_SIZE);
-  float iz=fmod((initial_position.z/chunk::DEFAULT_BLOCK_SCALE), chunk::DEFAULT_CHUNK_SIZE);
+  initial_position.x=fmod((initial_position.x/chunk::DEFAULT_BLOCK_SCALE), chunk::DEFAULT_CHUNK_SIZE);
+  initial_position.y=fmod((initial_position.y/chunk::DEFAULT_BLOCK_SCALE), chunk::DEFAULT_CHUNK_SIZE);
+  initial_position.z=fmod((initial_position.z/chunk::DEFAULT_BLOCK_SCALE), chunk::DEFAULT_CHUNK_SIZE);
 
-  if(ix<0){ix+=chunk::DEFAULT_CHUNK_SIZE;cx--;}
-  if(iy<0){iy+=chunk::DEFAULT_CHUNK_SIZE;cy--;}
-  if(iz<0){iz+=chunk::DEFAULT_CHUNK_SIZE;cz--;}
-    
-  vector_3d converted_initial(ix, iy, iz);
+  if(initial_position.x<0){initial_position.x+=chunk::DEFAULT_CHUNK_SIZE;cx--;}
+  if(initial_position.y<0){initial_position.y+=chunk::DEFAULT_CHUNK_SIZE;cy--;}
+  if(initial_position.z<0){initial_position.z+=chunk::DEFAULT_CHUNK_SIZE;cz--;}
+
+  if(initial_position.x>=chunk::DEFAULT_CHUNK_SIZE){initial_position.x-=chunk::DEFAULT_CHUNK_SIZE;cx++;}
+  if(initial_position.y>=chunk::DEFAULT_CHUNK_SIZE){initial_position.y-=chunk::DEFAULT_CHUNK_SIZE;cy++;}
+  if(initial_position.z>=chunk::DEFAULT_CHUNK_SIZE){initial_position.z-=chunk::DEFAULT_CHUNK_SIZE;cz++;}
   
-  if(chunk_exists({cx, cy, cz})){
-    voxcoord hit=cm_data[chunk_search({cx, cy, cz})].voxel_raycast(converted_initial, target);
-    
-    while(hit.x<0){hit.x+=chunk::DEFAULT_CHUNK_SIZE;cx--;}
-    while(hit.y<0){hit.y+=chunk::DEFAULT_CHUNK_SIZE;cy--;}
-    while(hit.z<0){hit.z+=chunk::DEFAULT_CHUNK_SIZE;cz--;}
+  return block_break(initial_position, {cx, cy, cz}, target);
+}
 
-    while(hit.x>=chunk::DEFAULT_CHUNK_SIZE){hit.x-=chunk::DEFAULT_CHUNK_SIZE;cx++;}
-    while(hit.y>=chunk::DEFAULT_CHUNK_SIZE){hit.y-=chunk::DEFAULT_CHUNK_SIZE;cy++;}
-    while(hit.z>=chunk::DEFAULT_CHUNK_SIZE){hit.z-=chunk::DEFAULT_CHUNK_SIZE;cz++;}
+bool chunk_manager::block_break(vector_3d initial_position, voxcoord initial_chunk, vector_3d target)
+{ 
+  if(chunk_exists({initial_chunk.x, initial_chunk.y, initial_chunk.z})){
+    bool chunk_traversed=false;
     
-    hit=cm_data[chunk_search({cx, cy, cz})].voxel_raycast(vector_3d(hit.x, hit.y, hit.z), target);
+    vector_3d hit=cm_data[chunk_search({initial_chunk.x, initial_chunk.y, initial_chunk.z})].voxel_raycast(initial_position, target);
+    voxcoord chunk=initial_chunk;
     
-    if(chunk_exists({cx, cy, cz}) && block_operations_total<DEFAULT_BLOCK_OPS_PER_FRAME){
-      cm_data[chunk_search({cx, cy, cz})].voxel_set(hit.x, hit.y, hit.z, VOX_NONE);
-      cm_data[chunk_search({cx, cy, cz})].built=false;
+    if(hit.x<0){hit.x+=chunk::DEFAULT_CHUNK_SIZE;chunk.x--;chunk_traversed=true;}
+    if(hit.y<0){hit.y+=chunk::DEFAULT_CHUNK_SIZE;chunk.y--;chunk_traversed=true;}
+    if(hit.z<0){hit.z+=chunk::DEFAULT_CHUNK_SIZE;chunk.z--;chunk_traversed=true;}
 
-      block_operations_total++;
-      return true;
+    if(hit.x>=chunk::DEFAULT_CHUNK_SIZE){hit.x-=chunk::DEFAULT_CHUNK_SIZE;chunk.x++;chunk_traversed=true;}
+    if(hit.y>=chunk::DEFAULT_CHUNK_SIZE){hit.y-=chunk::DEFAULT_CHUNK_SIZE;chunk.y++;chunk_traversed=true;}
+    if(hit.z>=chunk::DEFAULT_CHUNK_SIZE){hit.z-=chunk::DEFAULT_CHUNK_SIZE;chunk.z++;chunk_traversed=true;}
+
+    if(!chunk_traversed){
+      if(block_operations_total<DEFAULT_BLOCK_OPS_PER_FRAME){
+	cm_data[chunk_search({chunk.x, chunk.y, chunk.z})].voxel_set(hit.x, hit.y, hit.z, VOX_NONE);
+	cm_data[chunk_search({chunk.x, chunk.y, chunk.z})].built=false;
+
+	block_operations_total++;
+	return true;
+      }
+    }else{
+      return block_break(hit, chunk, target);
     }
   }else{
     std::cerr << "err:chunk_manager-block_break-chunk-null-at-pos" << std::endl;
@@ -821,66 +850,69 @@ bool chunk_manager::block_place(vector_3d initial_position, vector_3d target, vo
   int cx=(initial_position.x/chunk::DEFAULT_BLOCK_SCALE)/chunk::DEFAULT_CHUNK_SIZE;
   int cy=(initial_position.y/chunk::DEFAULT_BLOCK_SCALE)/chunk::DEFAULT_CHUNK_SIZE;
   int cz=(initial_position.z/chunk::DEFAULT_BLOCK_SCALE)/chunk::DEFAULT_CHUNK_SIZE;
-  
-  int pcx=cx;
-  int pcy=cy;
-  int pcz=cz;
-  
-  float ix=fmod((initial_position.x/chunk::DEFAULT_BLOCK_SCALE), chunk::DEFAULT_CHUNK_SIZE);
-  float iy=fmod((initial_position.y/chunk::DEFAULT_BLOCK_SCALE), chunk::DEFAULT_CHUNK_SIZE);
-  float iz=fmod((initial_position.z/chunk::DEFAULT_BLOCK_SCALE), chunk::DEFAULT_CHUNK_SIZE);
 
-  if(ix<0){ix+=chunk::DEFAULT_CHUNK_SIZE;cx--;}
-  if(iy<0){iy+=chunk::DEFAULT_CHUNK_SIZE;cy--;}
-  if(iz<0){iz+=chunk::DEFAULT_CHUNK_SIZE;cz--;}
-    
-  vector_3d converted_initial(ix, iy, iz);
-  
+  initial_position.x=fmod((initial_position.x/chunk::DEFAULT_BLOCK_SCALE), chunk::DEFAULT_CHUNK_SIZE);
+  initial_position.y=fmod((initial_position.y/chunk::DEFAULT_BLOCK_SCALE), chunk::DEFAULT_CHUNK_SIZE);
+  initial_position.z=fmod((initial_position.z/chunk::DEFAULT_BLOCK_SCALE), chunk::DEFAULT_CHUNK_SIZE);
+
+  if(initial_position.x<0){initial_position.x+=chunk::DEFAULT_CHUNK_SIZE;cx--;}
+  if(initial_position.y<0){initial_position.y+=chunk::DEFAULT_CHUNK_SIZE;cy--;}
+  if(initial_position.z<0){initial_position.z+=chunk::DEFAULT_CHUNK_SIZE;cz--;}
+
+  if(initial_position.x>=chunk::DEFAULT_CHUNK_SIZE){initial_position.x-=chunk::DEFAULT_CHUNK_SIZE;cx++;}
+  if(initial_position.y>=chunk::DEFAULT_CHUNK_SIZE){initial_position.y-=chunk::DEFAULT_CHUNK_SIZE;cy++;}
+  if(initial_position.z>=chunk::DEFAULT_CHUNK_SIZE){initial_position.z-=chunk::DEFAULT_CHUNK_SIZE;cz++;}
+
   if(chunk_exists({cx, cy, cz})){
-    voxcoord face=cm_data[chunk_search({cx, cy, cz})].voxel_raycast(converted_initial, target, false);
-    voxcoord hit=cm_data[chunk_search({cx, cy, cz})].voxel_raycast(converted_initial, target);
-    
-    if(hit.x<=-1 || hit.y<=-1 || hit.z<=-1 ||
-       hit.x>=chunk::DEFAULT_CHUNK_SIZE ||
-       hit.y>=chunk::DEFAULT_CHUNK_SIZE ||
-       hit.z>=chunk::DEFAULT_CHUNK_SIZE ||
-       cm_data[chunk_search({cx, cy, cz})].voxel_get(hit.x, hit.y, hit.z).type_get()==VOX_NONE){
-      while(hit.x<0){hit.x+=chunk::DEFAULT_CHUNK_SIZE;cx--;}
-      while(hit.y<0){hit.y+=chunk::DEFAULT_CHUNK_SIZE;cy--;}
-      while(hit.z<0){hit.z+=chunk::DEFAULT_CHUNK_SIZE;cz--;}
-      
-      while(hit.x>=chunk::DEFAULT_CHUNK_SIZE){hit.x-=chunk::DEFAULT_CHUNK_SIZE;cx++;}
-      while(hit.y>=chunk::DEFAULT_CHUNK_SIZE){hit.y-=chunk::DEFAULT_CHUNK_SIZE;cy++;}
-      while(hit.z>=chunk::DEFAULT_CHUNK_SIZE){hit.z-=chunk::DEFAULT_CHUNK_SIZE;cz++;}
-
-      voxcoord newv=cm_data[chunk_search({cx, cy, cz})].voxel_raycast(vector_3d(hit.x, hit.y, hit.z), target, false);
-      voxcoord err={0, 0, 0};
-      
-      if(newv!=err){
-	face=newv;
-      }
-      
-      hit=cm_data[chunk_search({cx, cy, cz})].voxel_raycast(vector_3d(hit.x, hit.y, hit.z), target);
+    if(cm_data[chunk_search({cx, cy, cz})].voxel_get(initial_position.x, initial_position.y, initial_position.z).type_get()==VOX_NONE){
+      return block_place(initial_position, {cx, cy, cz}, target, type);
     }
+  }
 
-    hit.x+=face.x;
-    hit.y+=face.y;
-    hit.z+=face.z;
-    
-    while(hit.x<0){hit.x+=chunk::DEFAULT_CHUNK_SIZE;cx--;}
-    while(hit.y<0){hit.y+=chunk::DEFAULT_CHUNK_SIZE;cy--;}
-    while(hit.z<0){hit.z+=chunk::DEFAULT_CHUNK_SIZE;cz--;}
-    
-    while(hit.x>=chunk::DEFAULT_CHUNK_SIZE){hit.x-=chunk::DEFAULT_CHUNK_SIZE;cx++;}
-    while(hit.y>=chunk::DEFAULT_CHUNK_SIZE){hit.y-=chunk::DEFAULT_CHUNK_SIZE;cy++;}
-    while(hit.z>=chunk::DEFAULT_CHUNK_SIZE){hit.z-=chunk::DEFAULT_CHUNK_SIZE;cz++;}
-    
-    if(chunk_exists({cx, cy, cz}) && block_operations_total<DEFAULT_BLOCK_OPS_PER_FRAME){
-      cm_data[chunk_search({cx, cy, cz})].voxel_set(hit.x, hit.y, hit.z, type);
-      cm_data[chunk_search({cx, cy, cz})].built=false;
+  return false;
+}
 
-      block_operations_total++;
-      return true;
+bool chunk_manager::block_place(vector_3d initial_position, voxcoord initial_chunk, vector_3d target, voxtype type, voxcoord face)
+{ 
+  if(chunk_exists({initial_chunk.x, initial_chunk.y, initial_chunk.z})){
+    bool chunk_traversed=false;
+    voxcoord chunk=initial_chunk;
+
+    voxcoord face_log=face;
+    
+    vector_3d hit=cm_data[chunk_search({initial_chunk.x, initial_chunk.y, initial_chunk.z})].voxel_raycast(initial_position, target, true, &face_log);
+    vector_3d prev=cm_data[chunk_search({initial_chunk.x, initial_chunk.y, initial_chunk.z})].voxel_raycast(initial_position, target, false, &face_log);
+
+    if(hit.x==prev.x && hit.y==prev.y && hit.z==prev.z){
+      if(hit.x<0){hit.x+=chunk::DEFAULT_CHUNK_SIZE;chunk.x--;}
+      if(hit.y<0){hit.y+=chunk::DEFAULT_CHUNK_SIZE;chunk.y--;}
+      if(hit.z<0){hit.z+=chunk::DEFAULT_CHUNK_SIZE;chunk.z--;}
+
+      if(hit.x>=chunk::DEFAULT_CHUNK_SIZE){hit.x-=chunk::DEFAULT_CHUNK_SIZE;chunk.x++;}
+      if(hit.y>=chunk::DEFAULT_CHUNK_SIZE){hit.y-=chunk::DEFAULT_CHUNK_SIZE;chunk.y++;}
+      if(hit.z>=chunk::DEFAULT_CHUNK_SIZE){hit.z-=chunk::DEFAULT_CHUNK_SIZE;chunk.z++;}
+      
+      return block_place(hit, chunk, target, type, face_log);
+    }else{
+      if(prev.x<0){prev.x+=chunk::DEFAULT_CHUNK_SIZE;chunk.x--;}
+      if(prev.y<0){prev.y+=chunk::DEFAULT_CHUNK_SIZE;chunk.y--;}
+      if(prev.z<0){prev.z+=chunk::DEFAULT_CHUNK_SIZE;chunk.z--;}
+
+      if(prev.x>=chunk::DEFAULT_CHUNK_SIZE){prev.x-=chunk::DEFAULT_CHUNK_SIZE;chunk.x++;}
+      if(prev.y>=chunk::DEFAULT_CHUNK_SIZE){prev.y-=chunk::DEFAULT_CHUNK_SIZE;chunk.y++;}
+      if(prev.z>=chunk::DEFAULT_CHUNK_SIZE){prev.z-=chunk::DEFAULT_CHUNK_SIZE;chunk.z++;}
+
+      if(chunk_exists(chunk)){
+	if(block_operations_total<DEFAULT_BLOCK_OPS_PER_FRAME){
+	  cm_data[chunk_search(chunk)].voxel_set(prev.x, prev.y, prev.z, type);
+	  cm_data[chunk_search(chunk)].built=false;
+
+	  block_operations_total++;
+	  return true;
+	}
+      }else{
+	std::cerr << "err:chunk_manager-block_place-chunk-null-at-pos" << std::endl;
+      }
     }
   }else{
     std::cerr << "err:chunk_manager-block_place-chunk-null-at-pos" << std::endl;
