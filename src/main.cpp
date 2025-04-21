@@ -165,7 +165,7 @@ int main()
   
   mesh_3d* meshes[chunk_manager::DEFAULT_VISIBLE_AREA];
   
-  test.set_title("Wawacraft:Evolved [v0.2.14-alpha/Spark Release] [OpenGL 3.3]");
+  test.set_title("Wawacraft:Evolved [v0.2.15-alpha/Spark Release] [OpenGL 3.3]");
 
   KEY_W.keycode=GLFW_KEY_W;
   KEY_W.callback=&move_camera;
