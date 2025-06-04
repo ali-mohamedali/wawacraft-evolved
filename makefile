@@ -12,14 +12,12 @@ TEXDIR=tex
 
 BINO=$(BINDIR)/*.o
 
-TARGET=$(BINDIR)/wawacraft_evolved
+TARGET=wawacraft-evolved
 
 
 wawacraft_evolved:
 	mkdir -p $(BINDIR)
-	make glad stb_image mathlib windef control textures shader mesh render voxel main
-	cp -r $(SHDDIR) $(BINDIR)
-	cp -r $(TEXDIR) $(BINDIR)
+	make glad stb_image main
 	$(CC) $(BINO) -o $(TARGET) $(CFLAGS) $(LFLAGS)
 
 link:
@@ -27,32 +25,6 @@ link:
 
 main: $(SRCDIR)/main.cpp
 	$(CC) $(SRCDIR)/main.cpp -o $(BINDIR)/main.o $(CFLAGS) $(LFLAGS) -c
-
-# source
-
-windef: $(SRCDIR)/windef.cpp $(SRCDIR)/windef.h
-	$(CC) $(SRCDIR)/windef.cpp -o $(BINDIR)/windef.o $(CFLAGS) $(LFLAGS) -c
-
-render: $(SRCDIR)/render.cpp $(SRCDIR)/render.h
-	$(CC) $(SRCDIR)/render.cpp -o $(BINDIR)/render.o $(CFLAGS) $(LFLAGS) -c
-
-shader: $(SRCDIR)/shader.cpp $(SRCDIR)/shader.h
-	$(CC) $(SRCDIR)/shader.cpp -o $(BINDIR)/shader.o $(CFLAGS) $(LFLAGS) -c
-
-mesh: $(SRCDIR)/mesh.cpp $(SRCDIR)/mesh.h
-	$(CC) $(SRCDIR)/mesh.cpp -o $(BINDIR)/mesh.o $(CFLAGS) $(LFLAGS) -c
-
-textures: $(SRCDIR)/textures.cpp $(SRCDIR)/textures.h
-	$(CC) $(SRCDIR)/textures.cpp -o $(BINDIR)/textures.o $(CFLAGS) $(LFLAGS) -c
-
-control: $(SRCDIR)/control.cpp $(SRCDIR)/control.h
-	$(CC) $(SRCDIR)/control.cpp -o $(BINDIR)/control.o $(CFLAGS) $(LFLAGS) -c
-
-mathlib: $(SRCDIR)/mathlib.cpp $(SRCDIR)/mathlib.h
-	$(CC) $(SRCDIR)/mathlib.cpp -o $(BINDIR)/mathlib.o $(CFLAGS) $(LFLAGS) -c
-
-voxel: $(SRCDIR)/voxel.cpp $(SRCDIR)/voxel.h
-	$(CC) $(SRCDIR)/voxel.cpp -o $(BINDIR)/voxel.o $(CFLAGS) $(LFLAGS) -c
 
 # libraries
 

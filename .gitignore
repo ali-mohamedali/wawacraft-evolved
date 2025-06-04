@@ -2,8 +2,13 @@
 docs/
 # My binaries for ME only
 bin/*
+bin
+./wawacraft-evolved
 # I hate backups getting in the repo too
 /#*#
 /#*
 *~
 *.o
+*.save
+# Art is not necessary
+tex/art/*
