@@ -5,8 +5,8 @@ bin/*
 bin
 ./wawacraft-evolved
 # I hate backups getting in the repo too
-/#*#
-/#*
+*#
+.#*
 *~
 *.o
 *.save

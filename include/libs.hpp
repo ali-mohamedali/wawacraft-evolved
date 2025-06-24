@@ -7,15 +7,16 @@
 #include <sstream>
 #include <fstream>
 #include <vector>
+#include <unordered_map>
 #include <math.h>
 #include <cstdlib>
-#include <unistd.h>
+#include <cstddef>
 
 // OpenGL libraries
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 // Image loading library
-#include "../lib/stb_image.h"
+#include "lib/stb_image.hpp"
 
 #endif
