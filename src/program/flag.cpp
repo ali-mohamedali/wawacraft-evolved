@@ -1,5 +1,6 @@
 #include "libs.hpp"
 #include "settings.hpp"
+#include "logging.hpp"
 #include "flags.hpp"
 
 bool flags::flag::shelled_manage(std::string g_data){

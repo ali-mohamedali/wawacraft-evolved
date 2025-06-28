@@ -172,7 +172,7 @@ namespace settings{
 
   template <typename type, typename string_type, typename mutex_type, mutex_type m_default_value, mutex_type m_held_value>
   type setting<type, string_type, mutex_type, m_default_value, m_held_value>::search(string_type g_option)
-  {
+  { 
     typename table::iterator i=values.find(g_option);
 
     if(i!=values.end()){

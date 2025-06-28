@@ -34,17 +34,23 @@ void logging::log::set_function(std::string g_function)
 
 void logging::log::message(std::string p)
 {
-  print_cout(prefix()+p);
+  if(possible()){
+    print_cout(prefix()+p);
+  }
 }
 
 void logging::log::record(std::string p)
 {
-  print_clog(prefix()+"LOG "+p);
+  if(possible()){
+    print_clog(prefix()+"LOG "+p);
+  }
 }
 
 void logging::log::error(std::string p)
 {
-  print_cerr(prefix()+"ERR "+p);
+  if(possible()){
+    print_cerr(prefix()+"ERR "+p);
+  }
 }
 
 std::string logging::log::prefix()
@@ -59,6 +65,11 @@ std::string logging::log::prefix()
   default:
     return common::PROGRAM_NAME+": ";
   }
+}
+
+bool logging::log::possible()
+{
+  return (LOGGING.access()==LOGGING_YES) ? true : false;
 }
 
 void logging::log::print_cout(std::string p)
@@ -78,7 +89,7 @@ void logging::log::print_cout(std::string p)
 
 void logging::log::print_clog(std::string p)
 {
-  switch(MESSAGE_LOGGING.access()){
+  switch(RECORD_LOGGING.access()){
   case LOGGING_YES:
     std::clog << p << std::endl;
     break;
@@ -93,7 +104,7 @@ void logging::log::print_clog(std::string p)
 
 void logging::log::print_cerr(std::string p)
 {
-  switch(MESSAGE_LOGGING.access()){
+  switch(ERROR_LOGGING.access()){
   case LOGGING_YES:
     std::cerr << p << std::endl;
     break;

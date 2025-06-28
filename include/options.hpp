@@ -9,6 +9,11 @@ namespace options{
   extern flags::flag help_flag;
   extern flags::flag version_flag;
 
+  extern flags::flag logging_flag;
+  extern flags::flag messages_flag;
+  extern flags::flag records_flag;
+  extern flags::flag errors_flag;
+
   extern flags::synonym_table flag_synonyms;
 
   extern flags::flag_table flag_table;

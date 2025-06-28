@@ -26,9 +26,15 @@ bool flags::parser::parse(flags::sequence g_sequence)
 	}
       }else{
 	std::string accumulate;
-	for(std::vector<flags::symbol>::const_iterator i=flag; i<range; i++){
+	for(std::vector<flags::symbol>::const_iterator i=flag+1; i<range; i++){
 	  if(i->type==DATA){
-	    accumulate+=" "+i->name;
+	    if(i==flag+1){
+	      accumulate=i->name;
+	    }else{
+	      accumulate+=" "+i->name;
+	    }
+	  }else{
+	    break;
 	  }
 	}
       

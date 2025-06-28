@@ -45,6 +45,8 @@ namespace logging{
     
   private:
     std::string prefix();
+
+    bool possible();
     
     void print_cout(std::string);
     void print_clog(std::string);
