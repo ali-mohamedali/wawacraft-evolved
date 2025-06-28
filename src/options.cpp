@@ -6,6 +6,7 @@
 flags::flag options::help_flag={false, &blurbs::help_setting};
 flags::flag options::version_flag={false, &blurbs::version_setting};
 
+flags::flag options::prefixing_flag={true, &logging::log::PREFIXING};
 flags::flag options::logging_flag={true, &logging::log::LOGGING};
 flags::flag options::messages_flag={true, &logging::log::MESSAGE_LOGGING};
 flags::flag options::records_flag={true, &logging::log::RECORD_LOGGING};
@@ -24,7 +25,8 @@ flags::flag_table options::flag_table=
     {"--logging", logging_flag},
     {"--messages", messages_flag},
     {"--record-logs", records_flag},
-    {"--errors", errors_flag}
+    {"--errors", errors_flag},
+    {"--prefixing", prefixing_flag}
   };
 
 void options::parse(int argc, char** argv)

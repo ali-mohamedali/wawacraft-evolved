@@ -3,7 +3,7 @@
 #include "settings.hpp"
 #include "logging.hpp"
 
-static settings::setting<int> logging::log::PREFIXING(PREFIX_DEBUG, PREFIXING_SETTINGS);
+static settings::setting<int> logging::log::PREFIXING(PREFIX_DEFAULT, PREFIXING_SETTINGS);
 static settings::setting<int> logging::log::LOGGING(LOGGING_YES, LOGGING_SETTINGS);
 
 static settings::setting<int> logging::log::MESSAGE_LOGGING(LOGGING_YES, LOGGING_SETTINGS);
