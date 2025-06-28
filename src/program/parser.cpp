@@ -1,5 +1,6 @@
 #include "libs.hpp"
 #include "settings.hpp"
+#include "logging.hpp"
 #include "flags.hpp"
 
 flags::parser::parser(flags::flag_table g_flags):
@@ -15,37 +16,18 @@ bool flags::parser::parse(flags::sequence g_sequence)
   }
 
   std::vector<flags::symbol>::iterator flag=g_sequence.begin();
-  while((flag>=g_sequence.begin()) && (flag<g_sequence.end())){
+  while(flag<g_sequence.end()){
     std::vector<flags::symbol>::iterator range=find_flag(g_sequence, flag);
 
     std::unordered_map<std::string, flags::flag>::iterator record=get_record(flag->name);
     if(record!=flags.end()){
       if(range==flag+1){
-	if(call_flag(record->second, "")==FAILURE){
-	  return FAILURE;
-	}
+	call_flag(record->second, "");
       }else{
-	std::string accumulate;
-	for(std::vector<flags::symbol>::const_iterator i=flag+1; i<range; i++){
-	  if(i->type==DATA){
-	    if(i==flag+1){
-	      accumulate=i->name;
-	    }else{
-	      accumulate+=" "+i->name;
-	    }
-	  }else{
-	    break;
-	  }
-	}
-      
-	if(call_flag(record->second, accumulate)==FAILURE){
-	  return FAILURE;
-	}
+        call_flag(record->second, accumulate_data(g_sequence, flag, range));
       }
-    }else{
-      return FAILURE;
     }
-
+    
     flag=range;
   }
 
@@ -74,6 +56,26 @@ bool flags::parser::call_flag(flags::flag& g_flag, std::string data)
   }
 
   return FAILURE;
+}
+
+std::string flags::parser::accumulate_data(flags::sequence g_sequence, std::vector<flags::symbol>::const_iterator start, std::vector<flags::symbol>::const_iterator end)
+{
+  start++;
+  
+  std::string accumulate="";
+  for(std::vector<flags::symbol>::const_iterator i=start; i<end; i++){
+    if(i->type==DATA){
+      if(i==start){
+	accumulate+=i->name;
+      }else{
+	accumulate+=" "+i->name;
+      }
+    }else{
+      break;
+    }
+  }
+
+  return accumulate;
 }
 
 std::vector<flags::symbol>::iterator flags::parser::find_flag(flags::sequence& g_sequence)

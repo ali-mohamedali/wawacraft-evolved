@@ -71,6 +71,8 @@ namespace flags{
     bool is_data_first(sequence&);
 
     bool call_flag(flag&, std::string);
+
+    std::string accumulate_data(flags::sequence, std::vector<flags::symbol>::const_iterator, std::vector<flags::symbol>::const_iterator);
     
     std::vector<symbol>::iterator find_flag(sequence&);
     std::vector<symbol>::iterator find_flag(sequence&, std::vector<symbol>::iterator);

@@ -26,7 +26,7 @@ flags::flag_table options::flag_table=
     {"--messages", messages_flag},
     {"--record-logs", records_flag},
     {"--errors", errors_flag},
-    {"--prefixing", prefixing_flag}
+    {"--prefix", prefixing_flag}
   };
 
 void options::parse(int argc, char** argv)
