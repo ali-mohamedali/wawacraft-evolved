@@ -2,11 +2,10 @@
 #define LOGGING_H
 
 #include "../libs.hpp"
+#include "../common.hpp"
 #include "settings.hpp"
 
 namespace logging{
-  const std::string PROGRAM_NAME="wawacraft-evolved";
-
   const int PREFIX_DEFAULT=0;
   const int PREFIX_DEBUG=1;
   

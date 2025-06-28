@@ -1,4 +1,5 @@
 #include "libs.hpp"
+#include "common.hpp"
 #include "settings.hpp"
 #include "logging.hpp"
 
@@ -50,13 +51,13 @@ std::string logging::log::prefix()
 {
   switch(PREFIXING.access()){
   case PREFIX_DEFAULT:
-    return PROGRAM_NAME+": ";
+    return common::PROGRAM_NAME+": ";
     break;
   case PREFIX_DEBUG:
-    return PROGRAM_NAME+": "+scope+"::"+function+"(): ";
+    return common::PROGRAM_NAME+": "+scope+"::"+function+"(): ";
     break;
   default:
-    return PROGRAM_NAME+": ";
+    return common::PROGRAM_NAME+": ";
   }
 }
 

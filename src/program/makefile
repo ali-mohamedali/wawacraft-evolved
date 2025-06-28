@@ -20,5 +20,5 @@ parser.o: parser.cpp flags.hpp settings.hpp
 sieve.o: sieve.cpp flags.hpp
 	$(CXXCOMPILE) $(LPATH_HERE) -c $< -o $(bindir_here)/$@
 
-logging.o: logging.cpp logging.hpp
+logging.o: logging.cpp logging.hpp common.hpp
 	$(CXXCOMPILE) $(LPATH_HERE) -c $< -o $(bindir_here)/$@
