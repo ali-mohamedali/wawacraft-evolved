@@ -10,11 +10,5 @@ int main(int argc, char** argv)
 
   blurbs::banner();
   
-  logging::log logger;
-
-  logger.message("Hello World from wawacraft-evolved");
-  logger.record("Recording a log");
-  logger.error("Error, no error found");
-  
   return 0;
 }
