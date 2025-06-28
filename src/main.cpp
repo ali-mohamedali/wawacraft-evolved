@@ -1,5 +1,6 @@
 #include "libs.hpp"
 #include "program/flags.hpp"
+#include "program/logging.hpp"
 
 void OTM()
 {
@@ -50,8 +51,12 @@ int main(int argc, char** argv)
   flags::parser generic_parser(TABLE);
 
   generic_parser.parse(generic_sieve.filter());
-  
-  std::cout << "Hello World from " << argv[0] << std::endl;
 
+  logging::log logger("main", "global");
+
+  logger.message("Hello World from wawacraft-evolved");
+  logger.record("Recording a log");
+  logger.error("Error, no error found");
+  
   return 0;
 }
