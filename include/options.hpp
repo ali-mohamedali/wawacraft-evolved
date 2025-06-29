@@ -6,6 +6,8 @@
 #include "program/flags.hpp"
 
 namespace options{
+  extern flags::flag banner_flag;
+  
   extern flags::flag help_flag;
   extern flags::flag version_flag;
 

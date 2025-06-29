@@ -3,6 +3,8 @@
 #include "program/logging.hpp"
 #include "options.hpp"
 
+flags::flag options::banner_flag={true, &blurbs::banner_setting};
+
 flags::flag options::help_flag={false, &blurbs::help_setting};
 flags::flag options::version_flag={false, &blurbs::version_setting};
 
@@ -14,17 +16,19 @@ flags::flag options::errors_flag={true, &logging::log::ERROR_LOGGING};
 
 flags::synonym_table options::flag_synonyms=
   {
+    {'b', "--banner"},
     {'v', "--version"},
     {'h', "--help"}
   };
 
 flags::pseudo_table options::flag_pseudos=
   {
-    {"--quiet", {"--logging", "quiet"}}
+    {"--quiet", {"--logging", "quiet", "--banner", "no"}}
   };
 
 flags::flag_table options::flag_table=
   {
+    {"--banner", banner_flag},
     {"--help", help_flag},
     {"--version", version_flag},
     {"--logging", logging_flag},

@@ -2,20 +2,33 @@
 #include "program/settings.hpp"
 #include "blurbs.hpp"
 
-settings::setting<int> blurbs::help_setting(false, {}, &blurbs::help);
-settings::setting<int> blurbs::version_setting(false, {}, &blurbs::version);
+const int blurbs::BANNER_YES=1;
+const int blurbs::BANNER_NO=0;
+
+const std::unordered_map<std::string, int> blurbs::BANNER_TABLE=
+  {
+    {"yes", blurbs::BANNER_YES},
+    {"no", blurbs::BANNER_NO}
+  };
+
+settings::setting<int> blurbs::banner_setting(blurbs::BANNER_YES, blurbs::BANNER_TABLE, &blurbs::banner);
+
+settings::setting<int> blurbs::help_setting(0, {}, &blurbs::help);
+settings::setting<int> blurbs::version_setting(0, {}, &blurbs::version);
 
 void blurbs::banner()
 {
-  std::cout << common::PROGRAM_NAME_FORMAL << " " << common::PROGRAM_VERSION
-	    << "\nCopyright (C) 2024-2025 Stephen P. Hurlsmith" << std::endl;
+  if(banner_setting.access()==BANNER_YES){
+    std::cout << common::PROGRAM_NAME_FORMAL << " " << common::PROGRAM_VERSION
+	      << "\nCopyright (C) 2024-2025 Stephen P. Hurlsmith" << std::endl;
   
-  std::cout << common::PROGRAM_NAME_FORMAL << " is licensed under the GNU"
-	    << "\nGeneral Public License version 3. See files"
-	    << "\nnamed LICENSE and COPYING for more"
-	    << "\ninformation." << std::endl;
+    std::cout << common::PROGRAM_NAME_FORMAL << " is licensed under the GNU"
+	      << "\nGeneral Public License version 3. See files"
+	      << "\nnamed LICENSE and COPYING for more"
+	      << "\ninformation." << std::endl;
   
-  std::cout << "\n!!! WAWACRAFT:EVOLVED FOREVER :3 !!!\n" << std::endl;
+    std::cout << "\n!!! WAWACRAFT:EVOLVED FOREVER :3 !!!\n" << std::endl;
+  }
 }
 
 void blurbs::help()
