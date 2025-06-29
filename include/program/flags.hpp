@@ -17,15 +17,19 @@ namespace flags{
 
   typedef std::vector<symbol> sequence;
   typedef std::unordered_map<char, std::string> synonym_table;
-
+  typedef std::unordered_map<std::string, std::vector<std::string>> pseudo_table;
+  
   class sieve{
   public:
     sieve(int, char**);
     sieve(synonym_table);
     sieve(synonym_table, int, char**);
+    sieve(synonym_table, pseudo_table, int, char**);
     
     void load(int, char**);
+    
     void set_synonyms(synonym_table);
+    void set_pseudos(pseudo_table);
     
     sequence filter();
   
@@ -39,11 +43,15 @@ namespace flags{
     marker get_marker(std::string);
 
     std::string find_synonym(char);
-  
+
+    std::vector<std::string> find_real(std::string);
+    std::vector<std::string> replace_pseudos();
+    
     sequence categorize();
     sequence expand(symbol);
   
     synonym_table synonyms;
+    pseudo_table pseudos;
   
     std::vector<std::string> arguments;
   };

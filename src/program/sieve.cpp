@@ -17,6 +17,13 @@ flags::sieve::sieve(flags::synonym_table g_synonyms, int argc, char** argv)
   set_synonyms(g_synonyms);
 }
 
+flags::sieve::sieve(flags::synonym_table g_synonyms, flags::pseudo_table g_pseudos, int argc, char** argv)
+{
+  load(argc, argv);
+  set_synonyms(g_synonyms);
+  set_pseudos(g_pseudos);
+}
+
 void flags::sieve::load(int argc, char** argv)
 {
   for(int i=1; i<argc; i++){
@@ -29,8 +36,15 @@ void flags::sieve::set_synonyms(flags::synonym_table g_synonyms)
   synonyms=g_synonyms;
 }
 
+void flags::sieve::set_pseudos(flags::pseudo_table g_pseudos)
+{
+  pseudos=g_pseudos;
+}
+
 flags::sequence flags::sieve::filter()
 {
+  arguments=replace_pseudos();
+  
   flags::sequence first_sequence=categorize();
 
   flags::sequence second_sequence;
@@ -73,12 +87,38 @@ flags::marker flags::sieve::get_marker(std::string g_string)
 }
 
 std::string flags::sieve::find_synonym(char g)
-{
-  if(synonyms.find(g)!=synonyms.end()){
+{ 
+  if(synonyms.find(g)!=synonyms.end()){   
     return (synonyms.find(g))->second;
   }else{
     return "";
   }
+}
+
+std::vector<std::string> flags::sieve::find_real(std::string g)
+{
+  if(pseudos.find(g)!=pseudos.end()){
+    return (pseudos.find(g))->second;
+  }else{
+    return {""};
+  }
+}
+
+std::vector<std::string> flags::sieve::replace_pseudos()
+{
+  std::vector<std::string> ret;
+
+  for(std::vector<std::string>::const_iterator i=arguments.begin(); i<arguments.end(); i++){
+    std::vector<std::string> replacement=find_real(*i);
+    
+    if(replacement.at(0)!=""){
+      ret.insert(ret.end(), replacement.begin(), replacement.end());
+    }else{
+      ret.push_back(*i);
+    }
+  }
+
+  return ret;
 }
 
 flags::sequence flags::sieve::categorize()

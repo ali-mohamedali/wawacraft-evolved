@@ -18,6 +18,11 @@ flags::synonym_table options::flag_synonyms=
     {'h', "--help"}
   };
 
+flags::pseudo_table options::flag_pseudos=
+  {
+    {"--quiet", {"--logging", "quiet"}}
+  };
+
 flags::flag_table options::flag_table=
   {
     {"--help", help_flag},
@@ -31,7 +36,7 @@ flags::flag_table options::flag_table=
 
 void options::parse(int argc, char** argv)
 {
-  flags::sieve gen_sieve(flag_synonyms, argc, argv);
+  flags::sieve gen_sieve(flag_synonyms, flag_pseudos, argc, argv);
   flags::parser gen_parser(flag_table);
   
   gen_parser.parse(gen_sieve.filter());

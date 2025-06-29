@@ -11,7 +11,7 @@ void blurbs::banner()
 	    << "\nCopyright (C) 2024-2025 Stephen P. Hurlsmith" << std::endl;
   std::cout << common::PROGRAM_NAME_FORMAL << " is licensed under the GNU General Public License version 3."
 	    << "\nSee files named LICENSE and COPYING for more information." << std::endl;
-  std::cout << "\n!!! WAWACRAFT:EVOLVED FOREVER :3 !!!" << std::endl;
+  std::cout << "\n!!! WAWACRAFT:EVOLVED FOREVER :3 !!!\n" << std::endl;
 }
 
 void blurbs::help()
