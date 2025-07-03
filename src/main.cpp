@@ -10,11 +10,7 @@ int main(int argc, char** argv)
 
   blurbs::banner();
 
-  logging::log olog("main", "global");
-
-  olog.message("A message!");
-  olog.record("A record!");
-  olog.error("Not an error!");
+  
   
   return 0;
 }
