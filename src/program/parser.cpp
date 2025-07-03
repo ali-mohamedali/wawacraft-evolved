@@ -11,6 +11,8 @@ flags::parser::parser(flags::flag_table g_flags):
 
 bool flags::parser::parse(flags::sequence g_sequence)
 {
+  logging::log pen("parse", "flags::parser");
+  
   if(is_data_first(g_sequence)==FAILURE){
     return FAILURE;
   }
@@ -22,10 +24,22 @@ bool flags::parser::parse(flags::sequence g_sequence)
     std::unordered_map<std::string, flags::flag>::iterator record=get_record(flag->name);
     if(record!=flags.end()){
       if(range==flag+1){
-	call_flag(record->second, "");
+	bool call=call_flag(record->second, "");
+
+	if(call==FAILURE){
+	  pen.error("Flag "+flag->name+" expects data but was not given any.");
+	  return FAILURE;
+	}
       }else{
-        call_flag(record->second, accumulate_data(g_sequence, flag, range));
+        bool call=call_flag(record->second, accumulate_data(g_sequence, flag, range));
+
+	if(call==FAILURE){
+	  pen.error("Flag "+flag->name+" was given malformed data.");
+	  return FAILURE;
+	}
       }
+    }else{
+      return FAILURE;
     }
     
     flag=range;
@@ -36,13 +50,18 @@ bool flags::parser::parse(flags::sequence g_sequence)
 
 bool flags::parser::is_data_first(flags::sequence& g_sequence)
 {
+  logging::log pen("is_data_first", "flags::parser");
+  
   if(g_sequence.size()>=1){
     if(g_sequence[0].type==FLAG){
       return SUCCESS;
     }
+    
+    pen.error("First valid symbol is not a flag.");
+    return FAILURE;
   }
   
-  return FAILURE;
+  return SUCCESS;
 }
 
 bool flags::parser::call_flag(flags::flag& g_flag, std::string data)
@@ -96,5 +115,12 @@ std::vector<flags::symbol>::iterator flags::parser::find_flag(flags::sequence& g
 
 std::unordered_map<std::string, flags::flag>::iterator flags::parser::get_record(std::string g_key)
 {
-  return flags.find(g_key);
+  logging::log pen("get_record", "flags::parser");
+  
+  std::unordered_map<std::string, flags::flag>::iterator ret=flags.find(g_key);
+  if(ret==flags.end()){
+    pen.error("No matching flag for "+g_key+".");
+  }
+  
+  return ret;
 }

@@ -1,5 +1,6 @@
 #include "libs.hpp"
 #include "flags.hpp"
+#include "logging.hpp"
 
 flags::sieve::sieve(int argc, char** argv)
 {
@@ -79,6 +80,8 @@ bool flags::sieve::two_dash(std::string g_string)
   if(g_string.size()>=2){
     return (one_dash(g_string) && g_string[1]=='-');
   }
+
+  return false;
 }
 
 flags::marker flags::sieve::get_marker(std::string g_string)
@@ -87,7 +90,7 @@ flags::marker flags::sieve::get_marker(std::string g_string)
 }
 
 std::string flags::sieve::find_synonym(char g)
-{ 
+{
   if(synonyms.find(g)!=synonyms.end()){   
     return (synonyms.find(g))->second;
   }else{
@@ -136,6 +139,8 @@ flags::sequence flags::sieve::categorize()
 
 flags::sequence flags::sieve::expand(flags::symbol g_symbol)
 {
+  logging::log pen("expand", "flags::sieve");
+  
   if(g_symbol.type==FLAG){
     if(two_dash(g_symbol.name)){
       return {g_symbol};
@@ -143,17 +148,23 @@ flags::sequence flags::sieve::expand(flags::symbol g_symbol)
 	flags::sequence ret;
       
 	for(std::string::const_iterator i=g_symbol.name.begin()+1; i<g_symbol.name.end(); i++){
+	  char n=*i;
+	  std::string short_name;
+	  short_name+=n;
 	  std::string j=find_synonym(*i);
 
 	  if(j!=""){
 	    ret.push_back({j, get_marker(j)});
 	  }else{
+	    pen.error("Ignored. No synonym for short-flag "+short_name);
 	    continue;
 	  }
 	}
 
 	return ret;
     }else{
+      pen.error("Invalid flag notation! What the heck?");
+      
       flags::symbol opposite={g_symbol.name, DATA};
       return {opposite};
     }

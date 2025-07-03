@@ -1,0 +1,24 @@
+#+TITLE: include/options.hpp
+#+AUTHOR: Stephen P. Hurlsmith
+#+DATE: <2025-07-01 Tue 00:29>
+
+[[./index.org][Back to category]]
+
+*include/options.hpp* - and corresponding src/options.cpp are the
+resource used for loading the program's invocation tables and assorted
+flags.
+
+Everything from include/options.hpp is in the options namespace.
+
+* Specification
+
+** void options::parse(int argc, char** argv)
+
+This function, when given the argc and argv arguments from main, will
+parse and execute the invocations listed in the program call.  This
+uses the flags::sieve and flags::parser classes from
+include/program/flags.hpp.  It is called from main and delegated all
+the responsibility of parsing program options.
+
+options::parse() will also source its invocation tables and listed
+flags to the initialized objects.

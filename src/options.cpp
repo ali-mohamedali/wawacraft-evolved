@@ -43,5 +43,9 @@ void options::parse(int argc, char** argv)
   flags::sieve gen_sieve(flag_synonyms, flag_pseudos, argc, argv);
   flags::parser gen_parser(flag_table);
   
-  gen_parser.parse(gen_sieve.filter());
+  bool call=gen_parser.parse(gen_sieve.filter());
+
+  if(call==flags::parser::FAILURE){
+    std::exit(1);
+  }
 }

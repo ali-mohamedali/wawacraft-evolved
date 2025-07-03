@@ -1,0 +1,73 @@
+#+TITLE: class:logging::log
+#+AUTHOR: Stephen P. Hurlsmith
+#+DATE: <2025-07-02 Wed 15:00>
+
+[[./index.org][Back to category]]
+
+The class logging::log is a class made for support of advanced logging
+that can be wholly managed and removes responsibility from different
+modules.  It is a part of [[./namespace:logging.org][namespace:logging]].
+
+* Description
+
+See [[./abstract/logging.org][Logging system]].
+
+* Specification
+
+** logging::log(std::string g​_function, std::string g​_scope)
+
+This is the constructor.  It supplies the object with scope
+information about the current running function - named in g​_function -
+and the scope of the function - named in g​_scope.
+
+** void logging::log::set​_scope(std::string g​_scope)
+
+A mutator for the scope of the function which owns the log object that
+should be displayed.
+
+** void logging::log::set​_function(std::string g​_function)
+
+A mutator for the current function that owns the log object that
+should be displayed.  You do not need to type the parentheses of the
+function as it is done for you.
+
+** void logging::log::message(std::string g)
+
+Outputs a message as described in g, with appropriate prefixing.
+
+** void logging::log::record(std::string g)
+
+Outputs a record message as described in g, with appropriate prefixing.
+
+** void logging::log::error(std::string g)
+
+Outputs an error message as described in g, with appropriate prefixing.
+
+** static settings::setting<int> PREFIXING
+
+The prefixing setting.  Defined with a default value of regular
+prefixing, and in terms of the value table PREFIXING​_SETTINGS.
+
+Controls what type of prefixing should be given to log messages.
+
+** static settings::setting<int> LOGGING
+
+The logging setting.  Defined with a default value of LOGGING​_YES, and
+in terms of the value table LOGGING​_SETTINGS.
+
+Controls whether or not all logs should be outputted.
+
+** static settings::setting<int> MESSAGE​_LOGGING
+
+Similar to [[*static settings::setting<int> LOGGING][LOGGING]], but controlling whether or not message logs should
+be outputted.
+
+** static settings::setting<int> RECORD​_LOGGING
+
+Similar to [[*static settings::setting<int> LOGGING][LOGGING]], but controlling whether or not record logs should
+be outputted.
+
+** static settings::setting<int> ERROR​_LOGGING
+
+Similar to [[*static settings::setting<int> LOGGING][LOGGING]], but controlling whether or not error logs should
+be outputted.

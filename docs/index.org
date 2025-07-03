@@ -1,0 +1,34 @@
+#+TITLE: Wawacraft:Wiki index
+#+AUTHOR: Stephen P. Hurlsmith
+#+DATE: [2025-06-30 Mon]
+
+* Welcome to the Wawacraft:Wiki
+
+Hello and welcome to the official(kind-of) unpublished documentation
+of Wawacraft:Evolved, nicknamed the Wawacraft:Wiki because I am fond
+of wiki documentation structure and also because Wawacraft:Evolved may
+not be the only documented subject on this wiki.  This behemoth
+document seeks to keep track of everything in relation to the
+Wawacraft series of games and especially the current project:
+Wawacraft:Evolved.
+
+Documents here are written in Org mode and then exported to HTML.  You
+can find them in the export directory, wherever that may be.  Each
+document, like a wiki, links back to other related documents and
+everything is organized so that a subject may not be documented more
+than once.  I am far too lazy to manage a MediaWiki server on my
+laptop for a private documentation project.
+
+Finally, anybody reading should note that this should be your first
+source when trying to understand the Wawacraft:Evolved source code.
+I, the developer, cite this as **the** documentation source and you
+should too.
+
+//Happy Hacking and WAWACRAFT:EVOLVED FOREVER!!!//
+
+** Categories
+Just to note, each category is a directory!
+
++ [[./evolved/index.org][evolved]] :: Pages documenting Wawacraft:Evolved
+  + [[./evolved/source/index.org][evolved/source]] :: Source code documentation of Wawacraft:Evolved
+    + [[./evolved/source/abstract/index.org][evolved/source/abstract]] :: Abstract description of the source code's functions.

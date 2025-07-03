@@ -28,6 +28,8 @@ void blurbs::banner()
 	      << "\ninformation." << std::endl;
   
     std::cout << "\n!!! WAWACRAFT:EVOLVED FOREVER :3 !!!\n" << std::endl;
+
+    banner_setting.manage("no");
   }
 }
 

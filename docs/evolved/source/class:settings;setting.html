@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-07-02 Wed 13:55 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>class:settings::setting</title>
+<meta name="author" content="Stephen P. Hurlsmith" />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">class:settings::setting</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgc4d1f63">1. Description</a>
+<ul>
+<li><a href="#org357ce76">1.1. The indicative variable</a></li>
+<li><a href="#orgc3e2f71">1.2. The value table</a></li>
+<li><a href="#org86f685d">1.3. The settings object mutex</a></li>
+</ul>
+</li>
+<li><a href="#org4811972">2. Specification</a>
+<ul>
+<li><a href="#org7e71188">2.1. Initialization</a></li>
+<li><a href="#org56749f3">2.2. settings::setting::setting(type g​_default​_value, table g​_values, void (*g​_responder)())</a></li>
+<li><a href="#orgc0653ec">2.3. void settings::setting::responder​_set(void (*g​_responder)())</a></li>
+<li><a href="#org46bd825">2.4. void settings::setting::default​_set(type g​_default​_value)</a></li>
+<li><a href="#org6597bcf">2.5. void settings::setting::values​_set(table g​_values)</a></li>
+<li><a href="#orged62207">2.6. void settings::setting::manage(string​_type g​_option)</a></li>
+<li><a href="#org45a0b07">2.7. mutex​_type settings::setting::held()</a></li>
+<li><a href="#orgba8904d">2.8. type settings::setting::access()</a></li>
+<li><a href="#org0becbf1">2.9. Misc.</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p>
+<a href="./index.html">Back to category</a>
+</p>
+
+<p>
+The settings::setting class - part of <a href="./namespace:settings.html">namespace:settings</a> - is a class
+template which provides the functionality needed to achieve the
+specification of a settings object.  It is used by other classes to
+denominate different behaviour they allow to be specified by the user.
+</p>
+
+<p>
+This class uses <a href="./class:settings;handle.html">class:settings::handle</a> to register handles on its
+mutex, which provides functions with the ability to 'lock' a setting
+from any other part of the program when it is utilizing the setting.
+This is useful in concurrent use of a setting but is not mandatory to
+use.
+</p>
+
+<div id="outline-container-orgc4d1f63" class="outline-2">
+<h2 id="orgc4d1f63"><span class="section-number-2">1.</span> Description</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+When you initialize an object of settings::setting, you are installing
+a setting into whatever module you are writing.  This setting object
+can control an atom of behaviour in a few ways, using the value that
+it is given, in the context of the value table it was initialized
+with, and it itself can hold information about whether or not it is in
+use with its mutex.
+</p>
+
+<p>
+The purpose of this class is to provide necessary functionality of a
+variable which holds indicative data about how the module should
+behave, with the convenience and advantage over a plain variable,
+which must be checked extensively by all parties who make use of the
+variable.
+</p>
+
+<p>
+Of course, the settings object does not do this by itself; You, the
+author of the module of functionality you are writing, must make use
+of it correctly and reference it in the behaviour it pertains to
+yourself to see its effect.  The settings object is a tool of
+management over module behaviour.
+</p>
+</div>
+
+<div id="outline-container-org357ce76" class="outline-3">
+<h3 id="org357ce76"><span class="section-number-3">1.1.</span> The indicative variable</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+The indicative variable is the variable holding the symbolic
+information of the settings object.  It is what is used to determine
+what behaviour is approriate.
+</p>
+
+<p>
+The indicative variable is initialized with a default value, for when
+the behaviour has not been specified.  This default value can be
+changed in rare cases, but it takes effect only when the setting is
+not in use.
+</p>
+
+<p>
+The indicative variable can only have values from the value table
+supplied to the settings object.
+</p>
+
+<p>
+You should observe the value of the indicative variable to determine
+what behaviour you must implement at the time the behaviour is
+appropriate.  To make sense of it, you may compare it with the value
+table.
+</p>
+
+<p>
+You are discouraged from changing the default value of the indicative
+variable with exception to a condition where you must change it
+outside of initialization.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc3e2f71" class="outline-3">
+<h3 id="orgc3e2f71"><span class="section-number-3">1.2.</span> The value table</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+The value table is the table of values that the indicative variable
+may have.  It is a table that writes a value for the indicative
+variable in comparison to a specific string specifying behaviour.
+</p>
+
+<p>
+You should initialize a value table outside of the setting, and write
+the values in terms of aliases or macros to make your code more
+readable.  Then source it into the value table the settings object
+references.
+</p>
+
+<p>
+You are discouraged from changing the value table of your settings
+object with exception to the condition that you must change it outside
+of initialization.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org86f685d" class="outline-3">
+<h3 id="org86f685d"><span class="section-number-3">1.3.</span> The settings object mutex</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+The mutex of the settings object is a mutex, which can be used in the
+context of concurrent use of the same settings object.  You can
+observe the value of the mutex from the setting.
+</p>
+
+<p>
+If you are working with a settings object in concurrent use, you
+should initialize a <a href="./class:settings;handle.html">class:settings::handle</a> to your settings object,
+hold the mutex with it, then drop the mutex when you are done
+operating, and dispose of your handle accordingly.
+</p>
+
+<p>
+Privileges of the mutex is that it protects changes over the setting's
+default value, its value table, and the indicative value when it is
+held.  You are guaranteed that when you hold a settings object's
+mutex, you can treat the setting as if no other parties are acting
+over it.
+</p>
+
+<p>
+Again, the mutex is optional.  Some settings, which are not in
+concurrent use, are not used with handles and explicitly held and
+droppped.  Many settings disregard functionality of the mutex.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4811972" class="outline-2">
+<h2 id="org4811972"><span class="section-number-2">2.</span> Specification</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org7e71188" class="outline-3">
+<h3 id="org7e71188"><span class="section-number-3">2.1.</span> Initialization</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+settings::setting is a class template, and it has the following
+template parameters:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c++">template &lt;typename type, typename string_type, typename mutex_type, mutex_type m_default_value, mutex_type m_held_value&gt;
+</pre>
+</div>
+
+<p>
+'type' defines what type the variable holding the indicative data of
+the setting should be.  For example, a setting with only 2 options
+would only need 2 indicative values.  In that case, a bool type would
+be fitting.
+</p>
+
+<p>
+'string​_type' defines what kind of type should the string
+specification of a setting should be.  It defaults to std::string
+since that is what the c++ standard library presents for strings.
+</p>
+
+<p>
+'mutex​_type' defines what kind of type the mutex should be.  For
+support with all types, 2 values of type mutex​_type: m​_default​_value
+and m​_held​_value must be supplied.  To make this choice simpler,
+mutex​_type defaults to bool, m​_default​_value is false, and
+m​_held​_value is true.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org56749f3" class="outline-3">
+<h3 id="org56749f3"><span class="section-number-3">2.2.</span> settings::setting::setting(type g​_default​_value, table g​_values, void (*g​_responder)())</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+This is the constructor.
+</p>
+
+<p>
+It initializes the default value of the indicative variable with
+the given default value g​_default​_value.
+</p>
+
+<p>
+It initializes the value table of the setting with g​_values.
+</p>
+
+<p>
+It initializes its responder/callback function with the function
+pointer g​_responder, of type void (*)().  This is an optional
+parameter, so it can be specified NULL.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc0653ec" class="outline-3">
+<h3 id="orgc0653ec"><span class="section-number-3">2.3.</span> void settings::setting::responder​_set(void (*g​_responder)())</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+This is a mutator function for the responder function.  It takes
+g​_responder as a function pointer of the most basic type: void (*)().
+</p>
+</div>
+</div>
+
+<div id="outline-container-org46bd825" class="outline-3">
+<h3 id="org46bd825"><span class="section-number-3">2.4.</span> void settings::setting::default​_set(type g​_default​_value)</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+This is a mutator function for the default value of the indicative
+value of the class.  It sets the default value in all cases, but this
+change will only take effect if the setting's mutex is not held, to
+enforce the protection of the setting mutex.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6597bcf" class="outline-3">
+<h3 id="org6597bcf"><span class="section-number-3">2.5.</span> void settings::setting::values​_set(table g​_values)</h3>
+<div class="outline-text-3" id="text-2-5">
+<p>
+This is a mutator function for the value table of settings::setting.
+It will reset the value of the indicative variable to default and
+reset the value table to g​_values only under the condition that the
+setting's mutex is not held.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orged62207" class="outline-3">
+<h3 id="orged62207"><span class="section-number-3">2.6.</span> void settings::setting::manage(string​_type g​_option)</h3>
+<div class="outline-text-3" id="text-2-6">
+<p>
+This function will search the value table for a value for the
+indicative variable corresponding to the given string g​_option, and
+set it to the indicative variable.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org45a0b07" class="outline-3">
+<h3 id="org45a0b07"><span class="section-number-3">2.7.</span> mutex​_type settings::setting::held()</h3>
+<div class="outline-text-3" id="text-2-7">
+<p>
+This is a selector function for observing the state of the setting's
+mutex.  It returns the current value of the mutex at call time.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgba8904d" class="outline-3">
+<h3 id="orgba8904d"><span class="section-number-3">2.8.</span> type settings::setting::access()</h3>
+<div class="outline-text-3" id="text-2-8">
+<p>
+This is a selector function for observing the state of the setting's
+indicative variable.  It returns the value of the indicative variable.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0becbf1" class="outline-3">
+<h3 id="org0becbf1"><span class="section-number-3">2.9.</span> Misc.</h3>
+<div class="outline-text-3" id="text-2-9">
+<p>
+The type 'table' is a typedef for
+std::unordered​_map&lt;string​_type, type&gt;.
+</p>
+
+<p>
+settings::setting defines <a href="./class:settings;handle.html">class:settings::handle</a> as its friend.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2025-07-02 Wed 12:28</p>
+<p class="author">Author: Stephen P. Hurlsmith</p>
+<p class="date">Created: 2025-07-02 Wed 13:55</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+#+TITLE: namespace:blurbs
+#+AUTHOR: Stephen P. Hurlsmith
+#+DATE: <2025-07-01 Tue 00:47>
+
+[[./index.org][Back to category]]
+
+*include/blurbs.hpp* is a header file giving a namespace *blurbs* 
+which provides functions and behaviour for different text blurbs that 
+may be given by the program.
+
+* Blurbs
+
+Blurbs, as described by these functions, are entirely different pieces
+of information conveyed through the program and invoked by flags,
+which override the program behaviour to display such blurbs or
+sometimes - in the case of the banner - are displayed before output.
+
+Whilst that definition may have seemed dry, the examples can display
+this better; Consider the copyright notice, version specification, and
+license information at the start of the program all as a blurb.  The
+help text which you invoke using -​-help is a blurb, and the version
+specification invoked with -​-version also fits the definition of a
+blurb.  Compare them all to the blurbs you see at the back cover of a
+book or the licensing on the first page, or the foreword, or all
+unrelated/supporting information conveyed through the common medium of
+the book.
+
+* Specification
+
+** void blurbs::banner()
+
+A responder function that is used to display the program banner,
+copyright, version, and license information.
+
+Behaviour of this function is controlled by [[*blurbs::banner​_setting][blurbs::banner​_setting]].
+
+** void blurbs::help()
+
+A responder function used to display the help text on how to invoke
+the program.  Currently, the text is hardcoded from the source, but I
+have thoughts of pulling input from a text file instead.
+
+This function also terminates the program with std::exit() if it is
+called(its flag invoked).
+
+Behaviour of this function is controlled by [[*blurbs::help​_setting][blurbs::help​_setting]].
+
+** void blurbs::version()
+
+A responder function used to display the versioning information of the
+program.
+
+Like [[*void blurbs::help()][void blurbs::help()]], it terminates the program as its final
+instruction.
+
+Behaviour of this function is controlled by [[*blurbs::version​_setting][blurbs::version​_setting]].
+
+** blurbs::BANNER​_TABLE
+
+The value table for blurbs::banner​_setting.  It is also defined in
+terms of blurbs::BANNER​_YES and blurbs::BANNER​_NO.
+
+** blurbs::banner​_setting
+
+The banner setting, controlling behaviour of [[*void blurbs::banner()][void blurbs::banner()]].
+
+Defined in terms of the table blurbs::BANNER​_TABLE, and value aliases
+BANNER​_YES and BANNER​_NO.
+
+A description of the blurbs::BANNER​_TABLE
+
+| String | Value              | Description                |
+|--------+--------------------+----------------------------|
+| yes    | blurbs::BANNER​_YES | A banner is displayed.     |
+| no     | blurbs::BANNER​_NO  | A banner is not displayed. |
+
+
+** blurbs::help​_setting
+
+The help setting controlling no behaviour of [[*void blurbs::help()][void blurbs::help()]].  It
+keeps blurbs::help() as a responder function in order to call it when
+the option is invoked.
+
+** blurbs::version​_setting
+
+The version setting.  A parallel of
+[[*blurbs::help​_setting][blurbs::help​_setting]] for [[*void blurbs::version()][void blurbs::version()]].

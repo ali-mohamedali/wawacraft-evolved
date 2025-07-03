@@ -1,0 +1,82 @@
+#+TITLE: class:settings::handle
+#+AUTHOR: Stephen P. Hurlsmith
+#+DATE: <2025-07-02 Wed 14:03>
+
+[[./index.org][Back to category]]
+
+The settings::handle class - part of [[./namespace:settings.org][namespace:settings]] - is a class
+template which provides the ability to 'get a handle' on the mutices
+of any specified object.  Concerns about the compatibility of
+settings::handle with another class is the responsibility mainly of
+the afformentioned class.
+
+* Description
+
+** Use
+
+With any class that has a mutex, and in the condition you would like
+to get the privileges of holding a class' mutex, you should initialize
+a handle.
+
+The guidance is that you should NEVER initialize a handle for more
+than one object.  Each handle is like a key, it should not work on
+more than one door.
+
+When you are using the class, hold the mutex when you want to gain the
+privileges, then operate with the class as usual.
+
+When you are done, drop the mutex, to allow other parties to make use
+of the class similarly, and dispose of your handle accordingly.
+
+Another guidance is that handles should be short-lived.  A handle
+outliving its purpose or staying around for too long gives dangerous
+power which eventually might be misused.
+
+* Specification
+
+** Initialization
+
+settings::handle is a class template.  It is initialized with the
+following template parameters:
+
+#+BEGIN_SRC c++
+  template <typename mutex_type, typename object, mutex_type default_value, mutex_type held_value>
+#+END_SRC
+
+'mutex​_type' specifies what type the mutex is.  It is supported by the
+values 'default​_value' and 'held​_value' to specify what value the
+mutex has when default or when held.
+
+'object' specifies what type the object you are referencing is.  The
+only limitations on this object is that it must supply the following
+functions, private or public:
+
+#+BEGIN_SRC c++
+  void class::mutex_set(mutex_type);
+  mutex_type class::mutex_get();
+#+END_SRC
+
+** settings::handle::handle(object* g​_object)
+
+This is the constructor.  It requires a pointer towards a given object
+g_object, which it will be a handle on.  There is no other way to
+supply what object this handle should handle except the constructor.
+This is sourced from concerns about handles being misused to
+arbitrarily point other objects defeating the point of a handle being
+initialized for one object only.
+
+** void settings::handle::hold()
+
+This holds the mutex of the object.  This function makes no concern of
+checking whether the mutex is already held or not.  That is the
+concern of the class functions mutex​_get() and mutex​_set().
+
+** void settings::handle::drop()
+
+This drops the mutex of the object.  This function makes no concern of
+checking whether the mutex is already held or not as well.
+
+** mutex​_type settings::handle::get​_state()
+
+This function is an indirect selector of the object's mutex.  It
+returns the value of the mutex at call time.

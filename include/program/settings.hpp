@@ -120,7 +120,7 @@ namespace settings{
   {
     default_value=g_default_value;
 
-    if(mutex_get()==m_held_value){
+    if(mutex_get()==m_default_value){
       data=default_value;
     }
   }
@@ -128,12 +128,11 @@ namespace settings{
   template <typename type, typename string_type, typename mutex_type, mutex_type m_default_value, mutex_type m_held_value>
   void setting<type, string_type, mutex_type, m_default_value, m_held_value>::values_set(table g_values)
   {
-    if(mutex_get()==m_held_value){
+    if(mutex_get()==m_default_value){
       set(default_value);
-    }
 
-    values.clear();
-    values=g_values;
+      values=g_values;
+    }
   }
 
   template <typename type, typename string_type, typename mutex_type, mutex_type m_default_value, mutex_type m_held_value>

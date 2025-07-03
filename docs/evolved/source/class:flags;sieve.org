@@ -1,0 +1,59 @@
+#+TITLE: class:flags::sieve
+#+AUTHOR: Stephen P. Hurlsmith
+#+DATE: <2025-07-03 Thu 10:20>
+
+[[./index.org][Back to category]]
+
+The class class:flags::sieve, found in header file
+include/program/flags.hpp, and part of [[./namespace:flags.org][namespace:flags]], is a class
+intended to assist the parser in creating a homogenous sequence.
+
+This class takes in the original invocation of the program, and
+filters it to a commmon medium.  Included filtering processes are the
+example of flags all being '-​-long-like-this' and also filtering for
+pseudo-flags from the pseudo-flag table (see [[./abstract/commandline-parsing.org][Command line parsing]]).
+
+* Description
+
+See [[./abstract/commandline-parsing.org][Command line parsing]].
+
+* Specification
+
+** flags::sieve::sieve(flags::synonym​_table g​_synonyms, flags::pseudo​_table g​_pseudos, int argc, char** argv)
+
+This is the constructor.
+This is the most terse overload for the constructor.
+
+g​_synonyms and pseudo​_table are used to create the object's own
+synonym table and pseudo table.
+
+int argc and char** argv mimic the arguments to main().
+
+Other forms have the signatures:
+
+ + flags::sieve::sieve(int, char**)
+ + flags::sieve::sieve(flags::synonym​_table)
+ + flags::sieve::sieve(flags::synonym​_table, int, char**)
+
+** void flags::sieve::load(int argc, char** argv)
+
+This is a function to load in the arguments given to main directly.
+It converts them internally to std::string's.
+
+** void flags::sieve::set​_synonyms(flags::synonym​_table g​_synonyms)
+
+This is an alternative mutator for the synonyms table.  The synonyms
+table is set to g​_synonyms.
+
+** void flags::sieve::set​_pseudos(flags::pseudo​_table g​_pseudos)
+
+This is an alternative mutator for the synonyms table.  The
+pseudo-flag table becomes a copy of g​_pseudos.
+
+** flags::sequence flags::sieve::filter()
+
+This function filters the sequence, and then returns a corrected
+flags::sequence.  This can be directly fed into the parser to parse.
+
+This function will report errors if its given notation was faulty or
+there are flags given which do not have long-form equivalents.

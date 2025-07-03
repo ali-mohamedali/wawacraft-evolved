@@ -14,7 +14,15 @@ namespace flags{
     std::string name;
     marker type;
   };
+  
+  struct flag{
+    bool accepts_data;
+    settings::setting<int>* option;
+    
+    bool shelled_manage(std::string);
+  };
 
+  typedef std::unordered_map<std::string, flag> flag_table;
   typedef std::vector<symbol> sequence;
   typedef std::unordered_map<char, std::string> synonym_table;
   typedef std::unordered_map<std::string, std::vector<std::string>> pseudo_table;
@@ -55,15 +63,6 @@ namespace flags{
   
     std::vector<std::string> arguments;
   };
-
-  struct flag{
-    bool accepts_data;
-    settings::setting<int>* option;
-
-    bool shelled_manage(std::string);
-  };
-
-  typedef std::unordered_map<std::string, flag> flag_table;
 
   class parser{
   public:

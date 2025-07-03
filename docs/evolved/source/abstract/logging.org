@@ -1,0 +1,115 @@
+#+TITLE: Logging system
+#+AUTHOR: Stephen P. Hurlsmith
+#+DATE: <2025-06-30 Mon 12:06>
+
+[[./index.org][Back to category]]
+
+Wawacraft:Evolved employs a standard system for logging.  The logging
+system consists of a logging::log class which can be initialized
+within any function, given descriptions of the current scope, and used
+to log things.  This is made for the modularity of the code and to
+allow the logging system to adopt many outputs in the future.
+
+The standard logging system is useful for users of the game to filter
+between what kind of output they'd like to observe.
+
+* System
+
+** Types of 'logs'
+
+Logs through logging::log are classified into 3 types:
++ Messages
++ Records
++ Errors
+
+Messages are any output that is *NOT* an error notice nor a record.
+They entail any output intended for users to read, such as notices of
+a level-upgrade or an enemy in the distance, or low health, just for a
+few examples.
+
+Records are the name that the source code adopts for what is
+considered in any other program a 'debug log' or 'log.'  They entail
+non-error messages that are also unnecessary for users such as notices
+that the control flow of a program has been handed to a function, or
+the initialization of an object, or a function documenting what it has
+done.
+
+It should also be noted that records are named such because it would
+be really redundant to call a function like logging::log::log() (the
+constructor has the role of such a function). [[*Prefixing][Prefixing]] still calls
+them LOG, but source code refers to them as records.
+
+Errors are as their name suggests, error messages.  They are set on by
+default, though using some flags can be silenced.  I don't know what
+kind of idiot would want to silence error messages from a program
+except that the error messages assuming the error messages are
+well-reasoned.
+
+** Prefixing
+
+Prefixing is the prefixing of any log outputted through the logging
+system.  Each log message is prefixed with certain information.  By
+default, all messages are prefixed with the program name, to adhere to
+the GNU Coding Standards thoughts about this.  I also share the same
+concern of output from Wawacraft:Evolved getting jumbled with another
+program running simultaneously from the same terminal.
+
+However, the GNU Coding Standards do not enforce strict standards on
+how we could specify messages from non-interactive(non-interactive
+from a terminal) programs further.  So in a clever hack, messages are
+prefixed like this if enabled in 'debug' mode. F.2.2-1 shows an example of
+terse messages output from Wawacraft:Evolved.
+
+Figure 1.1-1:
+
+#+NAME: F.1.1-1
+#+BEGIN_SRC plaintext
+wawacraft-evolved: namespace::class::method(): A 'message' is sent!
+#+END_SRC
+
+Here you may notice that after the program name, a space is put.  This
+is so that we can technically consider the prefixing of message scope
+to be part of the message itself.  This does not violate GNU Coding
+Standards but subverts it for our use.
+
+Take note also that this is the message given in debug mode.  Regular
+messages may appear as such, in 'default' mode. See Figure 2.2-2.
+
+Figure 1.1-2:
+
+#+NAME: F.1.1-2
+#+BEGIN_SRC plaintext
+wawacraft-evolved: A message has been sent!
+#+END_SRC
+
+*** Prefixing type of message
+
+One might ask: 'If we have more than one type of log output enabled,
+how may we differentiate them?'
+
+The answer is *more prefixing*!  Messages have no prefix, but logs and
+errors are prefixed with LOG and ERR respectively.  This kind of
+prefixing is the only type which cannot be controlled by program
+options and MUST exist. Figure 1.1 shows an example of such:
+
+Figure 1.1.1-1:
+
+#+NAME: F.1.1.1-1
+#+BEGIN_SRC plaintext
+wawacraft-evolved: namespace::class::method(): A message
+wawacraft-evolved: namespace::class::method(): LOG A record
+wawacraft-evolved: namespace::class::method(): ERR An error
+#+END_SRC
+
+* Use
+
+It is good for each function to use the logging system.  Any
+non-trivial function should do such, as program logging makes the
+debug process far easier for developers.  You should initialize log
+objects at the start of any function, and give it scope and function
+data.
+
+Very few parts of Wawacraft:Evolved do not use the logging system,
+namely the [[./commandline-parsing.org][command-line parsing pipeline]].  This is because such a part
+exists to support the behaviour of other parts of the program, not to
+establish their own behaviour.
