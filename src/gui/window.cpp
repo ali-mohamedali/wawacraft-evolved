@@ -1,14 +1,19 @@
-#include "windows.hpp"
+#include "gui/windows.hpp"
 #include "libs.hpp"
 #include "program/logging.hpp"
 
-windows::window::window(resolution g_width, resolution g_height, std::string g_name):
+static const bool windows::window::YES=true;
+static const bool windows::window::NO=false;
+
+windows::window::window(windows::window::resolution g_width, windows::window::resolution g_height, std::string g_name):
   width(g_width),
   height(g_height),
   name(g_name),
   window_handle(NULL),
   initialized(false)
 {
+  windows::reserve::start_glfw();
+  
   logging::log pen("window", "windows::window");
 
 
@@ -26,25 +31,52 @@ windows::window::~window()
   destroy();
 }
 
+void windows::window::set_name(std::string g_name)
+{
+  glfwSetWindowTitle(window_handle, g_name.c_str());
+  update_name();
+}
+
 bool windows::window::valid()
 {
-  return (initialized && window_handle!=NULL);
+  logging::log pen("valid", "windows::window");
+  
+  bool ret=(initialized && window_handle!=NULL) ? YES : NO;
+  if(ret==NO){
+    pen.error("Window lost its validity!");
+    pen.record("It will be destroyed soon");
+  }
+  
+  return ret;
 }
 
 bool windows::window::should_close()
 {
-  logging::log pen("should_close", "windows::window");
-  
   poll();
 
-  if(valid()){
-    return glfwWindowShouldClose(window_handle);
-  }else{
-    pen.error("Window "+name+" lost its validity!");
-    pen.record("Declaring it should close.");
+  if(valid()==YES){
+    return (glfwWindowShouldClose(window_handle)) ? YES : NO;
   }
 
-  return true;
+  return YES;
+}
+
+windows::window::resolution windows::window::get_width()
+{
+  update_resolution();
+  return width;
+}
+
+windows::window::resolution windows::window::get_height()
+{
+  update_resolution();
+  return height;
+}
+
+std::string windows::window::get_name()
+{
+  update_name();
+  return name;
 }
 
 void windows::window::poll()
@@ -63,4 +95,30 @@ void windows::window::initialize()
 void windows::window::destroy()
 {
   glfwDestroyWindow(window_handle);
+  initialized=false;
+}
+
+void windows::window::update_name()
+{
+  if(valid()==YES){
+    name=glfwGetWindowTitle(window_handle);
+  }
+}
+
+void windows::window::update_resolution()
+{
+  logging::log pen("update_resolution", "windows::window");
+  
+  if(valid()==YES){
+    glfwGetFramebufferSize(window_handle, &width, &height);
+  }
+}
+
+GLFWwindow* windows::window::get_window_handle()
+{
+  if(valid()==YES){
+    return window_handle;
+  }else{
+    return NULL;
+  }
 }

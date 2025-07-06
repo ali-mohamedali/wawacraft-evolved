@@ -9,7 +9,10 @@ LPATH_HERE = $(addprefix -I,$(include_here))
 
 .PHONY: all
 
-all: window.o
+all: window.o reserve.o
 
 window.o: window.cpp windows.hpp
+	$(CXXCOMPILE) $(LPATH_HERE) -c $< -o $(bindir_here)/$@
+
+reserve.o: reserve.cpp windows.hpp
 	$(CXXCOMPILE) $(LPATH_HERE) -c $< -o $(bindir_here)/$@

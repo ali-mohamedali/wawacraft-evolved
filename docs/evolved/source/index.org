@@ -15,12 +15,6 @@ Child category of [[../index.org][evolved]].
 
 Pages:
   
-+ [[./class:flags;flag.org][class:flags::flag]]
-+ [[./class:flags;parser.org][class:flags::parser]]
-+ [[./class:flags;sieve.org][class:flags::sieve]]
-+ [[./class:logging;log.org][class:logging::log]]
-+ [[./class:settings;handle.org][class:settings::handle]]
-+ [[./class:settings;setting.org][class:settings::setting]]
 + [[./common_hpp.org][include/common.hpp]]
 + [[./libs_hpp.org][include/libs.hpp]]
 + [[./options_hpp.org][include/options.hpp]]

@@ -1,0 +1,16 @@
+#+TITLE: namespace:windows
+#+AUTHOR: Stephen P. Hurlsmith
+#+DATE: <2025-07-06 Sun 17:19>
+
+[[./index.org][Back to category]]
+
+The namespace *windows* is a namespace providing classes and utilities
+for the use and interaction with registering windows in the system
+window manager/display server.
+
+To see what the current library in use is, check [[./depend.org][External dependencies]].
+
+Members of the namespace include:
+
+ + [[./class:windows;reserve.org][class:windows::reserve]]
+ + [[./class:windows;window.org][class:windows::window]]

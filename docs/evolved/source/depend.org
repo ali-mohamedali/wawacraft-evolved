@@ -1,0 +1,23 @@
+#+TITLE: External dependencies
+#+AUTHOR: Stephen P. Hurlsmith
+#+DATE: <2025-07-06 Sun 17:24>
+
+[[./index.org][Back to category]]
+
+Wawacraft:Evolved depends on the following projects:
+
+ + GLFW for windowing
+ + OpenGL through GLAD
+ + STB-Image for loading images
+ + The C++ standard library
+ + The C standard library in some rare cases
+
+The program is modular, so it would not take more than an afternoon to
+port the thing between dependencies, but unless you want a hassle, get
+these set up to please the makefile.
+
+On an additional note, Wawacraft:Evolved and by extension the
+Wawacraft series of games always aimed to not have any external
+dependencies.  So it is common to find something like math resources
+or in-game GUI system being hand-written instead of pulled from
+something like ImGui/GLM.

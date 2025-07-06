@@ -7,11 +7,13 @@ VPATH = $(include_here):$(bindir_here)
 
 LPATH_HERE := $(addprefix -I,$(include_here))
 
-.PHONY: all program gui
+SUBDIRS = program gui
 
-all: main.o options.o blurbs.o program gui
+.PHONY: all $(SUBDIRS)
 
-main.o: main.cpp options.o blurbs.o
+all: main.o options.o blurbs.o $(SUBDIRS)
+
+main.o: main.cpp options.o blurbs.o $(SUBDIRS)
 	$(CXXCOMPILE) $(LPATH_HERE) -c $< -o $(bindir_here)/$@
 
 options.o: options.cpp options.hpp blurbs.o
@@ -24,6 +26,6 @@ program:
 	$(MKDIR) $(bindir_here)/program
 	$(MAKE) -C program
 
-gui:
+gui: program
 	$(MKDIR) $(bindir_here)/gui
 	$(MAKE) -C gui
