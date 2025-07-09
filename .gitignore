@@ -2,6 +2,7 @@
 bin/*
 bin
 ./wawacraft-evolved
+wawacraft-evolved
 # I hate backups getting in the repo too
 *#
 .#*
