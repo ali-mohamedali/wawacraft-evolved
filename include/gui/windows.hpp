@@ -21,6 +21,8 @@ namespace windows{
     
     std::string get_name();
 
+    GLFWwindow* get_window_handle();
+    
     static const bool YES;
     static const bool NO;
     
@@ -32,8 +34,6 @@ namespace windows{
 
     void update_name();
     void update_resolution();
-
-    GLFWwindow* get_window_handle();
     
     bool initialized;
     
@@ -45,16 +45,14 @@ namespace windows{
     GLFWwindow* window_handle;
   };
 
-  class reserve{
-  public:
-    static void end();
-  private:
-    friend class window;
-    
-    static bool glfw_initialized;
+  namespace reserve{
+    void start();
+    void end();
 
-    static void start_glfw();
-    static void end_glfw();
+    void start_glfw();
+    void end_glfw();
+
+    extern bool glfw_initialized;
   };
 }
 

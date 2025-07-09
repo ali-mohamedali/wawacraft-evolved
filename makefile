@@ -15,5 +15,8 @@ lib:
 	$(MKDIR) $(bindir)/lib $(global_include_dir)/lib
 	$(MAKE) all -C $(libdir)
 
+run_target:
+	$(outdir)/$(TARGET)
+
 clean:
 	$(RM) -rf $$($(FIND) $(bindir) -name '*.o')

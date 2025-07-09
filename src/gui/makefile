@@ -11,8 +11,5 @@ LPATH_HERE = $(addprefix -I,$(include_here))
 
 all: window.o reserve.o
 
-window.o: window.cpp windows.hpp
-	$(CXXCOMPILE) $(LPATH_HERE) -c $< -o $(bindir_here)/$@
-
+window.o: window.cpp windows.hpp reserve.o
 reserve.o: reserve.cpp windows.hpp
-	$(CXXCOMPILE) $(LPATH_HERE) -c $< -o $(bindir_here)/$@

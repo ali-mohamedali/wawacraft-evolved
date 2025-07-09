@@ -2,6 +2,7 @@
 #include "program/flags.hpp"
 #include "program/logging.hpp"
 #include "gui/windows.hpp"
+#include "graphics/graphics.hpp"
 #include "options.hpp"
 #include "blurbs.hpp"
 
@@ -11,19 +12,18 @@ int main(int argc, char** argv)
   blurbs::banner();
   
   windows::window testwin(800, 600, "Wawacraft:Evolved test window!");
-
+  graphics::gl_handle testgl(&testwin);
+  
   logging::log pen("main", "");
 
-  pen.message("Initial name of window is "+testwin.get_name());
-
-  testwin.set_name("TATER SALAD!");
+  testgl.hold();
   
-  pen.message("Name changed to "+testwin.get_name());
-  
+  glClearColor(0.5, 0.5, 0.7, 1);
   while(!testwin.should_close()){
-    //pen.record("Name of window is "+testwin.get_name());
-    pen.record("Resolution: "+std::to_string(testwin.get_width())+"x"+std::to_string(testwin.get_height()));
+    glClear(GL_COLOR_BUFFER_BIT);
+    testgl.clear();
   }
+  testgl.drop();
   
   windows::reserve::end();
   

@@ -24,9 +24,16 @@ OBJS := $$($(FIND) $(bindir) -name '*.o')
 
 srcdir := src
 libdir := lib
-bindir := bin
+bindir := bin/objects
 
-outdir := $(bindir)/output
+outdir := bin/output
 
 shddir := shd
 texdir := tex
+
+bindir_here = bindir
+
+LPATH_HERE = LPATHS
+
+%.o: %.cpp
+	$(CXXCOMPILE) $(LPATH_HERE) -c $< -o $(bindir_here)/$@

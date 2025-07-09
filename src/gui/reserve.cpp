@@ -2,14 +2,19 @@
 #include "libs.hpp"
 #include "program/logging.hpp"
 
-static bool windows::reserve::glfw_initialized=false;
+bool windows::reserve::glfw_initialized=false;
 
-static void windows::reserve::end()
+void windows::reserve::start()
+{
+  start_glfw();
+}
+
+void windows::reserve::end()
 {
   end_glfw();
 }
 
-static void windows::reserve::start_glfw()
+void windows::reserve::start_glfw()
 {
   if(!glfw_initialized){
     glfwInit();
@@ -17,7 +22,7 @@ static void windows::reserve::start_glfw()
   }
 }
 
-static void windows::reserve::end_glfw()
+void windows::reserve::end_glfw()
 {
   if(glfw_initialized){
     glfwTerminate();
