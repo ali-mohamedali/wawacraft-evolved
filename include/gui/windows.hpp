@@ -4,9 +4,25 @@
 #include "../libs.hpp"
 
 namespace windows{
+  class window;
+  
+  namespace reserve{
+    void start();
+    void end();
+
+    void start_glfw();
+    void end_glfw();
+
+    GLFWwindow* get_window_handle(windows::window&);
+    
+    extern bool glfw_initialized;
+  };
+
   class window{
   public:
     typedef int resolution;
+
+    friend GLFWwindow* windows::reserve::get_window_handle(windows::window&);
     
     window(resolution, resolution, std::string);
     ~window();
@@ -20,8 +36,6 @@ namespace windows{
     resolution get_height();
     
     std::string get_name();
-
-    GLFWwindow* get_window_handle();
     
     static const bool YES;
     static const bool NO;
@@ -43,16 +57,6 @@ namespace windows{
     resolution height;
     
     GLFWwindow* window_handle;
-  };
-
-  namespace reserve{
-    void start();
-    void end();
-
-    void start_glfw();
-    void end_glfw();
-
-    extern bool glfw_initialized;
   };
 }
 

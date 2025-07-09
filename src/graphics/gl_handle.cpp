@@ -16,21 +16,21 @@ graphics::gl_handle::gl_handle(windows::window* g_window_object):
   drop();
 
   if(valid()==SUCCESS){
-    set_framebuffer_size_callback(window_object->get_window_handle(), &default_framebuffer_size_callback);
+    set_framebuffer_size_callback(windows::reserve::get_window_handle(*window_object), &default_framebuffer_size_callback);
   }
 }
 
 void graphics::gl_handle::clear()
 {
   if(valid()==SUCCESS){
-    swap_buffers(window_object->get_window_handle());
+    swap_buffers(windows::reserve::get_window_handle(*window_object));
   }
 }
 
 bool graphics::gl_handle::hold()
 {
   if(valid()==SUCCESS && handle_available()==SUCCESS){
-    make_context_current(window_object->get_window_handle());
+    make_context_current(windows::reserve::get_window_handle(*window_object));
     held_handles++;
     return SUCCESS;
   }

@@ -79,15 +79,6 @@ std::string windows::window::get_name()
   return name;
 }
 
-GLFWwindow* windows::window::get_window_handle()
-{
-  if(valid()==YES){
-    return window_handle;
-  }else{
-    return NULL;
-  }
-}
-
 void windows::window::poll()
 {
   glfwPollEvents();

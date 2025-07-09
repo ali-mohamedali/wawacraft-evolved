@@ -29,3 +29,8 @@ void windows::reserve::end_glfw()
     glfw_initialized=false;
   }
 }
+
+GLFWwindow* windows::reserve::get_window_handle(windows::window& g_window)
+{
+  return g_window.window_handle;
+}
