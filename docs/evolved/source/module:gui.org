@@ -11,3 +11,4 @@ instate a GUI system.
 It contains:
 
  + [[./namespace:windows.org][namespace:windows]]
+ + [[./namespace:windows;reserve.org][namespace:windows::reserve]]

@@ -3,10 +3,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-07-10 Thu 10:15 -->
+<!-- 2025-07-10 Thu 10:13 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>module:program</title>
+<title>class:graphics::gl_handle</title>
 <meta name="author" content="Stephen P. Hurlsmith" />
 <meta name="generator" content="Org Mode" />
 <style>
@@ -196,31 +196,139 @@
 </head>
 <body>
 <div id="content" class="content">
-<h1 class="title">module:program</h1>
-<p>
-<a href="./index.html">Back to category</a>
-</p>
-
-<p>
-The program module is a collection of features and namespaces which
-are intended to form the program's interface towards the user and
-towards itself.
-</p>
-
-<p>
-It includes:
-</p>
-
-<ul class="org-ul">
-<li><a href="./namespace:flags.html">namespace:flags</a></li>
-<li><a href="./namespace:logging.html">namespace:logging</a></li>
-<li><a href="./namespace:settings.html">namespace:settings</a></li>
+<h1 class="title">class:graphics::gl<sub>handle</sub></h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org16d9e95">1. Description</a></li>
+<li><a href="#org978f709">2. Specification</a>
+<ul>
+<li><a href="#org1836722">2.1. graphics::gl​_handle::gl​_handle(windows::window* g​_window)</a></li>
+<li><a href="#org26ba640">2.2. void graphics::gl​_handle::clear()</a></li>
+<li><a href="#org2e928c7">2.3. bool graphics::gl​_handle::hold()</a></li>
+<li><a href="#org59c55cd">2.4. bool graphics::gl​_handle::drop()</a></li>
+<li><a href="#orgdb07c96">2.5. static const bool graphics::gl​_handle::SUCCESS</a></li>
+<li><a href="#orgd8b7357">2.6. static const bool graphics::gl​_handle::FAILURE</a></li>
+</ul>
+</li>
 </ul>
 </div>
+</div>
+<p>
+<a href="index.html">Back to category</a>
+</p>
+
+<p>
+The class graphics::gl​_handle, found in namespace <a href="namespace:graphics.html">namespace:graphics</a>,
+is a class which allows you to directly use OpenGL functions in a
+window (see <a href="class:windows;window.html">class:windows::window</a>).
+</p>
+
+<div id="outline-container-org16d9e95" class="outline-2">
+<h2 id="org16d9e95"><span class="section-number-2">1.</span> Description</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+gl​_handle objects are OpenGL handles, and one cannot make a gl handle
+to nothing (Well one can, but you'd literally be writing into the
+unseen).  This class is designed for use with <a href="class:windows;window.html">class:windows::window</a>,
+so do not initialize it without one.
+</p>
+
+<p>
+You should initialize this after you initialize a window, and handle
+it when you would like to use your OpenGL functions in code.  Only
+initialize one handle at a time, because concurrent use of OpenGL
+functions is harder since you'll have to wait until other parties stop
+using OpenGL.
+</p>
+
+<p>
+As with any regular handle, just hold when you need it, and drop when
+you're done.  The class is really simple.
+</p>
+
+<p>
+Besides just holding and dropping, gl​_handle actually makes some
+things easier by providing some of the functions you are guaranteed to
+use simply and which might need some irrelevant information about the
+window, helping you focus on what is important.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org978f709" class="outline-2">
+<h2 id="org978f709"><span class="section-number-2">2.</span> Specification</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org1836722" class="outline-3">
+<h3 id="org1836722"><span class="section-number-3">2.1.</span> graphics::gl​_handle::gl​_handle(windows::window* g​_window)</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+This is the constructor, it requires a pointer to an existing pointer
+of a window g​_window, stored in the object for its entire lifetime and
+depended on.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org26ba640" class="outline-3">
+<h3 id="org26ba640"><span class="section-number-3">2.2.</span> void graphics::gl​_handle::clear()</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+This function swaps the buffers on the window.  It does NOT clear the
+OpenGL framebuffer in any way, as you'll need to specify data, and
+won't need to specify information about the window
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2e928c7" class="outline-3">
+<h3 id="org2e928c7"><span class="section-number-3">2.3.</span> bool graphics::gl​_handle::hold()</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+Hold an OpenGL handle if allowed.  Will return either
+<a href="#orgdb07c96">graphics::gl​_handle::SUCCESS</a> if a handle was available, and
+<a href="#orgd8b7357">graphics::gl​_handle::FAILURE</a> otherwise.  If there is no handle
+available, you will NOT be able to call OpenGL functions in the
+desired context, so CHECK THE RETURN VALUES.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org59c55cd" class="outline-3">
+<h3 id="org59c55cd"><span class="section-number-3">2.4.</span> bool graphics::gl​_handle::drop()</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+Drop the as-assumed currently held OpenGL context.  Will return either
+<a href="#orgdb07c96">graphics::gl​_handle::SUCCESS</a> or <a href="#orgd8b7357">graphics::gl​_handle::FAILURE</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdb07c96" class="outline-3">
+<h3 id="orgdb07c96"><span class="section-number-3">2.5.</span> static const bool graphics::gl​_handle::SUCCESS</h3>
+<div class="outline-text-3" id="text-2-5">
+<p>
+Success value for gl​_handle.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd8b7357" class="outline-3">
+<h3 id="orgd8b7357"><span class="section-number-3">2.6.</span> static const bool graphics::gl​_handle::FAILURE</h3>
+<div class="outline-text-3" id="text-2-6">
+<p>
+Failure value for gl​_handle.
+</p>
+</div>
+</div>
+</div>
+</div>
 <div id="postamble" class="status">
-<p class="date">Date: 2025-07-02 Wed 02:32</p>
+<p class="date">Date: 2025-07-10 Thu 09:53</p>
 <p class="author">Author: Stephen P. Hurlsmith</p>
-<p class="date">Created: 2025-07-10 Thu 10:15</p>
+<p class="date">Created: 2025-07-10 Thu 10:13</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

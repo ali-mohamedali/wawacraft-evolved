@@ -1,0 +1,65 @@
+#+TITLE: class:graphics::gl_handle
+#+AUTHOR: Stephen P. Hurlsmith
+#+DATE: <2025-07-10 Thu 09:53>
+
+[[file:index.org][Back to category]]
+
+The class graphics::gl​_handle, found in namespace [[file:namespace:graphics.org][namespace:graphics]],
+is a class which allows you to directly use OpenGL functions in a
+window (see [[file:class:windows;window.org][class:windows::window]]).
+
+* Description
+
+gl​_handle objects are OpenGL handles, and one cannot make a gl handle
+to nothing (Well one can, but you'd literally be writing into the
+unseen).  This class is designed for use with [[file:class:windows;window.org][class:windows::window]],
+so do not initialize it without one.
+
+You should initialize this after you initialize a window, and handle
+it when you would like to use your OpenGL functions in code.  Only
+initialize one handle at a time, because concurrent use of OpenGL
+functions is harder since you'll have to wait until other parties stop
+using OpenGL.
+
+As with any regular handle, just hold when you need it, and drop when
+you're done.  The class is really simple.
+
+Besides just holding and dropping, gl​_handle actually makes some
+things easier by providing some of the functions you are guaranteed to
+use simply and which might need some irrelevant information about the
+window, helping you focus on what is important.
+
+* Specification
+
+** graphics::gl​_handle::gl​_handle(windows::window* g​_window)
+
+This is the constructor, it requires a pointer to an existing pointer
+of a window g​_window, stored in the object for its entire lifetime and
+depended on.
+
+** void graphics::gl​_handle::clear()
+
+This function swaps the buffers on the window.  It does NOT clear the
+OpenGL framebuffer in any way, as you'll need to specify data, and
+won't need to specify information about the window
+
+** bool graphics::gl​_handle::hold()
+
+Hold an OpenGL handle if allowed.  Will return either
+[[*static const bool graphics::gl​_handle::SUCCESS][graphics::gl​_handle::SUCCESS]] if a handle was available, and
+[[*static const bool graphics::gl​_handle::FAILURE][graphics::gl​_handle::FAILURE]] otherwise.  If there is no handle
+available, you will NOT be able to call OpenGL functions in the
+desired context, so CHECK THE RETURN VALUES.
+
+** bool graphics::gl​_handle::drop()
+
+Drop the as-assumed currently held OpenGL context.  Will return either
+[[*static const bool graphics::gl​_handle::SUCCESS][graphics::gl​_handle::SUCCESS]] or [[*static const bool graphics::gl​_handle::FAILURE][graphics::gl​_handle::FAILURE]].
+
+** static const bool graphics::gl​_handle::SUCCESS
+
+Success value for gl​_handle.
+
+** static const bool graphics::gl​_handle::FAILURE
+
+Failure value for gl​_handle.

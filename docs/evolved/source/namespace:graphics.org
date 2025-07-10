@@ -1,0 +1,15 @@
+#+TITLE: namespace:graphics
+#+AUTHOR: Stephen P. Hurlsmith
+#+DATE:<2025-07-10 Thu 09:50>
+
+[[file:index.org][Back to category]]
+
+The namespace *namespace:graphics*, part of [[file:module:graphics.org][module:graphics]], and
+includes the most main graphics utilities that are wrongly specified
+in others.  It is the common denominator namespace for all of the
+graphics classes.
+
+It includes:
+
+ + [[file:class:graphics;gl_handle.org][class:graphics::gl​_handle]]
+ + [[file:namespace:graphics;reserve.org][namespace:graphics::reserve]]

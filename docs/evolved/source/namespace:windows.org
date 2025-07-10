@@ -12,5 +12,5 @@ To see what the current library in use is, check [[./depend.org][External depend
 
 Members of the namespace include:
 
- + [[./class:windows;reserve.org][class:windows::reserve]]
  + [[./class:windows;window.org][class:windows::window]]
+ + [[./namespace:windows;reserve.org][namespace:windows;reserve]]
