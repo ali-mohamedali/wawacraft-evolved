@@ -1,5 +1,6 @@
 #include "libs.hpp"
 #include "graphics/graphics.hpp"
+#include "program/logging.hpp"
 
 static const bool graphics::gl_handle::SUCCESS=true;
 static const bool graphics::gl_handle::FAILURE=false;
@@ -88,11 +89,15 @@ void graphics::gl_handle::set_initial_viewport()
 
 bool graphics::gl_handle::valid()
 {
+  logging::log pen("valid", "graphics::gl_handle");
+  
   if(window_object!=NULL){
     if(window_object->valid()==windows::window::YES){
       return SUCCESS;
     }
   }
 
+  pen.error("GL Handle is not valid anymore!");
+  
   return FAILURE;
 }

@@ -13,17 +13,23 @@ int main(int argc, char** argv)
   
   windows::window testwin(800, 600, "Wawacraft:Evolved test window!");
   graphics::gl_handle testgl(&testwin);
+
+  windows::window copy;
+
+  copy=testwin;
   
   logging::log pen("main", "");
 
-  testgl.hold();
-  
-  glClearColor(0.5, 0.5, 0.7, 1);
-  while(!testwin.should_close()){
-    glClear(GL_COLOR_BUFFER_BIT);
-    testgl.clear();
+  if(testgl.hold()==graphics::gl_handle::SUCCESS){
+    glClearColor(0.5, 0.5, 0.7, 1);
+    
+    while(!testwin.should_close()){
+      glClear(GL_COLOR_BUFFER_BIT);
+      testgl.clear();
+    }
+    
+    testgl.drop();
   }
-  testgl.drop();
   
   windows::reserve::end();
   

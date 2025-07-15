@@ -13,7 +13,7 @@ namespace windows{
     void start_glfw();
     void end_glfw();
 
-    GLFWwindow* get_window_handle(windows::window&);
+    GLFWwindow* get_window_handle(const windows::window&);
     
     extern bool glfw_initialized;
   };
@@ -22,11 +22,15 @@ namespace windows{
   public:
     typedef int resolution;
 
-    friend GLFWwindow* windows::reserve::get_window_handle(windows::window&);
-    
-    window(resolution, resolution, std::string);
-    ~window();
+    friend GLFWwindow* windows::reserve::get_window_handle(const windows::window&);
 
+    window();
+    window(resolution, resolution, std::string);
+    window(const window&); 
+    ~window();
+    
+    window& operator=(const window&);
+    
     void set_name(std::string);
     
     bool valid();
@@ -46,10 +50,14 @@ namespace windows{
     void initialize();
     void destroy();
 
+    void update();
+
     void update_name();
     void update_resolution();
     
     bool initialized;
+
+    int* instances;
     
     std::string name;
     

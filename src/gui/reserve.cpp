@@ -30,7 +30,7 @@ void windows::reserve::end_glfw()
   }
 }
 
-GLFWwindow* windows::reserve::get_window_handle(windows::window& g_window)
+GLFWwindow* windows::reserve::get_window_handle(const windows::window& g_window)
 {
   return g_window.window_handle;
 }
