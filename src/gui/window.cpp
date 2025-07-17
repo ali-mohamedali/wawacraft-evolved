@@ -46,16 +46,18 @@ windows::window::window(const windows::window& g_window):
 
 windows::window::~window()
 {
-  logging::log pen("~window", "windows::window");
-  pen.record("Destroying window "+name);
-
-  (*instances)--;
-  if(instances==0){
-    pen.record("All instances destroyed. Yes!");
+  if(instances!=NULL){
+    logging::log pen("~window", "windows::window");
+    pen.record("Destroying window "+name);
     
-    destroy();
-  }else{
-    pen.record("Number of instances of window object of window "+name+" now "+std::to_string(*instances));
+    (*instances)--;
+    if((*instances)==0){
+      pen.record("All instances destroyed. Yes!");
+      
+      destroy();
+    }else{
+      pen.record("Number of instances of window object of window "+name+" now "+std::to_string(*instances));
+    }
   }
 }
 
