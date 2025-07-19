@@ -7,35 +7,46 @@
 namespace windows{
   class node{
   public:
-    typedef void (*update_callback)(window);
+    typedef void (*callback)(window&);
 
-    node(const window&, update_callback g_updater=&default_update_callback);
+    node(const window&, callback g_initializer=&default_init_callback, callback g_updater=&default_update_callback, callback g_death=&default_death_callback);
     ~node();
-    
-    static void default_update_callback(window);
 
+    static void default_init_callback(window&);
+    static void default_update_callback(window&);
+    static void default_death_callback(window&);
+    
     void update();
-    
-    update_callback update_callback_get();
 
+    callback init_callback_get();
+    callback update_callback_get();
+    callback death_callback_get();
+    
     window* window_get();
 
     graphics::gl_handle render_handle_get();
     
   private:
-    update_callback updater;
+    void init();
+    void die();
+    
+    bool initialized;
+    
+    callback initializer;
+    callback updater;
+    callback death;
     
     window identity;
   };
 
   class manager{
   public:
-    typedef std::list<node*> ring;
+    typedef std::list<node> ring;
     
     manager();
     ~manager();
     
-    void nodes_add(node*);
+    void nodes_add(const node&);
     void nodes_clear();
     
     void cycle();
