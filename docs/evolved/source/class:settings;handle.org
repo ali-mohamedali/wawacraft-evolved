@@ -59,7 +59,7 @@ functions, private or public:
 ** settings::handle::handle(object* g​_object)
 
 This is the constructor.  It requires a pointer towards a given object
-g_object, which it will be a handle on.  There is no other way to
+g​_object, which it will be a handle on.  There is no other way to
 supply what object this handle should handle except the constructor.
 This is sourced from concerns about handles being misused to
 arbitrarily point other objects defeating the point of a handle being

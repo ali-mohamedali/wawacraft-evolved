@@ -2,6 +2,7 @@
 #define WINDOWS_H
 
 #include "../libs.hpp"
+#include "../common.hpp"
 
 namespace windows{
   class window;

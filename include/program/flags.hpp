@@ -2,6 +2,7 @@
 #define FLAGS_H
 
 #include "../libs.hpp"
+#include "../common.hpp"
 #include "settings.hpp"
 
 namespace flags{
@@ -33,6 +34,7 @@ namespace flags{
     sieve(synonym_table);
     sieve(synonym_table, int, char**);
     sieve(synonym_table, pseudo_table, int, char**);
+    sieve(synonym_table, pseudo_table, std::vector<std::string>);
     
     void load(int, char**);
     
@@ -50,8 +52,10 @@ namespace flags{
 
     marker get_marker(std::string);
 
+    std::string compress_vector(std::vector<std::string>);
+    
     std::string find_synonym(char);
-
+    
     std::vector<std::string> find_real(std::string);
     std::vector<std::string> replace_pseudos();
     
@@ -70,8 +74,8 @@ namespace flags{
   
     bool parse(sequence);
 
-    static const bool SUCCESS=false;
-    static const bool FAILURE=true;
+    static const bool SUCCESS;
+    static const bool FAILURE;
   
     flag_table flags;
   private:

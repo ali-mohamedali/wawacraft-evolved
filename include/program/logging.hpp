@@ -11,8 +11,10 @@ namespace logging{
   
   const std::unordered_map<std::string, int> PREFIXING_SETTINGS=
     {
-      {"default", PREFIX_DEFAULT},
-      {"debug", PREFIX_DEBUG}
+      {"regular", PREFIX_DEFAULT},
+      {"debug", PREFIX_DEBUG},
+      {"t", PREFIX_DEBUG},
+      {"nil", PREFIX_DEFAULT}
     };
 
   const int LOGGING_YES=0;
@@ -20,8 +22,13 @@ namespace logging{
   
   const std::unordered_map<std::string, int> LOGGING_SETTINGS=
     {
+      {"t", LOGGING_YES},
+      {"nil", LOGGING_NO},
       {"default", LOGGING_YES},
-      {"quiet", LOGGING_NO}
+      {"chatty", LOGGING_YES},
+      {"quiet", LOGGING_NO},
+      {"yes", LOGGING_YES},
+      {"no", LOGGING_NO}
     };
   
   class log{

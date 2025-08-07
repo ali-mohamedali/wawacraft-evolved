@@ -2,8 +2,8 @@
 #include "graphics/graphics.hpp"
 #include "program/logging.hpp"
 
-static const bool graphics::gl_handle::SUCCESS=true;
-static const bool graphics::gl_handle::FAILURE=false;
+static const bool graphics::gl_handle::SUCCESS=common::signals::SUCCESS;
+static const bool graphics::gl_handle::FAILURE=common::signals::FAILURE;
 
 static unsigned int graphics::gl_handle::held_handles=0;
 

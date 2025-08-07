@@ -2,7 +2,8 @@
 #define GRAPHICS_H
 
 #include "../libs.hpp"
-#include "gui/windows.hpp"
+#include "../gui/windows.hpp"
+#include "../common.hpp"
 
 namespace graphics{
   namespace reserve{

@@ -25,6 +25,13 @@ flags::sieve::sieve(flags::synonym_table g_synonyms, flags::pseudo_table g_pseud
   set_pseudos(g_pseudos);
 }
 
+flags::sieve::sieve(flags::synonym_table g_synonyms, flags::pseudo_table g_pseudos, std::vector<std::string> args):
+  arguments(args)
+{
+  set_synonyms(g_synonyms);
+  set_pseudos(g_pseudos);
+}
+
 void flags::sieve::load(int argc, char** argv)
 {
   for(int i=1; i<argc; i++){
@@ -89,6 +96,21 @@ flags::marker flags::sieve::get_marker(std::string g_string)
   return (flag(g_string)) ? FLAG : DATA;
 }
 
+std::string flags::sieve::compress_vector(std::vector<std::string> g_strings)
+{
+  std::string ret;
+
+  for(std::vector<std::string>::const_iterator i=g_strings.begin(); i!=g_strings.end(); i++){
+    ret+=(*i);
+
+    if(i+1!=g_strings.end()){
+      ret+=" ";
+    }
+  }
+
+  return ret;
+}
+
 std::string flags::sieve::find_synonym(char g)
 {
   if(synonyms.find(g)!=synonyms.end()){   
@@ -101,7 +123,14 @@ std::string flags::sieve::find_synonym(char g)
 std::vector<std::string> flags::sieve::find_real(std::string g)
 {
   if(pseudos.find(g)!=pseudos.end()){
-    return (pseudos.find(g))->second;
+    std::vector<std::string> ret=(pseudos.find(g))->second;
+    std::vector<std::string> rec=find_real(compress_vector(ret));
+
+    if(rec.at(0)==""){
+      return ret;
+    }else{
+      return rec;
+    }
   }else{
     return {""};
   }
@@ -151,10 +180,18 @@ flags::sequence flags::sieve::expand(flags::symbol g_symbol)
 	  char n=*i;
 	  std::string short_name;
 	  short_name+=n;
-	  std::string j=find_synonym(*i);
-
+	  std::string j=find_synonym(n);
+	  
 	  if(j!=""){
-	    ret.push_back({j, get_marker(j)});
+	    std::vector<std::string> pseudo_find=find_real(j);
+	    if(pseudo_find.at(0)!=""){
+	      flags::sieve inner(synonyms, pseudos, pseudo_find);
+	      flags::sequence rec=inner.filter();
+	      
+	      ret.insert(ret.end(), rec.begin(), rec.end());
+	    }else{   
+	      ret.push_back({j, get_marker(j)});
+	    }
 	  }else{
 	    pen.error("Ignored. No synonym for short-flag "+short_name);
 	    continue;

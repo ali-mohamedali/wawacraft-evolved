@@ -1,18 +1,15 @@
 #include "libs.hpp"
+#include "gui/events.hpp"
 #include "gui/management.hpp"
 #include "program/logging.hpp"
 
-windows::node::node(const windows::window& g_window, windows::node::callback g_initializer=&default_init_callback, windows::node::callback g_updater=&default_update_callback, windows::node::callback g_death=&default_death_callback):
-  updater(g_updater),
-  initializer(g_initializer),
-  death(g_death),
+windows::node::node(const windows::window& g_window):
   identity(g_window),
-  initialized(false)
+  initialized(true)
 {
   logging::log pen("node", "windows::node");
   pen.record("Initializing node with window object of window "+identity.get_name());
-
-  pen.record("Calling node initializer callback.");
+  
   init();
 }
 
@@ -21,24 +18,12 @@ windows::node::~node()
   logging::log pen("~node", "windows::node");
   pen.record("Destroying node.");
 
-  pen.record("Calling node death callback");
-  die();
+  initialized=false;
 }
 
-static void windows::node::default_init_callback(windows::window& g_window)
+void windows::node::window_update()
 {
-  graphics::gl_handle local_handle(&g_window);
-
-  if(local_handle.hold()==graphics::gl_handle::SUCCESS){
-    glClearColor(1, 1, 1, 1);
-    
-    local_handle.drop();
-  }
-}
-
-static void windows::node::default_update_callback(windows::window& g_window)
-{
-  graphics::gl_handle local_handle(&g_window);
+  graphics::gl_handle local_handle=render_handle_get();
 
   if(local_handle.hold()==graphics::gl_handle::SUCCESS){
     local_handle.clear();
@@ -48,31 +33,69 @@ static void windows::node::default_update_callback(windows::window& g_window)
   }
 }
 
-static void windows::node::default_death_callback(windows::window& g_window)
+void windows::node::window_respond(events::keyboard::event g_event)
 {
-  logging::log pen("default_death_callback", "windows::node");
+  logging::log pen("window_respond", "windows::node");
+  
+  if(g_event.bkey==events::keyboard::KB_KEY_0){
+    pen.message("0 Key was pressed!!");
+  }
 
-  pen.record("This node has become dead.");
-}
+  std::string message;
 
-void windows::node::update()
-{
-  (*updater)(identity);
-}
+  switch(g_event.bkey){
+  case events::keyboard::KB_KEY_O:
+    message+="0";
+    break;
+  case events::keyboard::KB_KEY_1:
+    message+="1";
+    break;
+  case events::keyboard::KB_KEY_2:
+    message+="2";
+    break;
+  case events::keyboard::KB_KEY_3:
+    message+="3";
+    break;
+  case events::keyboard::KB_KEY_4:
+    message+="4";
+    break;
+  case events::keyboard::KB_KEY_5:
+    message+="5";
+    break;
+  case events::keyboard::KB_KEY_6:
+    message+="6";
+    break;
+  case events::keyboard::KB_KEY_7:
+    message+="7";
+    break;
+  case events::keyboard::KB_KEY_8:
+    message+="8";
+    break;
+  case events::keyboard::KB_KEY_9:
+    message+="9";
+    break;
+  default:
+    message+="Unlabeled keycode";
+    break;
+  }
+  
+  switch(g_event.state){
+  case events::keyboard::KB_KEY_PRESSED:
+    message+=" was pressed.";
+    break;
+  case events::keyboard::KB_KEY_RELEASED:
+    message+=" was released.";
+    break;
+  case events::keyboard::KB_KEY_REPEATING:
+    message+=" is repeating.";
+    break;
+  case events::keyboard::KB_KEY_NOACTION:
+  default:
+    message+="; No known action was done with the key.";
+    break;
+  }
 
-windows::node::callback windows::node::init_callback_get()
-{
-  return initializer;
-}
-
-windows::node::callback windows::node::update_callback_get()
-{
-  return updater;
-}
-
-windows::node::callback windows::node::death_callback_get()
-{
-  return death;
+  pen.message(message);
 }
 
 windows::window* windows::node::window_get()
@@ -85,20 +108,25 @@ graphics::gl_handle windows::node::render_handle_get()
   return graphics::gl_handle(&identity);
 }
 
-void windows::node::init()
+void windows::node::superior_set(windows::manager* g_superior)
 {
-  if(initialized==false){
-    (*initializer)(identity);
-    
-    initialized=true;
+  logging::log pen("superior_set", "windows::node");
+  pen.record("Setting superior manager of node.");
+  
+  superior=g_superior;
+
+  if(superior==NULL){
+    pen.error("Invalid pointer given for node superior.");
   }
 }
 
-void windows::node::die()
+void windows::node::init()
 {
-  if(initialized==true){
-    (*death)(identity);
+  graphics::gl_handle local_handle=render_handle_get();
 
-    initialized=false;
+  if(local_handle.hold()==graphics::gl_handle::SUCCESS){
+    glClearColor(1, 1, 1, 1);
+    
+    local_handle.drop();
   }
 }

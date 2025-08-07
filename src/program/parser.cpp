@@ -3,6 +3,9 @@
 #include "logging.hpp"
 #include "flags.hpp"
 
+static const bool flags::parser::SUCCESS=common::signals::SUCCESS;
+static const bool flags::parser::FAILURE=common::signals::FAILURE;
+
 flags::parser::parser(flags::flag_table g_flags):
   flags(g_flags)
 {

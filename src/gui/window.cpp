@@ -2,8 +2,8 @@
 #include "libs.hpp"
 #include "program/logging.hpp"
 
-static const bool windows::window::YES=true;
-static const bool windows::window::NO=false;
+static const bool windows::window::YES=common::signals::YES;
+static const bool windows::window::NO=common::signals::NO;
 
 windows::window::window()
 {

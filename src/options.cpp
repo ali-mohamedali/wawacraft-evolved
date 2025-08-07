@@ -18,12 +18,19 @@ flags::synonym_table options::flag_synonyms=
   {
     {'b', "--banner"},
     {'v', "--version"},
-    {'h', "--help"}
+    {'h', "--help"},
+    {'q', "--quiet"},
+    {'d', "--debug"}
   };
 
 flags::pseudo_table options::flag_pseudos=
   {
-    {"--quiet", {"--logging", "quiet", "--banner", "no"}}
+    {"--quiet", {"--logging", "nil", "--banner", "no"}},
+    {"--debug", {"--logging", "t",
+		 "--log-records", "t",
+		 "--log-messages", "t",
+		 "--log-errors", "t",
+		 "--prefix", "debug"}}
   };
 
 flags::flag_table options::flag_table=
@@ -32,9 +39,9 @@ flags::flag_table options::flag_table=
     {"--help", help_flag},
     {"--version", version_flag},
     {"--logging", logging_flag},
-    {"--messages", messages_flag},
-    {"--record-logs", records_flag},
-    {"--errors", errors_flag},
+    {"--log-messages", messages_flag},
+    {"--log-records", records_flag},
+    {"--log-errors", errors_flag},
     {"--prefix", prefixing_flag}
   };
 
