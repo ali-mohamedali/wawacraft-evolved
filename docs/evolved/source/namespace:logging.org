@@ -21,8 +21,10 @@ defined in terms of their own aliases.
 
 | String  | Value                   | Description                                                            |
 |---------+-------------------------+------------------------------------------------------------------------|
-| default | logging::PREFIX​_DEFAULT | Simple prefixing.                                                      |
+| regular | logging::PREFIX​_DEFAULT | Simple prefixing.                                                      |
 | debug   | logging::PREFIX​_DEBUG   | Terse prefixing of log messages, listing scope and function sent from. |
+| t       | logging::PREFIX_DEBUG   |                                                                        |
+| nil     | logging::PREFIX_DEFAULT |                                                                        |
 
 ** const std::unordered​_map<std::string, int> LOGGING​_SETTINGS
 
@@ -30,3 +32,8 @@ defined in terms of their own aliases.
 |---------+----------------------+-------------------------------------|
 | default | logging::LOGGING​_YES | Logging enabled.                    |
 | quiet   | logging::LOGGING​_NO  | Logging disabled, no logs outputted |
+| t       | logging::LOGGING_YES |                                     |
+| nil     | logging::LOGGING_NO  |                                     |
+| yes     | logging::LOGGING_YES |                                     |
+| no      | logging::LOGGING_NO  |                                     |
+| chatty  | logging::LOGGING_YES |                                     |

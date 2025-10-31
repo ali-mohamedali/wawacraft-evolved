@@ -10,7 +10,7 @@ ECHO=echo
 RM=rm
 
 CXXFLAGS = -w -g -fcommon -fpermissive -no-pie
-LFLAGS = -lGL -lglfw -lX11 -lpthread -lXrandr -lXi -ldl
+LFLAGS = -lGL -lglfw
 
 global_include_paths := /usr/include/GL /usr/include/GLFW /usr/include/glad /usr/lib64
 

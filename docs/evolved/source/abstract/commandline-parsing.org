@@ -154,6 +154,9 @@ listed as {"-​-long-flag", "-gibblebibbledoo", "data", "a", "four",
 "3"}.  I'm already thinking about creating a function that converts
 regular strings into such a format for my own convenience.
 
+Thanks to recursive evaluation, a pseudo-flag can have a short-flag
+synonym, and can expand to use other pseudo-flags that are recorded.
+
 * Use
 
 You should refer to the documentation of the respective classes on how

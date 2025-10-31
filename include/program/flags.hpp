@@ -34,7 +34,6 @@ namespace flags{
     sieve(synonym_table);
     sieve(synonym_table, int, char**);
     sieve(synonym_table, pseudo_table, int, char**);
-    sieve(synonym_table, pseudo_table, std::vector<std::string>);
     
     void load(int, char**);
     
@@ -44,6 +43,8 @@ namespace flags{
     sequence filter();
   
   private:
+    sieve(synonym_table, pseudo_table, std::vector<std::string>);
+    
     bool flag(std::string);
     bool data(std::string);
 

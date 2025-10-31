@@ -10,4 +10,5 @@ Child category of [[../index.org][root]].
 
 * List
 
++ [[file:invocation.org][invocation]] :: Invoking the game.
 + [[./source/index.org][source]] :: Subcategory for source-code documentation
