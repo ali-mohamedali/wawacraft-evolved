@@ -4,9 +4,9 @@ include common.mk
 
 TARGET = wawacraft-evolved
 
-all: src lib
+all: lib src
 	$(MKDIR) $(outdir)
-	$(CXXCOMPILE) $(OBJS) -o $(outdir)/$(TARGET)
+	$(CXXCOMPILE) $(OBJS) -o $(outdir)/$(TARGET) $(LFLAGS)
 
 src: lib
 	$(MAKE) -C src
