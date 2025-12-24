@@ -5,15 +5,22 @@
 #include "program/logging.hpp"
 
 namespace file{
+  const std::string NOTHING_READ="";
+  
   class loader{
   public:
     loader(std::string);
 
-    std::string get();
+    std::string file_get();
+    std::string path_get();
     
   private:
+    loader();
+    
     const std::string path;
 
-    std::ifstream file_stream;
+    std::fstream file_stream;
   };
 }
+
+#endif

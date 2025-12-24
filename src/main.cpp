@@ -6,6 +6,7 @@
 #include "gui/management.hpp"
 #include "options.hpp"
 #include "blurbs.hpp"
+#include "file.hpp"
 
 class test_node: public windows::node{
 public:
@@ -14,7 +15,7 @@ public:
   {
     init();
   }
-
+  
   void window_update()
   {
     logging::log pen("window_update", "test_node", false);
@@ -50,6 +51,10 @@ int main(int argc, char** argv)
   options::parse(argc, argv);
   blurbs::banner();
 
+  file::loader loader("src/main.cpp");
+
+  std::cout << loader.file_get() << std::endl;
+  
   windows::manager manager;
 
   test_node* my_win=new test_node(windows::window(640, 480, "Wawacraft:Evolved!"));

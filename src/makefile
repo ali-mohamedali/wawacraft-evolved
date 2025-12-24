@@ -13,9 +13,10 @@ SUBDIRS = program gui graphics
 
 all: main.o options.o blurbs.o $(SUBDIRS)
 
-main.o: main.cpp options.o blurbs.o
+main.o: main.cpp options.o blurbs.o file.o
 options.o: options.cpp options.hpp blurbs.o
 blurbs.o: blurbs.cpp blurbs.hpp common.hpp
+file.o: file.cpp file.hpp program
 
 program:
 	$(MKDIR) $(bindir_here)/program
