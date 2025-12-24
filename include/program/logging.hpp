@@ -30,12 +30,14 @@ namespace logging{
       {"yes", LOGGING_YES},
       {"no", LOGGING_NO}
     };
+
+  const std::string DEFAULT_ANNOUNCEMENT="";
   
   class log{
   public:
-    log();
-    log(std::string, std::string);
-
+    log(std::string, std::string, bool=true);
+    log(std::string, std::string, std::string);
+    
     void set_scope(std::string);
     void set_function(std::string);
   
@@ -51,9 +53,13 @@ namespace logging{
     static settings::setting<int> ERROR_LOGGING;
     
   private:
+    log();
+    
     std::string prefix();
 
     bool possible();
+
+    void announce(std::string=DEFAULT_ANNOUNCEMENT);
     
     void print_cout(std::string);
     void print_clog(std::string);

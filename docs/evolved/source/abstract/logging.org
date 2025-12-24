@@ -42,8 +42,7 @@ them LOG, but source code refers to them as records.
 Errors are as their name suggests, error messages.  They are set on by
 default, though using some flags can be silenced.  I don't know what
 kind of idiot would want to silence error messages from a program
-except that the error messages assuming the error messages are
-well-reasoned.
+assuming the error messages are well-reasoned.
 
 ** Prefixing
 

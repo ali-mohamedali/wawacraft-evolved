@@ -10,7 +10,7 @@ void graphics::reserve::start()
 
 void graphics::reserve::start_glad()
 {
-  logging::log pen("start_glad", "graphics::reserve");
+  logging::log pen("start_glad", "graphics::reserve", false);
   
   if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)){
     pen.error("Failed to initialize GLAD");

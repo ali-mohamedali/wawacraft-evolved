@@ -113,7 +113,7 @@ static events::keyboard::event events::keyboard::map::event_translate(int key, i
 
 static events::keyboard::action events::keyboard::map::action_code_lookup(int g_key)
 {
-  logging::log pen("action_code_lookup", "events::keyboard::map");
+  logging::log pen("action_code_lookup", "events::keyboard::map", false);
   
   std::unordered_map<int, events::keyboard::action>::iterator ret=action_table.find(g_key);
   if(ret==action_table.end()){

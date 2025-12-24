@@ -10,16 +10,20 @@ static settings::setting<int> logging::log::MESSAGE_LOGGING(LOGGING_YES, LOGGING
 static settings::setting<int> logging::log::RECORD_LOGGING(LOGGING_NO, LOGGING_SETTINGS);
 static settings::setting<int> logging::log::ERROR_LOGGING(LOGGING_YES, LOGGING_SETTINGS);
 
-logging::log::log()
-{
-  
-}
-
-logging::log::log(std::string g_function, std::string g_scope):
+logging::log::log(std::string g_function, std::string g_scope, bool announced):
   function(g_function),
   scope(g_scope)
 {
-  
+  if(announced){
+    announce();
+  }
+}
+
+logging::log::log(std::string g_function, std::string g_scope, std::string g_announcement):
+  function(g_function),
+  scope(g_scope)
+{
+  announce(g_announcement);
 }
 
 void logging::log::set_scope(std::string g_scope)
@@ -70,6 +74,11 @@ std::string logging::log::prefix()
 bool logging::log::possible()
 {
   return (LOGGING.access()==LOGGING_YES) ? true : false;
+}
+
+void logging::log::announce(std::string g_announcement)
+{
+  record(g_announcement);
 }
 
 void logging::log::print_cout(std::string p)

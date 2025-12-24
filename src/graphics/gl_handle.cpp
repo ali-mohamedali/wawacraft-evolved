@@ -89,7 +89,7 @@ void graphics::gl_handle::set_initial_viewport()
 
 bool graphics::gl_handle::valid()
 {
-  logging::log pen("valid", "graphics::gl_handle");
+  logging::log pen("valid", "graphics::gl_handle", false);
   
   if(window_object!=NULL){
     if(window_object->valid()==windows::window::YES){

@@ -81,7 +81,7 @@ bool windows::manager::nodes_present()
  
 void windows::manager::nodes_prune()
 {
-  logging::log pen("nodes_prune", "windows::manager");
+  logging::log pen("nodes_prune", "windows::manager", false);
   
   for(ring::iterator i=nodes.begin(); i!=nodes.end(); i++){
     if(*i!=NULL){

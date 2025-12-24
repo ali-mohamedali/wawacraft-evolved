@@ -17,7 +17,7 @@ public:
 
   void window_update()
   {
-    logging::log pen("window_update", "test_node");
+    logging::log pen("window_update", "test_node", false);
     
     graphics::gl_handle local_handle=render_handle_get();
 

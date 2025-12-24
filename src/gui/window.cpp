@@ -20,7 +20,7 @@ windows::window::window(windows::window::resolution g_width, windows::window::re
 {
   windows::reserve::start_glfw();
   
-  logging::log pen("window", "windows::window");
+  logging::log pen("window", "windows::window", false);
 
   std::string init_msg="Initializing window with resolution "+std::to_string(width)+"x"+std::to_string(height)+" and name "+name;
   pen.record(init_msg);
@@ -36,7 +36,7 @@ windows::window::window(const windows::window& g_window):
   initialized(true),
   instances(g_window.instances)
 {
-  logging::log pen("window", "windows::window");
+  logging::log pen("window", "windows::window", false);
   
   (*instances)++;
   pen.record("New instance of window "+name+" created, number of instances now "+std::to_string(*instances));
@@ -47,8 +47,7 @@ windows::window::window(const windows::window& g_window):
 windows::window::~window()
 {
   if(instances!=NULL){
-    logging::log pen("~window", "windows::window");
-    pen.record("Destroying window "+name);
+    logging::log pen("~window", "windows::window", "Destroying window "+name);
     
     (*instances)--;
     if((*instances)==0){
@@ -63,8 +62,7 @@ windows::window::~window()
 
 windows::window& windows::window::operator=(const windows::window& rhs)
 {
-  logging::log pen("operator=", "windows::window");
-  pen.record("Enacting copy-by-assignment of a window object.");
+  logging::log pen("operator=", "windows::window", "Enacting copy-by-assignment of a window object.");
   
   instances=rhs.instances;
   (*instances)++;
@@ -87,7 +85,7 @@ void windows::window::set_name(std::string g_name)
 
 bool windows::window::valid()
 {
-  logging::log pen("valid", "windows::window");
+  logging::log pen("valid", "windows::window", false);
   
   bool ret=(initialized && window_handle!=NULL) ? YES : NO;
   if(ret==NO){
@@ -163,8 +161,6 @@ void windows::window::update_name()
 
 void windows::window::update_resolution()
 {
-  logging::log pen("update_resolution", "windows::window");
-  
   if(valid()==YES){
     glfwGetFramebufferSize(window_handle, &width, &height);
   }
