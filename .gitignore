@@ -14,3 +14,9 @@ tex/art/*
 # Also automake makes a bunch of useless shite
 autom4te.cache/*
 autom4te.cache
+.deps/*
+.deps
+src/.deps
+src/.deps/*
+src/.dirstamp
+stamp-h1
