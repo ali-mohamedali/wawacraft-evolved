@@ -1,12 +1,13 @@
 #include "libs.hpp"
-#include "program/flags.hpp"
-#include "program/logging.hpp"
-#include "gui/windows.hpp"
-#include "graphics/graphics.hpp"
-#include "gui/management.hpp"
+#include "flags.hpp"
+#include "logging.hpp"
+#include "windows.hpp"
+#include "graphics.hpp"
+#include "management.hpp"
 #include "options.hpp"
 #include "blurbs.hpp"
 #include "file.hpp"
+#include "../config.h"
 
 class test_node: public windows::node{
 public:

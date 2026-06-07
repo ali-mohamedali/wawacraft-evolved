@@ -1,6 +1,6 @@
 #include "libs.hpp"
-#include "program/flags.hpp"
-#include "program/logging.hpp"
+#include "flags.hpp"
+#include "logging.hpp"
 #include "options.hpp"
 
 flags::flag options::banner_flag={true, &blurbs::banner_setting};

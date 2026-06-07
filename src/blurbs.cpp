@@ -1,6 +1,7 @@
 #include "libs.hpp"
-#include "program/settings.hpp"
+#include "settings.hpp"
 #include "blurbs.hpp"
+#include "../config.h"
 
 const int blurbs::BANNER_YES=1;
 const int blurbs::BANNER_NO=0;
@@ -19,7 +20,7 @@ settings::setting<int> blurbs::version_setting(0, {}, &blurbs::version);
 void blurbs::banner()
 {
   if(banner_setting.access()==BANNER_YES){
-    std::cout << common::PROGRAM_NAME_FORMAL << " " << common::PROGRAM_VERSION
+    std::cout << common::PROGRAM_NAME_FORMAL << " " << VERSION
 	      << "\nCopyright (C) 2024-2025 Stephen P. Hurlsmith" << std::endl;
   
     std::cout << common::PROGRAM_NAME_FORMAL << " is licensed under the GNU"

@@ -1,5 +1,5 @@
 #include "libs.hpp"
-#include "program/logging.hpp"
+#include "logging.hpp"
 #include "file.hpp"
 
 file::loader::loader(std::string g_path):
