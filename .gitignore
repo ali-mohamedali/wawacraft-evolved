@@ -11,3 +11,6 @@ wawacraft-evolved
 *.save
 # Art is not necessary
 tex/art/*
+# Also automake makes a bunch of useless shite
+autom4te.cache/*
+autom4te.cache
