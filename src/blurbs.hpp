@@ -11,6 +11,11 @@ namespace blurbs{
   void help();
   void version();
 
+  struct help_string{
+    std::string flag;
+    std::string help;
+  };
+  
   extern const int BANNER_YES;
   extern const int BANNER_NO;
 
@@ -20,6 +25,9 @@ namespace blurbs{
   
   extern settings::setting<int> help_setting;
   extern settings::setting<int> version_setting;
+
+  extern help_string help_table[];
+  extern const int help_table_size;
 }
 
 #endif

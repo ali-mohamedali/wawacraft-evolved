@@ -111,10 +111,10 @@ am__dirstamp = $(am__leading_dot)dirstamp
 am_wawacraft_evolved_OBJECTS = src/wawacraft_evolved-glad.$(OBJEXT) \
 	src/stb_image.$(OBJEXT) src/main.$(OBJEXT) \
 	src/blurbs.$(OBJEXT) src/events.$(OBJEXT) \
-	src/windows-reserve.$(OBJEXT) src/file.$(OBJEXT) \
-	src/flag.$(OBJEXT) src/gl_handle.$(OBJEXT) \
+	src/windows-reserve.$(OBJEXT) src/blurbs-help-table.$(OBJEXT) \
+	src/file.$(OBJEXT) src/flag.$(OBJEXT) src/gl-handle.$(OBJEXT) \
 	src/logging.$(OBJEXT) src/manager.$(OBJEXT) \
-	src/manager_register.$(OBJEXT) src/node.$(OBJEXT) \
+	src/manager-register.$(OBJEXT) src/node.$(OBJEXT) \
 	src/options.$(OBJEXT) src/parser.$(OBJEXT) \
 	src/reserve.$(OBJEXT) src/sieve.$(OBJEXT) src/window.$(OBJEXT)
 wawacraft_evolved_OBJECTS = $(am_wawacraft_evolved_OBJECTS)
@@ -135,11 +135,12 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = src/$(DEPDIR)/blurbs.Po src/$(DEPDIR)/events.Po \
+am__depfiles_remade = src/$(DEPDIR)/blurbs-help-table.Po \
+	src/$(DEPDIR)/blurbs.Po src/$(DEPDIR)/events.Po \
 	src/$(DEPDIR)/file.Po src/$(DEPDIR)/flag.Po \
-	src/$(DEPDIR)/gl_handle.Po src/$(DEPDIR)/logging.Po \
-	src/$(DEPDIR)/main.Po src/$(DEPDIR)/manager.Po \
-	src/$(DEPDIR)/manager_register.Po src/$(DEPDIR)/node.Po \
+	src/$(DEPDIR)/gl-handle.Po src/$(DEPDIR)/logging.Po \
+	src/$(DEPDIR)/main.Po src/$(DEPDIR)/manager-register.Po \
+	src/$(DEPDIR)/manager.Po src/$(DEPDIR)/node.Po \
 	src/$(DEPDIR)/options.Po src/$(DEPDIR)/parser.Po \
 	src/$(DEPDIR)/reserve.Po src/$(DEPDIR)/sieve.Po \
 	src/$(DEPDIR)/stb_image.Po \
@@ -342,13 +343,13 @@ AM_LFLAGS = -lglfw -lGL
 wawacraft_evolved_CFLAGS = $(GLFW_CFLAGS)
 wawacraft_evolved_LDADD = $(GLFW_LIBS) -lGL
 wawacraft_evolved_SOURCES = src/glad.c src/stb_image.cpp src/main.cpp \
-src/blurbs.cpp src/events.cpp src/windows-reserve.cpp \
-src/file.cpp src/flag.cpp src/gl_handle.cpp src/logging.cpp src/manager.cpp \
-src/manager_register.cpp src/node.cpp src/options.cpp src/parser.cpp \
-src/reserve.cpp src/sieve.cpp src/window.cpp src/blurbs.hpp src/common.hpp src/events.hpp \
-src/file.hpp src/flags.hpp src/graphics.hpp src/libs.hpp src/logging.hpp \
-src/management.hpp src/options.hpp src/settings.hpp src/stb_image.hpp \
-src/windows.hpp src/glad.h
+src/blurbs.cpp src/events.cpp src/windows-reserve.cpp src/blurbs-help-table.cpp \
+src/file.cpp src/flag.cpp src/gl-handle.cpp src/logging.cpp src/manager.cpp \
+src/manager-register.cpp src/node.cpp src/options.cpp src/parser.cpp \
+src/reserve.cpp src/sieve.cpp src/window.cpp src/blurbs.hpp src/common.hpp \
+src/events.hpp src/file.hpp src/flags.hpp src/graphics.hpp src/libs.hpp \
+src/logging.hpp src/management.hpp src/options.hpp src/settings.hpp \
+src/stb_image.hpp src/windows.hpp src/glad.h
 
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
@@ -462,15 +463,17 @@ src/events.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/windows-reserve.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
+src/blurbs-help-table.$(OBJEXT): src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
 src/file.$(OBJEXT): src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
 src/flag.$(OBJEXT): src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
-src/gl_handle.$(OBJEXT): src/$(am__dirstamp) \
+src/gl-handle.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/logging.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/manager.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
-src/manager_register.$(OBJEXT): src/$(am__dirstamp) \
+src/manager-register.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/node.$(OBJEXT): src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
 src/options.$(OBJEXT): src/$(am__dirstamp) \
@@ -494,15 +497,16 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+include src/$(DEPDIR)/blurbs-help-table.Po # am--include-marker
 include src/$(DEPDIR)/blurbs.Po # am--include-marker
 include src/$(DEPDIR)/events.Po # am--include-marker
 include src/$(DEPDIR)/file.Po # am--include-marker
 include src/$(DEPDIR)/flag.Po # am--include-marker
-include src/$(DEPDIR)/gl_handle.Po # am--include-marker
+include src/$(DEPDIR)/gl-handle.Po # am--include-marker
 include src/$(DEPDIR)/logging.Po # am--include-marker
 include src/$(DEPDIR)/main.Po # am--include-marker
+include src/$(DEPDIR)/manager-register.Po # am--include-marker
 include src/$(DEPDIR)/manager.Po # am--include-marker
-include src/$(DEPDIR)/manager_register.Po # am--include-marker
 include src/$(DEPDIR)/node.Po # am--include-marker
 include src/$(DEPDIR)/options.Po # am--include-marker
 include src/$(DEPDIR)/parser.Po # am--include-marker
@@ -840,15 +844,16 @@ clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
+	-rm -f src/$(DEPDIR)/blurbs-help-table.Po
 	-rm -f src/$(DEPDIR)/blurbs.Po
 	-rm -f src/$(DEPDIR)/events.Po
 	-rm -f src/$(DEPDIR)/file.Po
 	-rm -f src/$(DEPDIR)/flag.Po
-	-rm -f src/$(DEPDIR)/gl_handle.Po
+	-rm -f src/$(DEPDIR)/gl-handle.Po
 	-rm -f src/$(DEPDIR)/logging.Po
 	-rm -f src/$(DEPDIR)/main.Po
+	-rm -f src/$(DEPDIR)/manager-register.Po
 	-rm -f src/$(DEPDIR)/manager.Po
-	-rm -f src/$(DEPDIR)/manager_register.Po
 	-rm -f src/$(DEPDIR)/node.Po
 	-rm -f src/$(DEPDIR)/options.Po
 	-rm -f src/$(DEPDIR)/parser.Po
@@ -905,15 +910,16 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
+	-rm -f src/$(DEPDIR)/blurbs-help-table.Po
 	-rm -f src/$(DEPDIR)/blurbs.Po
 	-rm -f src/$(DEPDIR)/events.Po
 	-rm -f src/$(DEPDIR)/file.Po
 	-rm -f src/$(DEPDIR)/flag.Po
-	-rm -f src/$(DEPDIR)/gl_handle.Po
+	-rm -f src/$(DEPDIR)/gl-handle.Po
 	-rm -f src/$(DEPDIR)/logging.Po
 	-rm -f src/$(DEPDIR)/main.Po
+	-rm -f src/$(DEPDIR)/manager-register.Po
 	-rm -f src/$(DEPDIR)/manager.Po
-	-rm -f src/$(DEPDIR)/manager_register.Po
 	-rm -f src/$(DEPDIR)/node.Po
 	-rm -f src/$(DEPDIR)/options.Po
 	-rm -f src/$(DEPDIR)/parser.Po

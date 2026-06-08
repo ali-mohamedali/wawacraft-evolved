@@ -210,66 +210,66 @@ configure:5528: $? = 0
 configure:5541: result: yes
 configure:5560: checking dependency style of gcc
 configure:5673: result: gcc3
-configure:5697: checking for stdio.h
-configure:5697: gcc -c -g -O2  conftest.c >&5
-configure:5697: $? = 0
-configure:5697: result: yes
-configure:5697: checking for stdlib.h
-configure:5697: gcc -c -g -O2  conftest.c >&5
-configure:5697: $? = 0
-configure:5697: result: yes
-configure:5697: checking for string.h
-configure:5697: gcc -c -g -O2  conftest.c >&5
-configure:5697: $? = 0
-configure:5697: result: yes
-configure:5697: checking for inttypes.h
-configure:5697: gcc -c -g -O2  conftest.c >&5
-configure:5697: $? = 0
-configure:5697: result: yes
-configure:5697: checking for stdint.h
-configure:5697: gcc -c -g -O2  conftest.c >&5
-configure:5697: $? = 0
-configure:5697: result: yes
-configure:5697: checking for strings.h
-configure:5697: gcc -c -g -O2  conftest.c >&5
-configure:5697: $? = 0
-configure:5697: result: yes
-configure:5697: checking for sys/stat.h
-configure:5697: gcc -c -g -O2  conftest.c >&5
-configure:5697: $? = 0
-configure:5697: result: yes
-configure:5697: checking for sys/types.h
-configure:5697: gcc -c -g -O2  conftest.c >&5
-configure:5697: $? = 0
-configure:5697: result: yes
-configure:5697: checking for unistd.h
-configure:5697: gcc -c -g -O2  conftest.c >&5
-configure:5697: $? = 0
-configure:5697: result: yes
-configure:5722: checking for inttypes.h
-configure:5722: result: yes
-configure:5728: checking for stdint.h
-configure:5728: result: yes
-configure:5796: checking for pkg-config
-configure:5819: found /usr/bin/pkg-config
-configure:5832: result: /usr/bin/pkg-config
-configure:5857: checking pkg-config is at least version 0.9.0
-configure:5860: result: yes
-configure:5870: checking for glfw3
-configure:5877: $PKG_CONFIG --exists --print-errors "glfw3"
-configure:5880: $? = 0
-configure:5894: $PKG_CONFIG --exists --print-errors "glfw3"
-configure:5897: $? = 0
-configure:5935: result: yes
-configure:5944: checking for _Bool
-configure:5944: gcc -c -g -O2  conftest.c >&5
-configure:5944: $? = 0
-configure:5944: gcc -c -g -O2  conftest.c >&5
+configure:5750: checking for pkg-config
+configure:5773: found /usr/bin/pkg-config
+configure:5786: result: /usr/bin/pkg-config
+configure:5811: checking pkg-config is at least version 0.9.0
+configure:5814: result: yes
+configure:5824: checking for glfw3
+configure:5831: $PKG_CONFIG --exists --print-errors "glfw3"
+configure:5834: $? = 0
+configure:5848: $PKG_CONFIG --exists --print-errors "glfw3"
+configure:5851: $? = 0
+configure:5889: result: yes
+configure:5900: checking for stdio.h
+configure:5900: gcc -c -g -O2  conftest.c >&5
+configure:5900: $? = 0
+configure:5900: result: yes
+configure:5900: checking for stdlib.h
+configure:5900: gcc -c -g -O2  conftest.c >&5
+configure:5900: $? = 0
+configure:5900: result: yes
+configure:5900: checking for string.h
+configure:5900: gcc -c -g -O2  conftest.c >&5
+configure:5900: $? = 0
+configure:5900: result: yes
+configure:5900: checking for inttypes.h
+configure:5900: gcc -c -g -O2  conftest.c >&5
+configure:5900: $? = 0
+configure:5900: result: yes
+configure:5900: checking for stdint.h
+configure:5900: gcc -c -g -O2  conftest.c >&5
+configure:5900: $? = 0
+configure:5900: result: yes
+configure:5900: checking for strings.h
+configure:5900: gcc -c -g -O2  conftest.c >&5
+configure:5900: $? = 0
+configure:5900: result: yes
+configure:5900: checking for sys/stat.h
+configure:5900: gcc -c -g -O2  conftest.c >&5
+configure:5900: $? = 0
+configure:5900: result: yes
+configure:5900: checking for sys/types.h
+configure:5900: gcc -c -g -O2  conftest.c >&5
+configure:5900: $? = 0
+configure:5900: result: yes
+configure:5900: checking for unistd.h
+configure:5900: gcc -c -g -O2  conftest.c >&5
+configure:5900: $? = 0
+configure:5900: result: yes
+configure:5925: checking for inttypes.h
+configure:5925: result: yes
+configure:5931: checking for stdint.h
+configure:5931: result: yes
+configure:5943: checking for _Bool
+configure:5943: gcc -c -g -O2  conftest.c >&5
+configure:5943: $? = 0
+configure:5943: gcc -c -g -O2  conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:54:20: error: expected expression before ')' token
    54 | if (sizeof ((_Bool)))
       |                    ^
-configure:5944: $? = 1
+configure:5943: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "wawacraft-evolved"
@@ -329,20 +329,20 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:5944: result: yes
-configure:5953: checking for stdbool.h that conforms to C99 or later
-configure:6028: gcc -c -g -O2  conftest.c >&5
-configure:6028: $? = 0
-configure:6038: result: yes
-configure:6041: checking for int16_t
-configure:6041: gcc -c -g -O2  conftest.c >&5
-configure:6041: $? = 0
-configure:6041: gcc -c -g -O2  conftest.c >&5
+configure:5943: result: yes
+configure:5952: checking for stdbool.h that conforms to C99 or later
+configure:6027: gcc -c -g -O2  conftest.c >&5
+configure:6027: $? = 0
+configure:6037: result: yes
+configure:6040: checking for int16_t
+configure:6040: gcc -c -g -O2  conftest.c >&5
+configure:6040: $? = 0
+configure:6040: gcc -c -g -O2  conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:56:12: error: size of array 'test_array' is negative
    56 | static int test_array [1 - 2 * !((int16_t) (((((int16_t) 1 << N) << N) - 1) * 2 + 1)
       |            ^~~~~~~~~~
-configure:6041: $? = 1
+configure:6040: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "wawacraft-evolved"
@@ -407,11 +407,11 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:6041: result: yes
-configure:6050: checking for int32_t
-configure:6050: gcc -c -g -O2  conftest.c >&5
-configure:6050: $? = 0
-configure:6050: gcc -c -g -O2  conftest.c >&5
+configure:6040: result: yes
+configure:6049: checking for int32_t
+configure:6049: gcc -c -g -O2  conftest.c >&5
+configure:6049: $? = 0
+configure:6049: gcc -c -g -O2  conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:57:67: warning: integer overflow in expression of type 'int' results in '-2147483648' [-Woverflow]
    57 |                  < (int32_t) (((((int32_t) 1 << N) << N) - 1) * 2 + 2))];
@@ -419,7 +419,7 @@ conftest.c:57:67: warning: integer overflow in expression of type 'int' results 
 conftest.c:56:12: error: storage size of 'test_array' isn't constant
    56 | static int test_array [1 - 2 * !((int32_t) (((((int32_t) 1 << N) << N) - 1) * 2 + 1)
       |            ^~~~~~~~~~
-configure:6050: $? = 1
+configure:6049: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "wawacraft-evolved"
@@ -484,11 +484,11 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:6050: result: yes
-configure:6059: checking for int64_t
-configure:6059: gcc -c -g -O2  conftest.c >&5
-configure:6059: $? = 0
-configure:6059: gcc -c -g -O2  conftest.c >&5
+configure:6049: result: yes
+configure:6058: checking for int64_t
+configure:6058: gcc -c -g -O2  conftest.c >&5
+configure:6058: $? = 0
+configure:6058: gcc -c -g -O2  conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:57:67: warning: integer overflow in expression of type 'long int' results in '-9223372036854775808' [-Woverflow]
    57 |                  < (int64_t) (((((int64_t) 1 << N) << N) - 1) * 2 + 2))];
@@ -496,7 +496,7 @@ conftest.c:57:67: warning: integer overflow in expression of type 'long int' res
 conftest.c:56:12: error: storage size of 'test_array' isn't constant
    56 | static int test_array [1 - 2 * !((int64_t) (((((int64_t) 1 << N) << N) - 1) * 2 + 1)
       |            ^~~~~~~~~~
-configure:6059: $? = 1
+configure:6058: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "wawacraft-evolved"
@@ -561,16 +561,16 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:6059: result: yes
-configure:6068: checking for size_t
-configure:6068: gcc -c -g -O2  conftest.c >&5
-configure:6068: $? = 0
-configure:6068: gcc -c -g -O2  conftest.c >&5
+configure:6058: result: yes
+configure:6067: checking for size_t
+configure:6067: gcc -c -g -O2  conftest.c >&5
+configure:6067: $? = 0
+configure:6067: gcc -c -g -O2  conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:55:21: error: expected expression before ')' token
    55 | if (sizeof ((size_t)))
       |                     ^
-configure:6068: $? = 1
+configure:6067: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "wawacraft-evolved"
@@ -631,51 +631,51 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:6068: result: yes
-configure:6079: checking for uint16_t
-configure:6079: gcc -c -g -O2  conftest.c >&5
-configure:6079: $? = 0
-configure:6079: result: yes
-configure:6089: checking for uint32_t
-configure:6089: gcc -c -g -O2  conftest.c >&5
-configure:6089: $? = 0
-configure:6089: result: yes
-configure:6101: checking for uint64_t
-configure:6101: gcc -c -g -O2  conftest.c >&5
-configure:6101: $? = 0
-configure:6101: result: yes
-configure:6115: checking for error_at_line
-configure:6132: gcc -o conftest -g -O2   conftest.c  >&5
-configure:6132: $? = 0
-configure:6143: result: yes
-configure:6154: checking for GNU libc compatible malloc
-configure:6186: gcc -o conftest -g -O2   conftest.c  >&5
-configure:6186: $? = 0
-configure:6186: ./conftest
-configure:6186: $? = 0
-configure:6200: result: yes
-configure:6223: checking for memset
-configure:6223: gcc -o conftest -g -O2   conftest.c  >&5
+configure:6067: result: yes
+configure:6078: checking for uint16_t
+configure:6078: gcc -c -g -O2  conftest.c >&5
+configure:6078: $? = 0
+configure:6078: result: yes
+configure:6088: checking for uint32_t
+configure:6088: gcc -c -g -O2  conftest.c >&5
+configure:6088: $? = 0
+configure:6088: result: yes
+configure:6100: checking for uint64_t
+configure:6100: gcc -c -g -O2  conftest.c >&5
+configure:6100: $? = 0
+configure:6100: result: yes
+configure:6114: checking for error_at_line
+configure:6131: gcc -o conftest -g -O2   conftest.c  >&5
+configure:6131: $? = 0
+configure:6142: result: yes
+configure:6153: checking for GNU libc compatible malloc
+configure:6185: gcc -o conftest -g -O2   conftest.c  >&5
+configure:6185: $? = 0
+configure:6185: ./conftest
+configure:6185: $? = 0
+configure:6199: result: yes
+configure:6222: checking for memset
+configure:6222: gcc -o conftest -g -O2   conftest.c  >&5
 conftest.c:41:6: warning: conflicting types for built-in function 'memset'; expected 'void *(void *, int,  long unsigned int)' [-Wbuiltin-declaration-mismatch]
    41 | char memset (void);
       |      ^~~~~~
 conftest.c:33:1: note: 'memset' is declared in header '<string.h>'
    32 | #include <limits.h>
    33 | #undef memset
-configure:6223: $? = 0
-configure:6223: result: yes
-configure:6229: checking for pow
-configure:6229: gcc -o conftest -g -O2   conftest.c  >&5
+configure:6222: $? = 0
+configure:6222: result: yes
+configure:6228: checking for pow
+configure:6228: gcc -o conftest -g -O2   conftest.c  >&5
 conftest.c:42:6: warning: conflicting types for built-in function 'pow'; expected 'double(double,  double)' [-Wbuiltin-declaration-mismatch]
    42 | char pow (void);
       |      ^~~
 conftest.c:34:1: note: 'pow' is declared in header '<math.h>'
    33 | #include <limits.h>
    34 | #undef pow
-/usr/bin/ld: /tmp/ccLsCv6B.o: in function `main':
+/usr/bin/ld: /tmp/ccoC3c1s.o: in function `main':
 /home/ali/projects/wawacraft-evolved/conftest.c:53:(.text.startup+0x5): undefined reference to `pow'
 collect2: error: ld returned 1 exit status
-configure:6229: $? = 1
+configure:6228: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "wawacraft-evolved"
@@ -733,19 +733,19 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:6229: result: no
-configure:6235: checking for sqrt
-configure:6235: gcc -o conftest -g -O2   conftest.c  >&5
+configure:6228: result: no
+configure:6234: checking for sqrt
+configure:6234: gcc -o conftest -g -O2   conftest.c  >&5
 conftest.c:42:6: warning: conflicting types for built-in function 'sqrt'; expected 'double(double)' [-Wbuiltin-declaration-mismatch]
    42 | char sqrt (void);
       |      ^~~~
 conftest.c:34:1: note: 'sqrt' is declared in header '<math.h>'
    33 | #include <limits.h>
    34 | #undef sqrt
-/usr/bin/ld: /tmp/ccG46w0O.o: in function `main':
+/usr/bin/ld: /tmp/cc5p0ZTs.o: in function `main':
 /home/ali/projects/wawacraft-evolved/conftest.c:53:(.text.startup+0x5): undefined reference to `sqrt'
 collect2: error: ld returned 1 exit status
-configure:6235: $? = 1
+configure:6234: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "wawacraft-evolved"
@@ -803,24 +803,24 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:6235: result: no
-configure:6241: checking for strstr
-configure:6241: gcc -o conftest -g -O2   conftest.c  >&5
+configure:6234: result: no
+configure:6240: checking for strstr
+configure:6240: gcc -o conftest -g -O2   conftest.c  >&5
 conftest.c:42:6: warning: conflicting types for built-in function 'strstr'; expected 'char *(const char *, const char *)' [-Wbuiltin-declaration-mismatch]
    42 | char strstr (void);
       |      ^~~~~~
 conftest.c:34:1: note: 'strstr' is declared in header '<string.h>'
    33 | #include <limits.h>
    34 | #undef strstr
-configure:6241: $? = 0
-configure:6241: result: yes
-configure:6247: checking for strtol
-configure:6247: gcc -o conftest -g -O2   conftest.c  >&5
-configure:6247: $? = 0
-configure:6247: result: yes
-configure:6358: checking that generated files are newer than configure
-configure:6364: result: done
-configure:6403: creating ./config.status
+configure:6240: $? = 0
+configure:6240: result: yes
+configure:6246: checking for strtol
+configure:6246: gcc -o conftest -g -O2   conftest.c  >&5
+configure:6246: $? = 0
+configure:6246: result: yes
+configure:6357: checking that generated files are newer than configure
+configure:6363: result: done
+configure:6402: creating ./config.status
 
 ## ---------------------- ##
 ## Running config.status. ##
@@ -842,7 +842,6 @@ config.status:881: creating config.h
 config.status:1062: config.h is unchanged
 config.status:1110: executing depfiles commands
 config.status:1187: cd .       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
-make: Nothing to be done for 'am--depfiles'.
 config.status:1192: $? = 0
 
 ## ---------------- ##
@@ -1087,3 +1086,25 @@ target_vendor='pc'
 #define HAVE_STRTOL 1
 
 configure: exit 0
+
+## ---------------------- ##
+## Running config.status. ##
+## ---------------------- ##
+
+This file was extended by wawacraft-evolved config.status 0.3.0, which was
+generated by GNU Autoconf 2.72.  Invocation command line was
+
+  CONFIG_FILES    = 
+  CONFIG_HEADERS  = 
+  CONFIG_LINKS    = 
+  CONFIG_COMMANDS = 
+  $ ./config.status Makefile depfiles
+
+on lambda
+
+config.status:881: creating Makefile
+config.status:1110: executing depfiles commands
+config.status:1187: cd .       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
+make[1]: Entering directory '/home/ali/projects/wawacraft-evolved'
+make[1]: Leaving directory '/home/ali/projects/wawacraft-evolved'
+config.status:1192: $? = 0

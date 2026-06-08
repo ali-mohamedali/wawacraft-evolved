@@ -2,11 +2,12 @@
 #define COMMON_H
 
 #include "libs.hpp"
+#include "config.h"
 
 namespace common{
-  static const std::string PROGRAM_NAME="wawacraft-evolved";
+  static const std::string PROGRAM_NAME=PACKAGE_NAME;
   static const std::string PROGRAM_NAME_FORMAL="Wawacraft:Evolved";
-  static const std::string PROGRAM_VERSION="unknown-version";
+  static const std::string PROGRAM_VERSION=PACKAGE_VERSION;
   
   namespace signals{
     static const bool YES=true;
