@@ -72,7 +72,6 @@ am__make_dryrun = (target_option=n; $(am__make_running_with_option))
 am__make_keepgoing = (target_option=k; $(am__make_running_with_option))
 am__rm_f = rm -f $(am__rm_f_notfound)
 am__rm_rf = rm -rf $(am__rm_f_notfound)
-pkgdatadir = $(datadir)/wawacraft-evolved
 pkgincludedir = $(includedir)/wawacraft-evolved
 pkglibdir = $(libdir)/wawacraft-evolved
 pkglibexecdir = $(libexecdir)/wawacraft-evolved
@@ -103,7 +102,7 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES =
+CONFIG_CLEAN_FILES = path.h
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -116,7 +115,8 @@ am_wawacraft_evolved_OBJECTS = src/wawacraft_evolved-glad.$(OBJEXT) \
 	src/logging.$(OBJEXT) src/manager.$(OBJEXT) \
 	src/manager-register.$(OBJEXT) src/node.$(OBJEXT) \
 	src/options.$(OBJEXT) src/parser.$(OBJEXT) \
-	src/reserve.$(OBJEXT) src/sieve.$(OBJEXT) src/window.$(OBJEXT)
+	src/reserve.$(OBJEXT) src/sieve.$(OBJEXT) src/window.$(OBJEXT) \
+	src/shader-obj_shader.$(OBJEXT) src/shader.$(OBJEXT)
 wawacraft_evolved_OBJECTS = $(am_wawacraft_evolved_OBJECTS)
 am__DEPENDENCIES_1 =
 wawacraft_evolved_DEPENDENCIES = $(am__DEPENDENCIES_1)
@@ -142,7 +142,8 @@ am__depfiles_remade = src/$(DEPDIR)/blurbs-help-table.Po \
 	src/$(DEPDIR)/main.Po src/$(DEPDIR)/manager-register.Po \
 	src/$(DEPDIR)/manager.Po src/$(DEPDIR)/node.Po \
 	src/$(DEPDIR)/options.Po src/$(DEPDIR)/parser.Po \
-	src/$(DEPDIR)/reserve.Po src/$(DEPDIR)/sieve.Po \
+	src/$(DEPDIR)/reserve.Po src/$(DEPDIR)/shader-obj_shader.Po \
+	src/$(DEPDIR)/shader.Po src/$(DEPDIR)/sieve.Po \
 	src/$(DEPDIR)/stb_image.Po \
 	src/$(DEPDIR)/wawacraft_evolved-glad.Po \
 	src/$(DEPDIR)/window.Po src/$(DEPDIR)/windows-reserve.Po
@@ -178,11 +179,27 @@ am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
 SOURCES = $(wawacraft_evolved_SOURCES)
 DIST_SOURCES = $(wawacraft_evolved_SOURCES)
+RECURSIVE_TARGETS = all-recursive check-recursive cscopelist-recursive \
+	ctags-recursive dvi-recursive html-recursive info-recursive \
+	install-data-recursive install-dvi-recursive \
+	install-exec-recursive install-html-recursive \
+	install-info-recursive install-pdf-recursive \
+	install-ps-recursive install-recursive installcheck-recursive \
+	installdirs-recursive pdf-recursive ps-recursive \
+	tags-recursive uninstall-recursive
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
+RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
+  distclean-recursive maintainer-clean-recursive
+am__recursive_targets = \
+  $(RECURSIVE_TARGETS) \
+  $(RECURSIVE_CLEAN_TARGETS) \
+  $(am__extra_recursive_targets)
+AM_RECURSIVE_TARGETS = $(am__recursive_targets:-recursive=) TAGS CTAGS \
+	cscope distdir distdir-am dist dist-all distcheck
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP) \
 	config.h.in
 # Read a list of newline-separated strings from the standard input,
@@ -201,10 +218,11 @@ am__define_uniq_tagged_files = \
   unique=`for i in $$list; do \
     if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
   done | $(am__uniquify_input)`
-AM_RECURSIVE_TARGETS = cscope
-am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/config.h.in AUTHORS \
-	COPYING ChangeLog INSTALL NEWS README compile config.guess \
-	config.sub depcomp install-sh missing
+DIST_SUBDIRS = $(SUBDIRS)
+am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/config.h.in \
+	$(srcdir)/path.h.in AUTHORS COPYING ChangeLog INSTALL NEWS \
+	README compile config.guess config.sub depcomp install-sh \
+	missing
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -215,6 +233,31 @@ am__remove_distdir = \
       || { sleep 5 && rm -rf "$(distdir)"; }; \
   else :; fi
 am__post_remove_distdir = $(am__remove_distdir)
+am__relativize = \
+  dir0=`pwd`; \
+  sed_first='s,^\([^/]*\)/.*$$,\1,'; \
+  sed_rest='s,^[^/]*/*,,'; \
+  sed_last='s,^.*/\([^/]*\)$$,\1,'; \
+  sed_butlast='s,/*[^/]*$$,,'; \
+  while test -n "$$dir1"; do \
+    first=`echo "$$dir1" | sed -e "$$sed_first"`; \
+    if test "$$first" != "."; then \
+      if test "$$first" = ".."; then \
+        dir2=`echo "$$dir0" | sed -e "$$sed_last"`/"$$dir2"; \
+        dir0=`echo "$$dir0" | sed -e "$$sed_butlast"`; \
+      else \
+        first2=`echo "$$dir2" | sed -e "$$sed_first"`; \
+        if test "$$first2" = "$$first"; then \
+          dir2=`echo "$$dir2" | sed -e "$$sed_rest"`; \
+        else \
+          dir2="../$$dir2"; \
+        fi; \
+        dir0="$$dir0"/"$$first"; \
+      fi; \
+    fi; \
+    dir1=`echo "$$dir1" | sed -e "$$sed_rest"`; \
+  done; \
+  reldir="$$dir2"
 DIST_ARCHIVES = $(distdir).tar.gz
 GZIP_ENV = -9
 DIST_TARGETS = dist-gzip
@@ -226,6 +269,7 @@ am__distuninstallcheck_listfiles = $(distuninstallcheck_listfiles) \
 distcleancheck_listfiles = \
   find . \( -type f -a \! \
             \( -name .nfs* -o -name .smb* -o -name .__afs* \) \) -print
+pkgdatadir = ${datadir}/${PROGRAM}
 ACLOCAL = ${SHELL} '/home/ali/projects/wawacraft-evolved/missing' aclocal-1.17
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 1
@@ -267,10 +311,10 @@ OBJEXT = o
 PACKAGE = wawacraft-evolved
 PACKAGE_BUGREPORT = someguyshutup5@gmail.com
 PACKAGE_NAME = wawacraft-evolved
-PACKAGE_STRING = wawacraft-evolved 0.3.0
+PACKAGE_STRING = wawacraft-evolved 0.3.1
 PACKAGE_TARNAME = wawacraft-evolved
 PACKAGE_URL = 
-PACKAGE_VERSION = 0.3.0
+PACKAGE_VERSION = 0.3.1
 PATH_SEPARATOR = :
 PKG_CONFIG = /usr/bin/pkg-config
 PKG_CONFIG_LIBDIR = 
@@ -278,7 +322,7 @@ PKG_CONFIG_PATH =
 SET_MAKE = 
 SHELL = /bin/bash
 STRIP = 
-VERSION = 0.3.0
+VERSION = 0.3.1
 abs_builddir = /home/ali/projects/wawacraft-evolved
 abs_srcdir = /home/ali/projects/wawacraft-evolved
 abs_top_builddir = /home/ali/projects/wawacraft-evolved
@@ -338,21 +382,51 @@ top_build_prefix =
 top_builddir = .
 top_srcdir = .
 AUTOMAKE_OPTIONS = subdir-objects
+SUBDIRS = . archive shaders textures
 AM_CPPFLAGS = -w -g -fcommon -fpermissive -no-pie
 AM_LFLAGS = -lglfw -lGL
+wawacraft_evolveddir = ${datadir}/${PACKAGE}
 wawacraft_evolved_CFLAGS = $(GLFW_CFLAGS)
 wawacraft_evolved_LDADD = $(GLFW_LIBS) -lGL
-wawacraft_evolved_SOURCES = src/glad.c src/stb_image.cpp src/main.cpp \
-src/blurbs.cpp src/events.cpp src/windows-reserve.cpp src/blurbs-help-table.cpp \
-src/file.cpp src/flag.cpp src/gl-handle.cpp src/logging.cpp src/manager.cpp \
-src/manager-register.cpp src/node.cpp src/options.cpp src/parser.cpp \
-src/reserve.cpp src/sieve.cpp src/window.cpp src/blurbs.hpp src/common.hpp \
-src/events.hpp src/file.hpp src/flags.hpp src/graphics.hpp src/libs.hpp \
-src/logging.hpp src/management.hpp src/options.hpp src/settings.hpp \
-src/stb_image.hpp src/windows.hpp src/glad.h
+wawacraft_evolved_SOURCES = src/glad.c \
+src/stb_image.cpp \
+src/main.cpp \
+src/blurbs.cpp \
+src/events.cpp \
+src/windows-reserve.cpp \
+src/blurbs-help-table.cpp \
+src/file.cpp \
+src/flag.cpp \
+src/gl-handle.cpp \
+src/logging.cpp \
+src/manager.cpp \
+src/manager-register.cpp \
+src/node.cpp \
+src/options.cpp \
+src/parser.cpp \
+src/reserve.cpp \
+src/sieve.cpp \
+src/window.cpp \
+src/blurbs.hpp \
+src/common.hpp \
+src/events.hpp \
+src/file.hpp \
+src/flags.hpp \
+src/graphics.hpp \
+src/libs.hpp \
+src/logging.hpp \
+src/management.hpp \
+src/options.hpp \
+src/settings.hpp \
+src/stb_image.hpp \
+src/windows.hpp \
+src/glad.h \
+src/shader.hpp \
+src/shader-obj_shader.cpp \
+src/shader.cpp
 
 all: config.h
-	$(MAKE) $(AM_MAKEFLAGS) all-am
+	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
 .SUFFIXES:
 .SUFFIXES: .c .cpp .o .obj
@@ -404,6 +478,8 @@ $(srcdir)/config.h.in:  $(am__configure_deps)
 
 distclean-hdr:
 	-rm -f config.h stamp-h1
+path.h: $(top_builddir)/config.status $(srcdir)/path.h.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
 	@list='$(bin_PROGRAMS)'; test -n "$(bindir)" || list=; \
@@ -485,6 +561,10 @@ src/reserve.$(OBJEXT): src/$(am__dirstamp) \
 src/sieve.$(OBJEXT): src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
 src/window.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
+src/shader-obj_shader.$(OBJEXT): src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/shader.$(OBJEXT): src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
 
 wawacraft-evolved$(EXEEXT): $(wawacraft_evolved_OBJECTS) $(wawacraft_evolved_DEPENDENCIES) $(EXTRA_wawacraft_evolved_DEPENDENCIES) 
 	@rm -f wawacraft-evolved$(EXEEXT)
@@ -511,6 +591,8 @@ include src/$(DEPDIR)/node.Po # am--include-marker
 include src/$(DEPDIR)/options.Po # am--include-marker
 include src/$(DEPDIR)/parser.Po # am--include-marker
 include src/$(DEPDIR)/reserve.Po # am--include-marker
+include src/$(DEPDIR)/shader-obj_shader.Po # am--include-marker
+include src/$(DEPDIR)/shader.Po # am--include-marker
 include src/$(DEPDIR)/sieve.Po # am--include-marker
 include src/$(DEPDIR)/stb_image.Po # am--include-marker
 include src/$(DEPDIR)/wawacraft_evolved-glad.Po # am--include-marker
@@ -569,14 +651,61 @@ src/wawacraft_evolved-glad.obj: src/glad.c
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
+# This directory's subdirectories are mostly independent; you can cd
+# into them and run 'make' without going through this Makefile.
+# To change the values of 'make' variables: instead of editing Makefiles,
+# (1) if the variable is set in 'config.status', edit 'config.status'
+#     (which will cause the Makefiles to be regenerated when you run 'make');
+# (2) otherwise, pass the desired values on the 'make' command line.
+$(am__recursive_targets):
+	@fail=; \
+	if $(am__make_keepgoing); then \
+	  failcom='fail=yes'; \
+	else \
+	  failcom='exit 1'; \
+	fi; \
+	dot_seen=no; \
+	target=`echo $@ | sed s/-recursive//`; \
+	case "$@" in \
+	  distclean-* | maintainer-clean-*) list='$(DIST_SUBDIRS)' ;; \
+	  *) list='$(SUBDIRS)' ;; \
+	esac; \
+	for subdir in $$list; do \
+	  echo "Making $$target in $$subdir"; \
+	  if test "$$subdir" = "."; then \
+	    dot_seen=yes; \
+	    local_target="$$target-am"; \
+	  else \
+	    local_target="$$target"; \
+	  fi; \
+	  ($(am__cd) $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
+	  || eval $$failcom; \
+	done; \
+	if test "$$dot_seen" = "no"; then \
+	  $(MAKE) $(AM_MAKEFLAGS) "$$target-am" || exit 1; \
+	fi; test -z "$$fail"
+
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
-tags: tags-am
+tags: tags-recursive
 TAGS: tags
 
 tags-am: $(TAGS_DEPENDENCIES) $(am__tagged_files)
 	set x; \
 	here=`pwd`; \
+	if ($(ETAGS) --etags-include --version) >/dev/null 2>&1; then \
+	  include_option=--etags-include; \
+	  empty_fix=.; \
+	else \
+	  include_option=--include; \
+	  empty_fix=; \
+	fi; \
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	  if test "$$subdir" = .; then :; else \
+	    test ! -f $$subdir/TAGS || \
+	      set "$$@" "$$include_option=$$here/$$subdir/TAGS"; \
+	  fi; \
+	done; \
 	$(am__define_uniq_tagged_files); \
 	shift; \
 	if test -z "$(ETAGS_ARGS)$$*$$unique"; then :; else \
@@ -589,7 +718,7 @@ tags-am: $(TAGS_DEPENDENCIES) $(am__tagged_files)
 	      $$unique; \
 	  fi; \
 	fi
-ctags: ctags-am
+ctags: ctags-recursive
 
 CTAGS: ctags
 ctags-am: $(TAGS_DEPENDENCIES) $(am__tagged_files)
@@ -608,7 +737,7 @@ cscope: cscope.files
 clean-cscope:
 	-rm -f cscope.files
 cscope.files: clean-cscope cscopelist
-cscopelist: cscopelist-am
+cscopelist: cscopelist-recursive
 
 cscopelist-am: $(am__tagged_files)
 	list='$(am__tagged_files)'; \
@@ -660,6 +789,31 @@ distdir-am: $(DISTFILES)
 	    test -f "$(distdir)/$$file" \
 	    || cp -p $$d/$$file "$(distdir)/$$file" \
 	    || exit 1; \
+	  fi; \
+	done
+	@list='$(DIST_SUBDIRS)'; for subdir in $$list; do \
+	  if test "$$subdir" = .; then :; else \
+	    $(am__make_dryrun) \
+	      || test -d "$(distdir)/$$subdir" \
+	      || $(MKDIR_P) "$(distdir)/$$subdir" \
+	      || exit 1; \
+	    dir1=$$subdir; dir2="$(distdir)/$$subdir"; \
+	    $(am__relativize); \
+	    new_distdir=$$reldir; \
+	    dir1=$$subdir; dir2="$(top_distdir)"; \
+	    $(am__relativize); \
+	    new_top_distdir=$$reldir; \
+	    echo " (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) top_distdir="$$new_top_distdir" distdir="$$new_distdir" \\"; \
+	    echo "     am__remove_distdir=: am__skip_length_check=: am__skip_mode_fix=: distdir)"; \
+	    ($(am__cd) $$subdir && \
+	      $(MAKE) $(AM_MAKEFLAGS) \
+	        top_distdir="$$new_top_distdir" \
+	        distdir="$$new_distdir" \
+		am__remove_distdir=: \
+		am__skip_length_check=: \
+		am__skip_mode_fix=: \
+	        distdir) \
+	      || exit 1; \
 	  fi; \
 	done
 	-test -n "$(am__skip_mode_fix)" \
@@ -800,21 +954,22 @@ distcleancheck: distclean
 	       $(distcleancheck_listfiles) ; \
 	       exit 1; } >&2
 check-am: all-am
-check: check-am
+check: check-recursive
 all-am: Makefile $(PROGRAMS) config.h
-installdirs:
+installdirs: installdirs-recursive
+installdirs-am:
 	for dir in "$(DESTDIR)$(bindir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
-install: install-am
-install-exec: install-exec-am
-install-data: install-data-am
-uninstall: uninstall-am
+install: install-recursive
+install-exec: install-exec-recursive
+install-data: install-data-recursive
+uninstall: uninstall-recursive
 
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 
-installcheck: installcheck-am
+installcheck: installcheck-recursive
 install-strip:
 	if test -z '$(STRIP)'; then \
 	  $(MAKE) $(AM_MAKEFLAGS) INSTALL_PROGRAM="$(INSTALL_STRIP_PROGRAM)" \
@@ -838,11 +993,11 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
-clean: clean-am
+clean: clean-recursive
 
 clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
-distclean: distclean-am
+distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -f src/$(DEPDIR)/blurbs-help-table.Po
 	-rm -f src/$(DEPDIR)/blurbs.Po
@@ -858,6 +1013,8 @@ distclean: distclean-am
 	-rm -f src/$(DEPDIR)/options.Po
 	-rm -f src/$(DEPDIR)/parser.Po
 	-rm -f src/$(DEPDIR)/reserve.Po
+	-rm -f src/$(DEPDIR)/shader-obj_shader.Po
+	-rm -f src/$(DEPDIR)/shader.Po
 	-rm -f src/$(DEPDIR)/sieve.Po
 	-rm -f src/$(DEPDIR)/stb_image.Po
 	-rm -f src/$(DEPDIR)/wawacraft_evolved-glad.Po
@@ -867,47 +1024,47 @@ distclean: distclean-am
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-tags
 
-dvi: dvi-am
+dvi: dvi-recursive
 
 dvi-am:
 
-html: html-am
+html: html-recursive
 
 html-am:
 
-info: info-am
+info: info-recursive
 
 info-am:
 
 install-data-am:
 
-install-dvi: install-dvi-am
+install-dvi: install-dvi-recursive
 
 install-dvi-am:
 
 install-exec-am: install-binPROGRAMS
 
-install-html: install-html-am
+install-html: install-html-recursive
 
 install-html-am:
 
-install-info: install-info-am
+install-info: install-info-recursive
 
 install-info-am:
 
 install-man:
 
-install-pdf: install-pdf-am
+install-pdf: install-pdf-recursive
 
 install-pdf-am:
 
-install-ps: install-ps-am
+install-ps: install-ps-recursive
 
 install-ps-am:
 
 installcheck-am:
 
-maintainer-clean: maintainer-clean-am
+maintainer-clean: maintainer-clean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
 	-rm -f src/$(DEPDIR)/blurbs-help-table.Po
@@ -924,6 +1081,8 @@ maintainer-clean: maintainer-clean-am
 	-rm -f src/$(DEPDIR)/options.Po
 	-rm -f src/$(DEPDIR)/parser.Po
 	-rm -f src/$(DEPDIR)/reserve.Po
+	-rm -f src/$(DEPDIR)/shader-obj_shader.Po
+	-rm -f src/$(DEPDIR)/shader.Po
 	-rm -f src/$(DEPDIR)/sieve.Po
 	-rm -f src/$(DEPDIR)/stb_image.Po
 	-rm -f src/$(DEPDIR)/wawacraft_evolved-glad.Po
@@ -932,25 +1091,26 @@ maintainer-clean: maintainer-clean-am
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
-mostlyclean: mostlyclean-am
+mostlyclean: mostlyclean-recursive
 
 mostlyclean-am: mostlyclean-compile mostlyclean-generic
 
-pdf: pdf-am
+pdf: pdf-recursive
 
 pdf-am:
 
-ps: ps-am
+ps: ps-recursive
 
 ps-am:
 
 uninstall-am: uninstall-binPROGRAMS
 
-.MAKE: all install-am install-strip
+.MAKE: $(am__recursive_targets) all install-am install-strip
 
-.PHONY: CTAGS GTAGS TAGS all all-am am--depfiles am--refresh check \
-	check-am clean clean-binPROGRAMS clean-cscope clean-generic \
-	cscope cscopelist-am ctags ctags-am dist dist-all dist-bzip2 \
+.PHONY: $(am__recursive_targets) CTAGS GTAGS TAGS all all-am \
+	am--depfiles am--refresh check check-am clean \
+	clean-binPROGRAMS clean-cscope clean-generic cscope \
+	cscopelist-am ctags ctags-am dist dist-all dist-bzip2 \
 	dist-gzip dist-lzip dist-shar dist-tarZ dist-xz dist-zip \
 	dist-zstd distcheck distclean distclean-compile \
 	distclean-generic distclean-hdr distclean-tags distcleancheck \
@@ -960,13 +1120,16 @@ uninstall-am: uninstall-binPROGRAMS
 	install-exec-am install-html install-html-am install-info \
 	install-info-am install-man install-pdf install-pdf-am \
 	install-ps install-ps-am install-strip installcheck \
-	installcheck-am installdirs maintainer-clean \
+	installcheck-am installdirs installdirs-am maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic pdf pdf-am ps ps-am tags tags-am uninstall \
 	uninstall-am uninstall-binPROGRAMS
 
 .PRECIOUS: Makefile
 
+
+path.hpp: src/path.h.in config.status
+	sed -e 's:@pkgdatadir@:${pkgdatadir}:' $< > $@
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

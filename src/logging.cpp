@@ -15,7 +15,6 @@ logging::log::log(std::string g_function, std::string g_scope):
   function(g_function),
   scope(g_scope)
 {
-  record("original interface");
 }
 
 logging::log::log(std::string g_function, std::string g_scope, std::string g_announcement):
@@ -30,7 +29,7 @@ logging::log::log(std::string g_function, std::string g_scope, bool announced):
   scope(g_scope)
 {
   if(announced){
-    record("cursed interface that implicit conversion keeps makin me use");
+    record("Here.");
   }
 }
 

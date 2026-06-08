@@ -52,7 +52,11 @@ bool graphics::gl_handle::drop()
 
 static void graphics::gl_handle::default_framebuffer_size_callback(GLFWwindow* g_window, int g_width, int g_height)
 {
+  glfwMakeContextCurrent(g_window);
   glViewport(0, 0, g_width, g_height);
+  glfwMakeContextCurrent(NULL);
+
+  held_handles=0;
 }
 
 static void graphics::gl_handle::make_context_current(GLFWwindow* g_window)
@@ -67,7 +71,12 @@ static void graphics::gl_handle::swap_buffers(GLFWwindow* g_window)
 
 static void graphics::gl_handle::set_framebuffer_size_callback(GLFWwindow* g_window, GLFWframebuffersizefun g_callback)
 {
+  logging::log pen("set_framebuffer_size_callback", "graphics::gl_handle", "Setting framebuffer resize callback for OpenGL handle.");
   glfwSetFramebufferSizeCallback(g_window, g_callback);
+
+  if(g_window){
+    pen.record("Window pointer invalid!");
+  }
 }
 
 static bool graphics::gl_handle::handle_available()

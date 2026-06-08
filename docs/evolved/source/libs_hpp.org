@@ -1,9 +1,0 @@
-#+TITLE: include/libs.hpp
-#+AUTHOR: Stephen P. Hurlsmith
-#+DATE: <2025-07-01 Tue 00:06>
-
-[[./index.org][Back to category]]
-
-*include/libs.hpp* is a header included by almost all files in the 
-source code.  It is a header representation of all the needed c++
-standard library dependencies as well as [[./depend.org][external dependencies]].
