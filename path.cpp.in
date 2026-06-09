@@ -4,9 +4,9 @@
 #include <string>
 
 std::string
-ROOT_INSTALL_PATH()
+root_install_path()
 {
-    static std::string path="@datadir@/@PACKAGE_NAME@";
+    std::string path="@datadir@/@PACKAGE_NAME@";
     path.replace(path.begin(), path.begin()+9, "@prefix@");
 
     return path;

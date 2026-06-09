@@ -7,7 +7,10 @@ bool flags::flag::shelled_manage(std::string g_data){
   if(option!=NULL){
     option->manage(g_data);
     return parser::SUCCESS;
-  }else{
+  }else if(!verbatim){
     return parser::FAILURE;
+  }else{
+    arbitrary->act(g_data);
+    return parser::SUCCESS;
   }
 }

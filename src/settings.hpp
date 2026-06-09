@@ -4,6 +4,32 @@
 #include "libs.hpp"
 
 namespace settings{
+  template <typename object, typename input>
+  class arbitrator{
+  public:
+    arbitrator(object*);
+
+    virtual void act(input);
+    
+  protected:
+    object* handled_object;
+  };
+
+  template <typename object, typename input>
+  arbitrator<object, input>::arbitrator(object* g_object):
+    handled_object(g_object)
+  {
+    
+  }
+
+  template <typename object, typename input>
+  void arbitrator<object, input>::act(input g_input)
+  {
+    if(handled_object){
+      (*handled_object)=g_input;
+    }
+  }
+  
   template <typename mutex_type, typename object, mutex_type default_value, mutex_type held_value> 
   class handle{
   public:

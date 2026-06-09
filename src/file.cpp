@@ -1,6 +1,7 @@
 #include "libs.hpp"
 #include "logging.hpp"
 #include "file.hpp"
+#include "asset-path.hpp"
 
 file::loader::loader(std::string g_path):
   path(g_path)
@@ -13,7 +14,7 @@ std::string file::loader::file_get()
 {
   logging::log log("get", "file::loader", "Reading data from file "+path);
   
-  file_stream.open(path, std::ios::in);
+  file_stream.open(file::asset_path::qualify(path), std::ios::in);
   
   if(file_stream.is_open()){
     std::string accumulate="";
@@ -35,5 +36,5 @@ std::string file::loader::file_get()
 
 std::string file::loader::path_get()
 {
-  return path;
+  return file::asset_path::qualify(path);
 }

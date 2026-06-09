@@ -12,6 +12,8 @@
 #include <math.h>
 #include <cstdlib>
 #include <cstddef>
+#include <sys/stat.h>
+#include <iterator>
 
 // OpenGL libraries
 #include "glad.h"
@@ -19,5 +21,9 @@
 
 // Image loading library
 #include "stb_image.hpp"
+
+// important
+#include "../config.h"
+#include "../path.h"
 
 #endif

@@ -2,6 +2,7 @@
 #include "flags.hpp"
 #include "logging.hpp"
 #include "options.hpp"
+#include "asset-path.hpp"
 
 flags::flag options::banner_flag={true, &blurbs::banner_setting};
 
@@ -13,6 +14,8 @@ flags::flag options::logging_flag={true, &logging::log::LOGGING};
 flags::flag options::messages_flag={true, &logging::log::MESSAGE_LOGGING};
 flags::flag options::records_flag={true, &logging::log::RECORD_LOGGING};
 flags::flag options::errors_flag={true, &logging::log::ERROR_LOGGING};
+
+flags::flag options::root_flag={true, NULL, true, &file::asset_path::GIVEN_ROOT};
 
 flags::synonym_table options::flag_synonyms=
   {
@@ -42,7 +45,8 @@ flags::flag_table options::flag_table=
     {"--log-messages", messages_flag},
     {"--log-records", records_flag},
     {"--log-errors", errors_flag},
-    {"--prefix", prefixing_flag}
+    {"--prefix", prefixing_flag},
+    {"--root", root_flag}
   };
 
 void options::parse(int argc, char** argv)

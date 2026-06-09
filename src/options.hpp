@@ -17,6 +17,8 @@ namespace options{
   extern flags::flag records_flag;
   extern flags::flag errors_flag;
 
+  extern flags::flag root_flag;
+
   extern flags::synonym_table flag_synonyms;
   extern flags::pseudo_table flag_pseudos;
 

@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.72])
-AC_INIT([wawacraft-evolved], [0.3.6], [someguyshutup5@gmail.com])
+AC_INIT([wawacraft-evolved], [0.3.7], [someguyshutup5@gmail.com])
 AC_CONFIG_SRCDIR([src/main.cpp])
 AC_CONFIG_HEADERS([config.h])
 
@@ -37,5 +37,5 @@ AC_FUNC_ERROR_AT_LINE
 AC_FUNC_MALLOC
 AC_CHECK_FUNCS([memset pow sqrt strstr strtol])
 
-AC_CONFIG_FILES([Makefile archive/Makefile archive/screenshots/Makefile shaders/Makefile textures/Makefile path.h])
+AC_CONFIG_FILES([Makefile archive/Makefile archive/screenshots/Makefile shaders/Makefile textures/Makefile path.cpp])
 AC_OUTPUT

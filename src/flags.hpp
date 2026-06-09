@@ -19,6 +19,8 @@ namespace flags{
   struct flag{
     bool accepts_data;
     settings::setting<int>* option;
+    bool verbatim=false;
+    settings::arbitrator<std::string, std::string>* arbitrary;
     
     bool shelled_manage(std::string);
   };

@@ -49,7 +49,7 @@ src/windows.hpp \
 src/glad.h \
 src/shader.hpp \
 src/shader-obj_shader.cpp \
-src/shader.cpp
-
-path.hpp: src/path.h.in config.status
-	sed -e 's:@pkgdatadir@:${pkgdatadir}:' $< > $@
+src/shader.cpp \
+src/asset-path.cpp \
+src/asset-path.hpp \
+path.cpp

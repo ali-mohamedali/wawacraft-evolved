@@ -102,7 +102,7 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES = path.h
+CONFIG_CLEAN_FILES = path.cpp
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -116,7 +116,8 @@ am_wawacraft_evolved_OBJECTS = src/wawacraft_evolved-glad.$(OBJEXT) \
 	src/manager-register.$(OBJEXT) src/node.$(OBJEXT) \
 	src/options.$(OBJEXT) src/parser.$(OBJEXT) \
 	src/reserve.$(OBJEXT) src/sieve.$(OBJEXT) src/window.$(OBJEXT) \
-	src/shader-obj_shader.$(OBJEXT) src/shader.$(OBJEXT)
+	src/shader-obj_shader.$(OBJEXT) src/shader.$(OBJEXT) \
+	src/asset-path.$(OBJEXT) path.$(OBJEXT)
 wawacraft_evolved_OBJECTS = $(am_wawacraft_evolved_OBJECTS)
 am__DEPENDENCIES_1 =
 wawacraft_evolved_DEPENDENCIES = $(am__DEPENDENCIES_1)
@@ -135,16 +136,16 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = src/$(DEPDIR)/blurbs-help-table.Po \
-	src/$(DEPDIR)/blurbs.Po src/$(DEPDIR)/events.Po \
-	src/$(DEPDIR)/file.Po src/$(DEPDIR)/flag.Po \
-	src/$(DEPDIR)/gl-handle.Po src/$(DEPDIR)/logging.Po \
-	src/$(DEPDIR)/main.Po src/$(DEPDIR)/manager-register.Po \
-	src/$(DEPDIR)/manager.Po src/$(DEPDIR)/node.Po \
-	src/$(DEPDIR)/options.Po src/$(DEPDIR)/parser.Po \
-	src/$(DEPDIR)/reserve.Po src/$(DEPDIR)/shader-obj_shader.Po \
-	src/$(DEPDIR)/shader.Po src/$(DEPDIR)/sieve.Po \
-	src/$(DEPDIR)/stb_image.Po \
+am__depfiles_remade = ./$(DEPDIR)/path.Po src/$(DEPDIR)/asset-path.Po \
+	src/$(DEPDIR)/blurbs-help-table.Po src/$(DEPDIR)/blurbs.Po \
+	src/$(DEPDIR)/events.Po src/$(DEPDIR)/file.Po \
+	src/$(DEPDIR)/flag.Po src/$(DEPDIR)/gl-handle.Po \
+	src/$(DEPDIR)/logging.Po src/$(DEPDIR)/main.Po \
+	src/$(DEPDIR)/manager-register.Po src/$(DEPDIR)/manager.Po \
+	src/$(DEPDIR)/node.Po src/$(DEPDIR)/options.Po \
+	src/$(DEPDIR)/parser.Po src/$(DEPDIR)/reserve.Po \
+	src/$(DEPDIR)/shader-obj_shader.Po src/$(DEPDIR)/shader.Po \
+	src/$(DEPDIR)/sieve.Po src/$(DEPDIR)/stb_image.Po \
 	src/$(DEPDIR)/wawacraft_evolved-glad.Po \
 	src/$(DEPDIR)/window.Po src/$(DEPDIR)/windows-reserve.Po
 am__mv = mv -f
@@ -220,7 +221,7 @@ am__define_uniq_tagged_files = \
   done | $(am__uniquify_input)`
 DIST_SUBDIRS = $(SUBDIRS)
 am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/config.h.in \
-	$(srcdir)/path.h.in AUTHORS COPYING ChangeLog INSTALL NEWS \
+	$(srcdir)/path.cpp.in AUTHORS COPYING ChangeLog INSTALL NEWS \
 	README compile config.guess config.sub depcomp install-sh \
 	missing
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -423,7 +424,10 @@ src/windows.hpp \
 src/glad.h \
 src/shader.hpp \
 src/shader-obj_shader.cpp \
-src/shader.cpp
+src/shader.cpp \
+src/asset-path.cpp \
+src/asset-path.hpp \
+path.cpp
 
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
@@ -478,7 +482,7 @@ $(srcdir)/config.h.in:  $(am__configure_deps)
 
 distclean-hdr:
 	-rm -f config.h stamp-h1
-path.h: $(top_builddir)/config.status $(srcdir)/path.h.in
+path.cpp: $(top_builddir)/config.status $(srcdir)/path.cpp.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
@@ -565,6 +569,8 @@ src/shader-obj_shader.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/shader.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
+src/asset-path.$(OBJEXT): src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
 
 wawacraft-evolved$(EXEEXT): $(wawacraft_evolved_OBJECTS) $(wawacraft_evolved_DEPENDENCIES) $(EXTRA_wawacraft_evolved_DEPENDENCIES) 
 	@rm -f wawacraft-evolved$(EXEEXT)
@@ -577,6 +583,8 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/path.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/asset-path.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/blurbs-help-table.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/blurbs.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/events.Po@am__quote@ # am--include-marker
@@ -999,6 +1007,8 @@ clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
+	-rm -f ./$(DEPDIR)/path.Po
+	-rm -f src/$(DEPDIR)/asset-path.Po
 	-rm -f src/$(DEPDIR)/blurbs-help-table.Po
 	-rm -f src/$(DEPDIR)/blurbs.Po
 	-rm -f src/$(DEPDIR)/events.Po
@@ -1067,6 +1077,8 @@ installcheck-am:
 maintainer-clean: maintainer-clean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
+	-rm -f ./$(DEPDIR)/path.Po
+	-rm -f src/$(DEPDIR)/asset-path.Po
 	-rm -f src/$(DEPDIR)/blurbs-help-table.Po
 	-rm -f src/$(DEPDIR)/blurbs.Po
 	-rm -f src/$(DEPDIR)/events.Po
@@ -1127,9 +1139,6 @@ uninstall-am: uninstall-binPROGRAMS
 
 .PRECIOUS: Makefile
 
-
-path.hpp: src/path.h.in config.status
-	sed -e 's:@pkgdatadir@:${pkgdatadir}:' $< > $@
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

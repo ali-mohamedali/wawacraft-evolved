@@ -3,13 +3,5 @@
 
 #include <string>
 
-std::string
-ROOT_INSTALL_PATH()
-{
-    static std::string path="${prefix}/share/wawacraft-evolved";
-    path.replace(path.begin(), path.begin()+9, "/usr/local");
-
-    return path;
-}
-
+std::string root_install_path();
 #endif

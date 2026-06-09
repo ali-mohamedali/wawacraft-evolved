@@ -1,7 +1,7 @@
 #include "libs.hpp"
 #include "blurbs.hpp"
 
-const int blurbs::help_table_size=10;
+const int blurbs::help_table_size=11;
 
 blurbs::help_string blurbs::help_table[blurbs::help_table_size]=
   {
@@ -24,5 +24,7 @@ blurbs::help_string blurbs::help_table[blurbs::help_table_size]=
     {"--quiet,-q",
      "Show no output through stdout, stderr at all.  Dangerous!"},
     {"--debug,-d",
-     "Show all messages, errors, diagnostics, using maximal prefixing."}
+     "Show all messages, errors, diagnostics, using maximal prefixing."},
+    {"--root [...]",
+     "Load all game assets from a given path, relative or absolute."}
   };
