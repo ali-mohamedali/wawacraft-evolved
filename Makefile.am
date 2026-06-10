@@ -15,7 +15,7 @@ wawacraft_evolved_CFLAGS=$(GLFW_CFLAGS)
 wawacraft_evolved_LDADD=$(GLFW_LIBS) -lGL
 
 wawacraft_evolved_SOURCES=src/glad.c \
-src/stb_image.cpp \
+src/stb_image.c \
 src/main.cpp \
 src/blurbs.cpp \
 src/events.cpp \
@@ -44,7 +44,7 @@ src/logging.hpp \
 src/management.hpp \
 src/options.hpp \
 src/settings.hpp \
-src/stb_image.hpp \
+src/stb_image.h \
 src/windows.hpp \
 src/glad.h \
 src/shader.hpp \
@@ -52,4 +52,7 @@ src/shader-obj_shader.cpp \
 src/shader.cpp \
 src/asset-path.cpp \
 src/asset-path.hpp \
+src/image-loader.cpp \
+src/texture.hpp \
+src/texture.cpp \
 path.cpp

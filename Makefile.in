@@ -108,7 +108,7 @@ am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am__dirstamp = $(am__leading_dot)dirstamp
 am_wawacraft_evolved_OBJECTS = src/wawacraft_evolved-glad.$(OBJEXT) \
-	src/stb_image.$(OBJEXT) src/main.$(OBJEXT) \
+	src/wawacraft_evolved-stb_image.$(OBJEXT) src/main.$(OBJEXT) \
 	src/blurbs.$(OBJEXT) src/events.$(OBJEXT) \
 	src/windows-reserve.$(OBJEXT) src/blurbs-help-table.$(OBJEXT) \
 	src/file.$(OBJEXT) src/flag.$(OBJEXT) src/gl-handle.$(OBJEXT) \
@@ -117,7 +117,8 @@ am_wawacraft_evolved_OBJECTS = src/wawacraft_evolved-glad.$(OBJEXT) \
 	src/options.$(OBJEXT) src/parser.$(OBJEXT) \
 	src/reserve.$(OBJEXT) src/sieve.$(OBJEXT) src/window.$(OBJEXT) \
 	src/shader-obj_shader.$(OBJEXT) src/shader.$(OBJEXT) \
-	src/asset-path.$(OBJEXT) path.$(OBJEXT)
+	src/asset-path.$(OBJEXT) src/image-loader.$(OBJEXT) \
+	src/texture.$(OBJEXT) path.$(OBJEXT)
 wawacraft_evolved_OBJECTS = $(am_wawacraft_evolved_OBJECTS)
 am__DEPENDENCIES_1 =
 wawacraft_evolved_DEPENDENCIES = $(am__DEPENDENCIES_1)
@@ -140,13 +141,15 @@ am__depfiles_remade = ./$(DEPDIR)/path.Po src/$(DEPDIR)/asset-path.Po \
 	src/$(DEPDIR)/blurbs-help-table.Po src/$(DEPDIR)/blurbs.Po \
 	src/$(DEPDIR)/events.Po src/$(DEPDIR)/file.Po \
 	src/$(DEPDIR)/flag.Po src/$(DEPDIR)/gl-handle.Po \
-	src/$(DEPDIR)/logging.Po src/$(DEPDIR)/main.Po \
-	src/$(DEPDIR)/manager-register.Po src/$(DEPDIR)/manager.Po \
-	src/$(DEPDIR)/node.Po src/$(DEPDIR)/options.Po \
-	src/$(DEPDIR)/parser.Po src/$(DEPDIR)/reserve.Po \
-	src/$(DEPDIR)/shader-obj_shader.Po src/$(DEPDIR)/shader.Po \
-	src/$(DEPDIR)/sieve.Po src/$(DEPDIR)/stb_image.Po \
+	src/$(DEPDIR)/image-loader.Po src/$(DEPDIR)/logging.Po \
+	src/$(DEPDIR)/main.Po src/$(DEPDIR)/manager-register.Po \
+	src/$(DEPDIR)/manager.Po src/$(DEPDIR)/node.Po \
+	src/$(DEPDIR)/options.Po src/$(DEPDIR)/parser.Po \
+	src/$(DEPDIR)/reserve.Po src/$(DEPDIR)/shader-obj_shader.Po \
+	src/$(DEPDIR)/shader.Po src/$(DEPDIR)/sieve.Po \
+	src/$(DEPDIR)/texture.Po \
 	src/$(DEPDIR)/wawacraft_evolved-glad.Po \
+	src/$(DEPDIR)/wawacraft_evolved-stb_image.Po \
 	src/$(DEPDIR)/window.Po src/$(DEPDIR)/windows-reserve.Po
 am__mv = mv -f
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -222,7 +225,7 @@ am__define_uniq_tagged_files = \
 DIST_SUBDIRS = $(SUBDIRS)
 am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/config.h.in \
 	$(srcdir)/path.cpp.in AUTHORS COPYING ChangeLog INSTALL NEWS \
-	README compile config.guess config.sub depcomp install-sh \
+	README TODO compile config.guess config.sub depcomp install-sh \
 	missing
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
@@ -390,7 +393,7 @@ wawacraft_evolveddir = ${datadir}/${PACKAGE}
 wawacraft_evolved_CFLAGS = $(GLFW_CFLAGS)
 wawacraft_evolved_LDADD = $(GLFW_LIBS) -lGL
 wawacraft_evolved_SOURCES = src/glad.c \
-src/stb_image.cpp \
+src/stb_image.c \
 src/main.cpp \
 src/blurbs.cpp \
 src/events.cpp \
@@ -419,7 +422,7 @@ src/logging.hpp \
 src/management.hpp \
 src/options.hpp \
 src/settings.hpp \
-src/stb_image.hpp \
+src/stb_image.h \
 src/windows.hpp \
 src/glad.h \
 src/shader.hpp \
@@ -427,6 +430,9 @@ src/shader-obj_shader.cpp \
 src/shader.cpp \
 src/asset-path.cpp \
 src/asset-path.hpp \
+src/image-loader.cpp \
+src/texture.hpp \
+src/texture.cpp \
 path.cpp
 
 all: config.h
@@ -534,7 +540,7 @@ src/$(DEPDIR)/$(am__dirstamp):
 	@: >>src/$(DEPDIR)/$(am__dirstamp)
 src/wawacraft_evolved-glad.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
-src/stb_image.$(OBJEXT): src/$(am__dirstamp) \
+src/wawacraft_evolved-stb_image.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/main.$(OBJEXT): src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
 src/blurbs.$(OBJEXT): src/$(am__dirstamp) \
@@ -571,6 +577,10 @@ src/shader.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/asset-path.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
+src/image-loader.$(OBJEXT): src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/texture.$(OBJEXT): src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
 
 wawacraft-evolved$(EXEEXT): $(wawacraft_evolved_OBJECTS) $(wawacraft_evolved_DEPENDENCIES) $(EXTRA_wawacraft_evolved_DEPENDENCIES) 
 	@rm -f wawacraft-evolved$(EXEEXT)
@@ -591,6 +601,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/file.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/flag.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/gl-handle.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/image-loader.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/logging.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/main.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/manager-register.Po@am__quote@ # am--include-marker
@@ -602,8 +613,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/shader-obj_shader.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/shader.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/sieve.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/stb_image.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/texture.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/wawacraft_evolved-glad.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/wawacraft_evolved-stb_image.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/window.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/windows-reserve.Po@am__quote@ # am--include-marker
 
@@ -642,6 +654,20 @@ src/wawacraft_evolved-glad.obj: src/glad.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/glad.c' object='src/wawacraft_evolved-glad.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wawacraft_evolved_CFLAGS) $(CFLAGS) -c -o src/wawacraft_evolved-glad.obj `if test -f 'src/glad.c'; then $(CYGPATH_W) 'src/glad.c'; else $(CYGPATH_W) '$(srcdir)/src/glad.c'; fi`
+
+src/wawacraft_evolved-stb_image.o: src/stb_image.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wawacraft_evolved_CFLAGS) $(CFLAGS) -MT src/wawacraft_evolved-stb_image.o -MD -MP -MF src/$(DEPDIR)/wawacraft_evolved-stb_image.Tpo -c -o src/wawacraft_evolved-stb_image.o `test -f 'src/stb_image.c' || echo '$(srcdir)/'`src/stb_image.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/wawacraft_evolved-stb_image.Tpo src/$(DEPDIR)/wawacraft_evolved-stb_image.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/stb_image.c' object='src/wawacraft_evolved-stb_image.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wawacraft_evolved_CFLAGS) $(CFLAGS) -c -o src/wawacraft_evolved-stb_image.o `test -f 'src/stb_image.c' || echo '$(srcdir)/'`src/stb_image.c
+
+src/wawacraft_evolved-stb_image.obj: src/stb_image.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wawacraft_evolved_CFLAGS) $(CFLAGS) -MT src/wawacraft_evolved-stb_image.obj -MD -MP -MF src/$(DEPDIR)/wawacraft_evolved-stb_image.Tpo -c -o src/wawacraft_evolved-stb_image.obj `if test -f 'src/stb_image.c'; then $(CYGPATH_W) 'src/stb_image.c'; else $(CYGPATH_W) '$(srcdir)/src/stb_image.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/wawacraft_evolved-stb_image.Tpo src/$(DEPDIR)/wawacraft_evolved-stb_image.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/stb_image.c' object='src/wawacraft_evolved-stb_image.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(wawacraft_evolved_CFLAGS) $(CFLAGS) -c -o src/wawacraft_evolved-stb_image.obj `if test -f 'src/stb_image.c'; then $(CYGPATH_W) 'src/stb_image.c'; else $(CYGPATH_W) '$(srcdir)/src/stb_image.c'; fi`
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -1015,6 +1041,7 @@ distclean: distclean-recursive
 	-rm -f src/$(DEPDIR)/file.Po
 	-rm -f src/$(DEPDIR)/flag.Po
 	-rm -f src/$(DEPDIR)/gl-handle.Po
+	-rm -f src/$(DEPDIR)/image-loader.Po
 	-rm -f src/$(DEPDIR)/logging.Po
 	-rm -f src/$(DEPDIR)/main.Po
 	-rm -f src/$(DEPDIR)/manager-register.Po
@@ -1026,8 +1053,9 @@ distclean: distclean-recursive
 	-rm -f src/$(DEPDIR)/shader-obj_shader.Po
 	-rm -f src/$(DEPDIR)/shader.Po
 	-rm -f src/$(DEPDIR)/sieve.Po
-	-rm -f src/$(DEPDIR)/stb_image.Po
+	-rm -f src/$(DEPDIR)/texture.Po
 	-rm -f src/$(DEPDIR)/wawacraft_evolved-glad.Po
+	-rm -f src/$(DEPDIR)/wawacraft_evolved-stb_image.Po
 	-rm -f src/$(DEPDIR)/window.Po
 	-rm -f src/$(DEPDIR)/windows-reserve.Po
 	-rm -f Makefile
@@ -1085,6 +1113,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/$(DEPDIR)/file.Po
 	-rm -f src/$(DEPDIR)/flag.Po
 	-rm -f src/$(DEPDIR)/gl-handle.Po
+	-rm -f src/$(DEPDIR)/image-loader.Po
 	-rm -f src/$(DEPDIR)/logging.Po
 	-rm -f src/$(DEPDIR)/main.Po
 	-rm -f src/$(DEPDIR)/manager-register.Po
@@ -1096,8 +1125,9 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/$(DEPDIR)/shader-obj_shader.Po
 	-rm -f src/$(DEPDIR)/shader.Po
 	-rm -f src/$(DEPDIR)/sieve.Po
-	-rm -f src/$(DEPDIR)/stb_image.Po
+	-rm -f src/$(DEPDIR)/texture.Po
 	-rm -f src/$(DEPDIR)/wawacraft_evolved-glad.Po
+	-rm -f src/$(DEPDIR)/wawacraft_evolved-stb_image.Po
 	-rm -f src/$(DEPDIR)/window.Po
 	-rm -f src/$(DEPDIR)/windows-reserve.Po
 	-rm -f Makefile

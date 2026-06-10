@@ -33,8 +33,6 @@ void graphics::obj_shader::create_shader()
     break;
   }
 
-  pen.record(csrc);
-
   glShaderSource(id, 1, &csrc, NULL);
   glCompileShader(id);
 

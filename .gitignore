@@ -22,4 +22,5 @@ src/.dirstamp
 stamp-h1
 # these are somehow banned
 Makefile
+configure
 */Makefile

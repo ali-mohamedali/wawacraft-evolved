@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.72])
-AC_INIT([wawacraft-evolved], [0.3.7], [someguyshutup5@gmail.com])
+AC_INIT([wawacraft-evolved], [0.3.8], [someguyshutup5@gmail.com])
 AC_CONFIG_SRCDIR([src/main.cpp])
 AC_CONFIG_HEADERS([config.h])
 

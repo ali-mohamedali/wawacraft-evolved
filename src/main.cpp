@@ -8,12 +8,15 @@
 #include "blurbs.hpp"
 #include "file.hpp"
 #include "shader.hpp"
+#include "asset-path.hpp"
+#include "texture.hpp"
 #include "../config.h"
 
 class test_node: public windows::node{
 public:
   test_node(const windows::window& g_window):
-    node(g_window)
+    node(g_window),
+    shawafile("textures/wawa.png")
   {
     init();
   }
@@ -23,6 +26,7 @@ public:
     delete vertex;
     delete fragment;
     delete shawader;
+    delete shawatex;
   }
   
   void window_update()
@@ -33,9 +37,10 @@ public:
       local_handle.clear();
       glClear(GL_COLOR_BUFFER_BIT);
 
+      glBindTexture(GL_TEXTURE_2D, shawatex->get());
       glUseProgram(shawader->get());
       glBindVertexArray(shawa_vao);
-      glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+      glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
       local_handle.drop();
     }
@@ -46,6 +51,7 @@ public:
     graphics::gl_handle local_handle=render_handle_get();
     
     if(local_handle.hold()==graphics::gl_handle::SUCCESS){
+      shawatex=new graphics::texture(&shawafile);
       vertex=new graphics::obj_shader("shaders/vertex-default.glsl", graphics::obj_shader_type::VERTEX);
       fragment=new graphics::obj_shader("shaders/fragment-default.glsl", graphics::obj_shader_type::FRAGMENT);
       shawader=new graphics::shader(vertex, fragment);
@@ -63,23 +69,28 @@ public:
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, shawa_ebo);
       glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(shawa_i), shawa_i, GL_STATIC_DRAW);
       
-      glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), (void*)0);
+      glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5*sizeof(float), (void*)0);
       glEnableVertexAttribArray(0);
+
+      glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5*sizeof(float), (void*)(3*sizeof(float)));
+      glEnableVertexAttribArray(1);
       glBindVertexArray(0);
       
       local_handle.drop();
     }
   }
 private:
-  float shawa_vert[9]=
+  float shawa_vert[25]=
     {
-      -0.5, -0.5, 0,
-      0.5, -0.5, 0,
-      0, 0.5, 0
+      -1, -1, 0, 0, 0,
+      -1, 1, 0, 0, 1,
+      1, 1, 0, 1, 1,
+      1, -1, 0, 1, 0,
+      0, 1, 0, 0.5, 1
     };
 
-  unsigned int shawa_i[3]=
-    {0, 1, 2};
+  unsigned int shawa_i[6]=
+    {0, 1, 2, 0, 2, 3};
       
   graphics::gl_handle local_handle=render_handle_get();
 
@@ -87,9 +98,12 @@ private:
   unsigned int shawa_vao;
   unsigned int shawa_ebo;
 
+  file::image_loader shawafile;
+  
   graphics::obj_shader* vertex;
   graphics::obj_shader* fragment;
   graphics::shader* shawader;
+  graphics::texture* shawatex;
 };
 
 int main(int argc, char** argv)
@@ -100,10 +114,8 @@ int main(int argc, char** argv)
   windows::manager manager;
 
   test_node* my_win=new test_node(windows::window(640, 480, "Wawacraft:Evolved!"));
-  test_node* copy=new test_node(windows::window(400, 400, "copy of first window"));
 
   manager.nodes_add(my_win);
-  manager.nodes_add(copy);
   
   while(manager.nodes_present()){
     manager.cycle();

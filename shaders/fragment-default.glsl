@@ -1,7 +1,11 @@
 #version 330 core
+in vec2 gtexcoord;
+
 out vec4 fColor;
+
+uniform sampler2D gtexture;
 
 void main()
 {
-  fColor=vec4(0.7,0.7,0.5,1);
+  fColor=texture(gtexture, gtexcoord);
 }

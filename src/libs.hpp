@@ -20,7 +20,7 @@
 #include <GLFW/glfw3.h>
 
 // Image loading library
-#include "stb_image.hpp"
+#include "stb_image.h"
 
 // important
 #include "../config.h"

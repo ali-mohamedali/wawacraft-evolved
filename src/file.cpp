@@ -3,8 +3,14 @@
 #include "file.hpp"
 #include "asset-path.hpp"
 
-file::loader::loader(std::string g_path):
+file::generic_loader::generic_loader(std::string g_path):
   path(g_path)
+{
+  
+}
+
+file::loader::loader(std::string g_path):
+  generic_loader(g_path)
 {
   logging::log log("loader", "file::loader", "File loader created for file "+path);
   
@@ -34,7 +40,7 @@ std::string file::loader::file_get()
   return file::NOTHING_READ;
 }
 
-std::string file::loader::path_get()
+std::string file::generic_loader::path_get()
 {
   return file::asset_path::qualify(path);
 }
