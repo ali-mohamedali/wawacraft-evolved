@@ -4,6 +4,16 @@
 const float math::pi=3.141592653589;
 const float math::deg2rad=pi/180;
 
+math::matrix<float, 4, 4> math::matrix_identity()
+{
+  float mid[]=
+    {1, 0, 0, 0,
+     0, 1, 0, 0,
+     0, 0, 1, 0,
+     0, 0, 0, 1};
+  return math::matrix<float, 4, 4>(mid);
+}
+
 math::matrix<float, 4, 4> math::matrix_model(math::vector<float, 3> translation, math::quat<float> rotation, float gscale)
 {
   float mscale[]=

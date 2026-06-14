@@ -63,5 +63,10 @@ src/projection.hpp \
 src/projection.cpp \
 src/camera.hpp \
 src/camera.cpp \
+src/time.hpp \
+src/time.cpp \
+src/mesh.hpp \
+src/mesh.cpp \
+src/mesh-textured_mesh.cpp \
 path.h \
 path.cpp

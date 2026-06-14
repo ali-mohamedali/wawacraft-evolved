@@ -12,6 +12,8 @@
 #include "texture.hpp"
 #include "projection.hpp"
 #include "camera.hpp"
+#include "time.hpp"
+#include "mesh.hpp"
 #include "../config.h"
 
 float inc=0;
@@ -20,7 +22,8 @@ class test_node: public windows::node{
 public:
   test_node(const windows::window& g_window):
     node(g_window),
-    shawafile("textures/wawa.png")
+    shawafile("textures/wawa.png"),
+    cam(math::vector<float, 3>({0, 0, 0}), math::quat<float>(cos(0), 0, 0, sin(0)), 50, 1, 800)
   {
     init();
   }
@@ -30,7 +33,7 @@ public:
     delete vertex;
     delete fragment;
     delete shawader;
-    delete shawatex;
+    delete shawa;
   }
 
   void quickly()
@@ -50,29 +53,29 @@ public:
     events::keyboard::event right=superior_get()->node_key_get(this, events::keyboard::KB_KEY_RIGHT);
 
     if(w.state==events::keyboard::KB_KEY_PRESSED){
-      p=p+cam.forward_get()*(speed*glfwGetTime());
+      p=p+cam.forward_get()*(speed*wtime::now());
     }
     if(a.state==events::keyboard::KB_KEY_PRESSED){
-      p=p-cam.left_get()*(speed*glfwGetTime());
+      p=p-cam.left_get()*(speed*wtime::now());
     }
     if(s.state==events::keyboard::KB_KEY_PRESSED){
-      p=p-cam.forward_get()*(speed*glfwGetTime());
+      p=p-cam.forward_get()*(speed*wtime::now());
     }
     if(d.state==events::keyboard::KB_KEY_PRESSED){
-      p=p+cam.left_get()*(speed*glfwGetTime());
+      p=p+cam.left_get()*(speed*wtime::now());
     }
 
     if(up.state==events::keyboard::KB_KEY_PRESSED){
-      cam.rotate(0, 5*(speed*glfwGetTime()), 0);
+      cam.rotate(0, 5*(speed*wtime::now()), 0);
     }
     if(down.state==events::keyboard::KB_KEY_PRESSED){
-      cam.rotate(0, -5*(speed*glfwGetTime()), 0);
+      cam.rotate(0, -5*(speed*wtime::now()), 0);
     }
     if(left.state==events::keyboard::KB_KEY_PRESSED){
-      cam.rotate(0, 0, 5*(speed*glfwGetTime()));
+      cam.rotate(0, 0, 5*(speed*wtime::now()));
     }
     if(right.state==events::keyboard::KB_KEY_PRESSED){
-      cam.rotate(0, 0, -5*(speed*glfwGetTime()));
+      cam.rotate(0, 0, -5*(speed*wtime::now()));
     }
 
     cam.position_set(p);
@@ -80,36 +83,54 @@ public:
   
   void window_respond(events::keyboard::event given)
   {
+    quickly();
+  }
+
+  void duplicate(math::vector<float, 3> offset, unsigned int depth)
+  {
+    math::vector<float, 3> left({2*depth, 2*depth, 2});
+    math::vector<float, 3> right({-2*(signed int)depth, 2*depth, 2});
     
+    math::quat<float> rotation(cos(inc*math::deg2rad), 0, sin(inc*math::deg2rad), 0);
+    
+    shawa->model_set(math::matrix_model(offset, rotation, 1));
+    shawa->render();
+
+    if(depth!=0){
+      duplicate(offset+left, depth-1);
+      duplicate(offset+right, depth-1);
+    }
   }
   
   void window_update()
   {
     logging::log pen("window_update", "test_node", false);
 
-    inc+=25*glfwGetTime();
-    
+    inc+=25*wtime::now();
+
     quickly();
-    glfwSetTime(0);
+    wtime::reset();
+
+    math::vector<float, 3> offset({0, 0, 4});
+    math::vector<float, 3> left({2, 2, 0});
+    math::vector<float, 3> right({-2, 2, 0});
     
-    math::matrix<float, 4, 4> model=math::matrix_model(math::vector<float, 3>({0, 0, 4}), math::quat<float>(cos(inc*math::deg2rad), 0, sin(inc*math::deg2rad), 0), 1);
-    math::matrix<float, 4, 4> view=cam.view();
-    math::matrix<float, 4, 4> projection=cam.projection(window_get()->get_width()/(float)window_get()->get_height());
+    math::quat<float> rotation(cos(inc*math::deg2rad), 0, sin(inc*math::deg2rad), 0);
+    math::matrix<float, 4, 4> model=math::matrix_model(offset, rotation, 1);
+
+    shawa->model_set(model);
     
     if(local_handle.hold()==graphics::gl_handle::SUCCESS){
       local_handle.clear();
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-      glBindTexture(GL_TEXTURE_2D, shawatex->get());
-      glUseProgram(shawader->get());
-
-      glUniformMatrix4fv(glGetUniformLocation(shawader->get(), "model"), 1, GL_FALSE, model.address());
-      glUniformMatrix4fv(glGetUniformLocation(shawader->get(), "view"), 1, GL_FALSE, view.address());
-      glUniformMatrix4fv(glGetUniformLocation(shawader->get(), "projection"), 1, GL_FALSE, projection.address());
       
-      glBindVertexArray(shawa_vao);
-      glDrawElements(GL_TRIANGLES, 30, GL_UNSIGNED_INT, 0);
+      glUseProgram(shawader->get());
+      
+      glUniformMatrix4fv(glGetUniformLocation(shawader->get(), "view"), 1, GL_FALSE, cam.view_get()->address());
+      glUniformMatrix4fv(glGetUniformLocation(shawader->get(), "projection"), 1, GL_FALSE, cam.projection_get(window_get()->get_width()/(float)window_get()->get_height())->address());
 
+      duplicate(offset, 10);
+      
       local_handle.drop();
     }
   }
@@ -119,37 +140,19 @@ public:
     graphics::gl_handle local_handle=render_handle_get();
     
     if(local_handle.hold()==graphics::gl_handle::SUCCESS){
-      shawatex=new graphics::texture(&shawafile);
       vertex=new graphics::obj_shader("shaders/vertex-3d.glsl", graphics::obj_shader_type::VERTEX);
       fragment=new graphics::obj_shader("shaders/fragment-default.glsl", graphics::obj_shader_type::FRAGMENT);
       shawader=new graphics::shader(vertex, fragment);
-
+      shawa=new graphics::textured_mesh(math::matrix_model(math::vector<float, 3>({0, 0, 2}), math::quat<float>(1, 0, 0, 0), 1), shawa_vert, shawa_i, &shawafile);
+      
       glClearColor(0.5, 0.5, 0.7, 1);
       glEnable(GL_DEPTH_TEST);
-
-      glGenVertexArrays(1, &shawa_vao);
-      glBindVertexArray(shawa_vao);
-
-      glGenBuffers(1, &shawa_vbo);
-      glBindBuffer(GL_ARRAY_BUFFER, shawa_vbo);
-      glBufferData(GL_ARRAY_BUFFER, sizeof(shawa_vert), shawa_vert, GL_STATIC_DRAW);
-
-      glGenBuffers(1, &shawa_ebo);
-      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, shawa_ebo);
-      glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(shawa_i), shawa_i, GL_STATIC_DRAW);
-      
-      glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5*sizeof(float), (void*)0);
-      glEnableVertexAttribArray(0);
-
-      glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5*sizeof(float), (void*)(3*sizeof(float)));
-      glEnableVertexAttribArray(1);
-      glBindVertexArray(0);
       
       local_handle.drop();
     }
   }
 private:
-  float shawa_vert[100]=
+  std::vector<float> shawa_vert=
     {
       -1, -1, -1, 0, 0,
       0, 1, 0, 0.5, 1,
@@ -173,12 +176,14 @@ private:
       1, -1, -1, 1, 0
     };
 
-  unsigned int shawa_i[30]=
-    {0, 1, 2, 0, 2, 3,
-     4, 5, 6, 4, 6, 7,
-     8, 9, 10, 8, 10, 11,
-     12, 13, 14, 12, 14, 15,
-     16, 17, 18, 19, 17, 18};
+  std::vector<unsigned int> shawa_i=
+    {
+      0, 1, 2, 0, 2, 3,
+      4, 5, 6, 4, 6, 7,
+      8, 9, 10, 8, 10, 11,
+      12, 13, 14, 12, 14, 15,
+      16, 17, 18, 19, 17, 18
+    };
       
   graphics::gl_handle local_handle=render_handle_get();
 
@@ -188,12 +193,13 @@ private:
 
   file::image_loader shawafile;
 
+  graphics::textured_mesh* shawa;
+
   graphics::camera cam;
   
   graphics::obj_shader* vertex;
   graphics::obj_shader* fragment;
   graphics::shader* shawader;
-  graphics::texture* shawatex;
 };
 
 int main(int argc, char** argv)

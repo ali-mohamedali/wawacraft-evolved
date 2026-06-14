@@ -10,7 +10,7 @@ namespace graphics{
   class camera{
   public:
     camera();
-    camera(math::vector<float, 3>, math::vector<float, 3>, float, float, float);
+    camera(math::vector<float, 3>, math::quat<float>, float, float, float);
 
     void orientation_set(math::vector<float, 3>);
     void position_set(math::vector<float, 3>);
@@ -22,8 +22,8 @@ namespace graphics{
     void near_set(float);
     void far_set(float);
 
-    math::matrix<float, 4, 4> view();
-    math::matrix<float, 4, 4> projection(float);
+    math::matrix<float, 4, 4>* view_get();
+    math::matrix<float, 4, 4>* projection_get(float);
     
     math::vector<float, 3> position_get();
     math::vector<float, 3> forward_get();
@@ -36,7 +36,12 @@ namespace graphics{
     float far_get();
     
   private:
+    void view_calculate();
+    
     math::quat<float> orientation;
+
+    math::matrix<float, 4, 4> view;
+    math::matrix<float, 4, 4> projection;
     
     math::vector<float, 3> position;
 

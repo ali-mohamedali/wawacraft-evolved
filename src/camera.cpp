@@ -14,12 +14,12 @@ graphics::camera::camera():
   
 }
 
-graphics::camera::camera(math::vector<float, 3> g_position, math::vector<float, 3> g_orientation, float g_fov, float g_near, float g_far):
+graphics::camera::camera(math::vector<float, 3> g_position, math::quat<float> g_orientation, float g_fov, float g_near, float g_far):
   fov(g_fov),
   near(g_near),
   far(g_far),
   position(g_position),
-  orientation(0, g_orientation[0], g_orientation[1], g_orientation[2])
+  orientation(g_orientation)
 {
   
 }
@@ -27,11 +27,13 @@ graphics::camera::camera(math::vector<float, 3> g_position, math::vector<float, 
 void graphics::camera::orientation_set(math::vector<float, 3> g_orientation)
 {
   orientation=math::quat<float>(0, g_orientation[0], g_orientation[1], g_orientation[2]);
+  view_calculate();
 }
 
 void graphics::camera::position_set(math::vector<float, 3> g_position)
 {
   position=g_position;
+  view_calculate();
 }
 
 void graphics::camera::rotate(float g_roll, float g_pitch, float g_yaw)
@@ -51,6 +53,7 @@ void graphics::camera::rotate(float g_roll, float g_pitch, float g_yaw)
   math::quat<float> comp=qpitch*qyaw;
 
   orientation=comp;
+  view_calculate();
 }
 
 void graphics::camera::fov_set(float g_fov)
@@ -68,8 +71,14 @@ void graphics::camera::far_set(float g_far)
   far=g_far;
 }
 
-math::matrix<float, 4, 4> graphics::camera::view()
+math::matrix<float, 4, 4>* graphics::camera::view_get()
 {
+  return &view;
+}
+
+void graphics::camera::view_calculate()
+{
+  
   float mtrans[]=
     {
       1, 0, 0, -position[0],
@@ -77,12 +86,14 @@ math::matrix<float, 4, 4> graphics::camera::view()
       0, 0, 1, -position[2],
       0, 0, 0, 1
     };
-  return math::quat<float>::rotation_matrix(orientation)*math::matrix<float, 4, 4>(mtrans);
+  view=math::quat<float>::rotation_matrix(orientation)*math::matrix<float, 4, 4>(mtrans);
 }
 
-math::matrix<float, 4, 4> graphics::camera::projection(float aspect)
+math::matrix<float, 4, 4>* graphics::camera::projection_get(float aspect)
 {
-  return math::matrix_projection(near, far, fov, aspect);
+  projection=math::matrix_projection(near, far, fov, aspect);
+
+  return &projection;
 }
 
 math::vector<float, 3> graphics::camera::position_get()
