@@ -1,1 +1,1888 @@
-Nothing yet...
+commit 53d7854aba86077707c62ab222e724854d6ae5ec
+Author: Ali Mohamed Ali <someguyshutup5@gmail.com>
+Date:   Wed Jun 10 22:01:09 2026 +0300
+
+    Patch no.8 Added texture support
+    
+    Through new classes file::image_loader and graphics::texture,
+    one can load an image, put it into a texture, and use it in
+    glBindTexture calls.
+    
+    Also changed default shader sources to accept texture coordinates.
+    
+    Added textures/wawa.png and textures/eggcat.png from old game,
+    as fun and also as a way to test texture capabilities.  Resources
+    will be licensed as a CC-BY-SA...
+
+commit 3d004f6b7a3e6a344aa44dc73eb29ed6919b119d
+Author: Ali Mohamed Ali <someguyshutup5@gmail.com>
+Date:   Tue Jun 9 23:11:31 2026 +0300
+
+    Patch no.7 Added support for dynamic loading of asset folders
+    
+    Wawacraft:Evolved loads its assets from a giant folder with assets as
+    subdirectories.  For this, the feature of being able to load from different
+    places has been given.
+    
+    - Allows for loading files from multiple root paths, including local, installed
+    - Installs a default package data folder /usr/local/share/wawacraft-evolved
+    - Added an option --root that allows one to specify where to load assets from.
+    - Added a new feature to flags that allows one to arbitrarily execute based on settings,
+      previous flags were only numeric and used 'translation tables' that assigned to
+      specific settings in classes.
+
+commit 636e87907bb8a341de65f415b215069dfc013144
+Author: Ali Mohamed Ali <someguyshutup5@gmail.com>
+Date:   Tue Jun 9 01:19:54 2026 +0300
+
+    5 patches
+    
+    1. Restructured build system to install recursively our game assets, added path.h
+    2. Added support for shaders with shaders directory and class graphics::shader
+    3. Added legitimate programmatic support for help text
+    4. Fixed problem around resize callback of windows not working in context of window
+       context switching
+    5. Renamed directories for clarity (tex could have been confused for infotex docs)
+
+commit 241260054e8e092b42f3208f2005b7392e1c6923
+Author: Ali Mohamed Ali <someguyshutup5@gmail.com>
+Date:   Mon Jun 8 11:19:11 2026 +0300
+
+    Patch no.1 Added proper support for help text, reformatted filenames
+
+commit 71191e4ea661cb08ae6accd74922764435390c27
+Author: Ali Mohamed Ali <someguyshutup5@gmail.com>
+Date:   Sun Jun 7 17:00:44 2026 +0300
+
+    Rewrote Makefile.am to allow the program to land inside the root directory
+
+commit 15f08798dd1e8277d018bea7965e897abc469ea4
+Author: Ali Mohamed Ali <someguyshutup5@gmail.com>
+Date:   Sun Jun 7 14:33:12 2026 +0300
+
+    removed some things that dont go in srry
+
+commit 4dccea0d15ccbc8e7c2e0ea2d5b3013e9f0f7f3b
+Author: Ali Mohamed Ali <someguyshutup5@gmail.com>
+Date:   Sun Jun 7 13:55:13 2026 +0300
+
+    added autotools setup basic will fix later
+
+commit 2ebf760c45403e8ea17af32808ba7847e6cc682f
+Author: Ali Mohamed Ali <someguyshutup5@gmail.com>
+Date:   Wed Dec 24 16:38:56 2025 +0300
+
+    Added small file loader
+    
+    This is still undocumented but it is a working file loader.  I
+    made it load the source file.  Next on track is to write a file loading
+    parsing system to dynamically load files from a resource listing file.
+
+commit 8e1de5fa2be4c4d84d0c1ec742a89128dee41e0a
+Merge: d2a5859 124084d
+Author: Ali Mohamed Ali <someguyshutup5@gmail.com>
+Date:   Wed Dec 24 12:28:59 2025 +0300
+
+    Merge branch 'new_base' of github.com:ali-mohamedali/wawacraft-evolved into new_base
+
+commit d2a5859eba6a4940a97bf5e622594d11b1dfab1c
+Author: Ali Mohamed Ali <someguyshutup5@gmail.com>
+Date:   Wed Dec 24 12:26:17 2025 +0300
+
+    Updated logging system announcement of control flow
+    
+    So usually in the codebase, there's a pattern of classes creating a
+    log object and then calling the logging::log::record function.  I decided to
+    embed that into the constructor optionally. Now it can have a default enter
+    announcement, or you may announce your control flow with a special message,
+    or you may forego announcement altogether (such as in functions that run at
+    every iteration).
+    
+    WAWACRAFT:EVOLVED FOREVER!
+
+commit 10e646769d39553cda4eadc2219426bc4392ae7c
+Merge: 4bf940d 81cf212
+Author: Ali Mohamed Ali <someguyshutup5@gmail.com>
+Date:   Tue Dec 23 17:25:25 2025 +0300
+
+    Merge branch 'new_base' of github.com:ali-mohamedali/wawacraft-evolved into new_base
+    Just did it to specify that my real name is Ali Mohamed Ali.
+    That's all
+
+commit 124084d36b362669f8b18fe05f87aba2ce7efc87
+Merge: 4bf940d 81cf212
+Author: Ali Mohamed Ali <someguyshutup5@gmail.com>
+Date:   Tue Dec 23 17:25:25 2025 +0300
+
+    Merge branch 'new_base' of github.com:ali-mohamedali/wawacraft-evolved into new_base
+    Just did it to specify that my real name is Ali Mohamed Ali.
+    That's all
+
+commit 4bf940d74bdd218c557c9e3316ce0b93552f57e7
+Author: Ali Mohamed Ali <ali@delta>
+Date:   Fri Dec 5 10:48:01 2025 +0300
+
+    Fixed dependency on glad to be local, and made makefile run properly
+    
+    For a long enough time, the makefile system was making a bad mistake of
+    not putting LFLAGS and LPATHS ahead of the central argument, which
+    breaks ld in some cases. Now this has been fixed up.  Thanks to the
+    style of makefile, this isn't a big change.
+    
+    I made this change after switching to debian, because installing my
+    project isn't exactly the easiest on a new linux distro it seems...
+    
+    Stephen P. Hurlsmith is Ali Mohamed Ali.
+
+commit 81cf212afaa03eb8c8d6486303873203d94763ac
+Author: Ali Mohamed Ali <ali@delta>
+Date:   Fri Dec 5 10:48:01 2025 +0300
+
+    Fixed dependency on glad to be local, and made makefile run properly
+    
+    For a long enough time, the makefile system was making a bad mistake of
+    not putting LFLAGS and LPATHS ahead of the central argument, which
+    breaks ld in some cases. Now this has been fixed up.  Thanks to the
+    style of makefile, this isn't a big change.
+    
+    I made this change after switching to debian, because installing my
+    project isn't exactly the easiest on a new linux distro it seems...
+
+commit a2d67462780cb5ba80163fcd8c64aeaeb80ce3c2
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Fri Oct 31 17:58:39 2025 +0300
+
+    Stephen P. Hurlsmith is Ali Mohammed Ali
+
+commit 9e0b0b42ab7ebae9cf9035d186b1b8e474c77090
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Thu Aug 7 12:50:04 2025 +0300
+
+    Added support for keyboard events, both immediate and received through callbacks.
+    
+    Will add events of other keys like Enter and Backspace when I need to. Currently all the alphanumeric keys are registered.
+
+commit 8fe8c1efa1acbb40eaf712a01a3f5bf9501b7090
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Jul 19 14:18:19 2025 +0300
+
+    Added windows::node initialization and death callbacks :3
+    
+    Tested some out with some log messages and such.
+
+commit 8ea59fce1c7f49d04058c318f3203f8a52384e01
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Thu Jul 17 14:36:35 2025 +0300
+
+    Added minimal window-ring management system, a little testing included
+
+commit c242f8b82e82d4f319b6cce98955bf5a1836553a
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Tue Jul 15 12:05:33 2025 +0300
+
+    Added copy-constructors and assignment operators to window object class, alongside instance lifetime management.
+
+commit e64156ed4b1382772b751efd292722ef30b80ce8
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Thu Jul 10 18:36:04 2025 +0300
+
+    Minor notation fix to documentation
+
+commit 0843a582d23381dd153ec973de513667c9391716
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Thu Jul 10 10:18:05 2025 +0300
+
+    Wrote documentation and updated HTML pages, I need a script soongit status!
+
+commit c889aa17d4e9419e3ebd5487fb664ea430ab700b
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Jul 9 14:46:33 2025 +0300
+
+    Replaced member functione exposing GLFW handle to a reserved friend window.
+
+commit 7908a20aa1e148caf3a8a2df10af924a58c17031
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Jul 9 14:21:28 2025 +0300
+
+    Added gitignore line to remove indev file-link
+
+commit 7e06e8e3cb189d2d46cf68d79d4606c9f69f053a
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Jul 9 14:15:51 2025 +0300
+
+    Added graphics submodule, refurbished makefile system
+    
+    Didn't realize it but half the makefiles use the same template so I
+    imprinted it as a standard in common.mk and just used the simple
+    makefile writing system in each one.  Big time save that is.
+    Including that, I will not be adding my dev-link to
+    bin/output/wawacraft-evolved because not all users might agree with me
+    on that.
+    
+    Gotta write lots and lots of documentation, and revise existing
+    documentation. But at least I have the ability to control an OpenGL
+    context.
+    
+    I have one more thing to add, and that is to also solve the circular
+    dependency temporary solution, by moving GLFWwindow*
+    windows::window::get_window_handle into a reserved function somewhere
+    else.  Should I move all of windows::reserve namespace or just make it
+    for one file?
+
+commit 22c013b92af5ed5fe151b1691b5c12e0c6254c06
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Sun Jul 6 18:42:40 2025 +0300
+
+    Wrote documentation for class:windows::window
+    
+    I also edited the makefile, and added the functionality of a reserve
+    class to manage initialization and end of GLFW.
+
+commit 12775eac13dc553cd014e55a9c3a6c3d458adc48
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Thu Jul 3 22:47:55 2025 +0300
+
+    Created gui subdirectory, and namespace windows with basic window class
+    
+    Currently a window is up but nothing is to be done with it quite yet. :(
+    Will write documentation soon
+
+commit 547c7ec3f2a9f12e1919ebd69a5ec7e5f625f87d
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Thu Jul 3 20:57:34 2025 +0300
+
+    Updated makefile
+
+commit 3889fdb543c39d573a9f67ee527cbb0a0dbd45e3
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Thu Jul 3 20:54:12 2025 +0300
+
+    Added documentation repository and added error logging to command line parsing.
+
+commit 2b0b77722a0547bd2de8e7172ecd41de0f0ab07d
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Sun Jun 29 11:23:06 2025 +0300
+
+    Added --banner option to govern banner display
+
+commit 068c772a25623ab31a4dcf7369a35b70d0419baf
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Sun Jun 29 11:08:49 2025 +0300
+
+    Made the blurb prettier
+    
+    As one does
+
+commit 3296f462bd03b776f6b6bb90e2f57505646c8abb
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Sun Jun 29 10:54:08 2025 +0300
+
+    Added a pseudo-flags system for specifying vague flags
+    
+    This commit adds pseudo_table which allows you to specify 'flags'
+    which can be replaced by an entirely different sequence,
+    i.e. influencing the name.  Such a system can allow you to specify
+    flags that can span many behaviour settings that would be too tedious
+    to type out each time.  This also completes the pipeline of
+    command-line option parsing!
+
+commit 12300b8209d7fbc045839ea49fd06e1f37565763
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Jun 28 23:58:51 2025 +0300
+
+    Shortened flags::parser::parse with a method and probably made a robust-enough base parser of options
+
+commit b8a049694a7055f42019a2288e87b9d93a564488
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Jun 28 22:50:36 2025 +0300
+
+    Added prefixing option
+
+commit 3960e422240f2024b140a337121efdb9458542be
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Jun 28 22:34:21 2025 +0300
+
+    Debugged logging::log, added its corresponding options and debugged the control flow to settings and flags::parser::parse for data-taking options
+
+commit 3347dd9690cabdc148b512f9562a3f36975c2d5a
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Jun 28 21:06:35 2025 +0300
+
+    removed test logging in main and added improved src/makefile, now no longer defeats its own purpose
+
+commit b9773833b2c5237470fcc7f70dd61290b679a53a
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Jun 28 21:05:38 2025 +0300
+
+    Added options.hpp for specifying options, and blurbs.hpp for the example options used to test the feature, the options which output blurbs like Help and version
+
+commit 6c00cd8844b0ed77392d6ff7800184e4347dcef1
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Jun 28 15:23:51 2025 +0300
+
+    Added ad-hoc logging system with program/logging.hpp and program/logging.cpp
+
+commit 4561ebd9d73b32b39b9c558e7507a3827270fb76
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Tue Jun 24 13:44:54 2025 +0300
+
+    Restructured makefile system, directory tree, and added program options features
+    
+    What it says on the title is what you get!  I decided to do some research
+    over how makefiles should work, and used a recursive makefile system
+    for getting my files up to date, as well as actually using make correctly
+    to shorten compile times.  Now when you run make it doesn't update every
+    single file!  It goes into directories, like a big-boy project
+    
+    And to assist the big-boy ideas, I decided I'd also start writing better
+    C++ code.  Reading computer science books helped out, and scouring the
+    c++ documentation was similarly helpful.  I use templates now!
+    
+    And of course the biggest change is something very clear: the directory
+    structure has been revised. Now we have src and include for src and
+    include files, instead of mixing them. Outside libraries have been
+    kept in their own sub-source-directory called lib, and have a subdirectory
+    include/lib
+    
+    I also removed the docs directory since I'd like to write documentation
+    separately.  I'm not sure about running a MediaWiki server on my laptop,
+    and I'm similarly not privy to writing literal org-mode document trees
+    for Wawacraft:Evolved.  I think I'd have to make a series of HTML files
+    for all documentation, since I'm used to it.  I'll use org mode to export
+    the files, and a custom CSS skin will make it all the better.
+    
+    In other news, we still don't have an organization for testing, so stuff
+    still goes into main.cpp temporarily.
+    
+    But hey, a big update starting a revision like this always starts slow,
+    and with my previous knowledge, I'll have made the BEST technical successor
+    to Wawacraft!
+    
+    PS: Sneek peek option --otm gives you an ominous, haunting message!
+    
+    WAWACRAFT:EVOLVED FOREVER!!
+
+commit 7ffc1ed9aa7892f55a5abb6908d867082262e101
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Jun 4 16:19:26 2025 +0300
+
+    Initial commit to rewrite branch
+    
+    Shelving out old stuff in order to rewrite it better.
+    Lets start our journey!
+
+commit 7797c57052fd096fbf817ab5ed12f80e5d213476
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Jun 4 15:19:21 2025 +0300
+
+    Adding screenshots for version 0.2.15-alpha
+
+commit 66270b2e34cbefac27da1816bd97bd212e335284
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Mon Apr 21 14:04:47 2025 +0300
+
+    Mark a new patch
+
+commit b81e9564a4cf0446c0ffb3f05cde984f2b2183a9
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Mon Apr 21 13:57:40 2025 +0300
+
+    Fixed voxel raycasting system
+    
+    This commit and the previous has fixed the issues of block placement and
+    deletion. The raycasting algorithm has been fixed to be used comfortably,
+    and the block placement and deletion algorithms have been configured to
+    work across chunks and in the current chunk well.
+    
+    Nice commit, though I don't have time to improve other things. I have thought
+    of a relay system for controls that buffers key state every frame, and
+    determines when a key press can be registered based on its previous state.
+    If the previous frame was pressed, this frame is ignored. Otherwise, the
+    key press is registered. I'm pretty sure this is the way that most games work,
+    and this solution doesn't rely on setting limits of operation per frame.
+    I did benefit from setting a limit though, at least to make sure that block
+    presses aren't a problem.
+    
+    Will look further into code standards, documentation, etc.
+
+commit 10992fb183f0afed78a143e7d27630b137cd3bc5
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Apr 16 12:24:30 2025 +0300
+
+    Reimplemented voxel_raycast
+    
+    Voxel raycast had a faulty implementation of the Amanatides and Woo algorithm,
+    which needed to mark some axes as infinite before. Now fixed, and use of the
+    block placement and deletion is more convenient. Will revamp it as well in
+    order to improve block placement across chunks.
+
+commit 0833d23033496fe519a48e212c0f804f9a30296d
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Feb 22 22:33:42 2025 +0300
+
+    v0.2.14-alpha Patch
+
+commit fb94a2d9a57b584574c1dc561de6f18ade6f1009
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Feb 22 03:16:01 2025 +0300
+
+    Set camera height a little higher
+
+commit 013fd1c9f87640ff4b85a289a64405b7bd5cf788
+Author: sphurlsmith <69852944+sphurlsmith@users.noreply.github.com>
+Date:   Sat Feb 22 16:55:39 2025 +0300
+
+    Update README.md
+    
+    Just added good information to run the project. Its good enough to look at now
+
+commit c9061567e9f7e16eee07da360b76360572d97775
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Feb 22 02:50:53 2025 +0300
+
+    Patch no.12
+    
+    Added a numerous amount of quality of life features:
+    
+    - Drawing faces in adjacent blocks of translucent or transparent
+      blocks.
+    - Fixing mesh construction for chunks.
+    - Added raycasting to mine blocks and place blocks (BACKSPACE, ENTER)
+    - Added the ability to switch between blocks with Tab key.
+    
+    However placing blocks around chunk borders is wonky,
+    it still remains to work.
+    
+    Now this project is completely ready for the science fair.
+    
+    WAWACRAFT:EVOLVED FOREVER!!!!
+
+commit a795d617875bc7e1d0722bd6b03500e17cf526de
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Feb 19 19:48:41 2025 +0300
+
+    deleted bin in main
+
+commit 206a68933227b202e5e18e72d556dd503edc27a5
+Merge: 4a8a080 bcccf72
+Author: sphurlsmith <69852944+sphurlsmith@users.noreply.github.com>
+Date:   Wed Feb 19 19:43:19 2025 +0300
+
+    Merge pull request #2 from sphurlsmith/v0.2.11-alpha
+    
+    V0.2.11 alpha is now in main branch?
+
+commit bcccf725187cb1f521b8fb0abf76c13e37c4ab31
+Merge: 27eac7b 4a8a080
+Author: sphurlsmith <69852944+sphurlsmith@users.noreply.github.com>
+Date:   Wed Feb 19 19:42:30 2025 +0300
+
+    Merge branch 'main' into v0.2.11-alpha
+
+commit 27eac7b5c33462729ffd46f8937727e4d3e95b27
+Author: sphurlsmith <69852944+sphurlsmith@users.noreply.github.com>
+Date:   Wed Feb 19 19:36:41 2025 +0300
+
+    Update README.md
+
+commit 18828953d371c96f0eb4d398fedf970f576b6a96
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Feb 19 19:01:44 2025 +0300
+
+    Added nice screenshots from current version. Unfortunately, previous versions showed the wood and wawa and uni textures but its OK
+
+commit 5fe3b970564421b75246d58583c21468a62a0344
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Feb 19 18:28:50 2025 +0300
+
+    Fixed the bug and realized my thing is like super fast
+    
+    It wasn't an issue of rounding error, in fact it turns out I have
+    a very intelligent design for it. The error was that I was unloading
+    chunks AFTER I created the visible list(which holds references to
+    indexes in the chunk array), which invalidated the visibility list in
+    some cases. Now terrain works completely with all kinds of coordinates,
+    as I unload unneeded chunks BEFORE I find the visible chunks and
+    set their references for the frame.
+
+commit 1d2b98e237cb2a6e89ff830cbd03a3b5a4ab8c3d
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Tue Feb 18 21:04:13 2025 +0300
+
+    Rudimentary chunk management system put in place
+    
+    Small bug where you need to trudge for like 15 seconds in a
+    very slow environment before you can see the blazingly fast
+    optimizations.
+    
+    Welp, that was fun!
+    
+    WAWACRAFT:EVOLVED FOREVER!!!!
+
+commit 03908e102463b4999a604ce77c85e5ca3221002b
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Mon Feb 17 16:51:19 2025 +0300
+
+    Fixed bug where edge faces were not rendered because of typo in
+    boolean logic determination.
+    
+    Now the logic for determining edge faces works.
+
+commit 1918f715fd8094a037d902b7098866c315446daf
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Feb 15 15:42:54 2025 +0300
+
+    Added shading
+    
+    I added shading to the nocol shader, as well as
+    providing shading options for each vertex in
+    mesh_base.
+    
+    Secondly, there is also a bug fixed in mesh
+    generation for chunks wherein it would not
+    render all the right faces correctly because
+    I incremented the actual value instead of manually
+    doing it. To save myself the headache of trying to
+    find out how to increment as a value and not
+    write it to the iterators, I just put +1 and -1
+    in there instead. My code was already perfect but
+    I guess it didnt work that way then.
+
+commit 5b00de5c96aaceb8f57fba09409830a8b7ef9115
+Author: sphurlsmith <69852944+sphurlsmith@users.noreply.github.com>
+Date:   Sat Feb 15 13:23:29 2025 +0300
+
+    Update makefile
+    
+    For some reason git put some weird things in the makefile
+    what the flippity?
+
+commit 93c108da36d60f6d5af8389bd75bc86e8cc06116
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Feb 15 13:12:00 2025 +0300
+
+    The makefile actually works now
+    
+    yeah
+    
+    Merging in with the external repo using rebase
+
+commit 83d22fd42d59e4b0709b24ff3ed93755a8a04b86
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Feb 15 13:03:02 2025 +0300
+
+    Fixing the makefile for testing
+
+commit 3e3e4fbee52ca4c851895cb8f7313df9200d8c8a
+Author: sphurlsmith <69852944+sphurlsmith@users.noreply.github.com>
+Date:   Sat Feb 15 12:57:30 2025 +0300
+
+    Update makefile
+    
+    Updated makefile to accomodate for creating the bin folder locally
+
+commit 6f9f5e32ed3c56c6efb1b282ebc5ba7ca53db231
+Author: sphurlsmith <69852944+sphurlsmith@users.noreply.github.com>
+Date:   Sat Feb 15 12:55:32 2025 +0300
+
+    Delete bin directory
+    
+    I deleted the bin directory because it isnt gonna be useful for anybody really I'll make sure to try and fix the makefile too to accomodate for this
+
+commit 080c8d9c7c47de3b954389e88f68d32d5d0f7f94
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Fri Feb 14 21:48:30 2025 +0300
+
+    Removed the excess files, only keeping the spritesheet
+    around.
+    
+    Lets not forget our signature for each commit:
+    
+    WAWACRAFT:EVOLVED FOREVER!!
+
+commit 4c8345e4201a067b27533b97068b059516cd7423
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Fri Feb 14 21:37:23 2025 +0300
+
+    SPRITESHEET SUPPORT
+    
+    So we now have working spritesheet support on chunks. The demo
+    provided shows a chunk with a number of different textures and
+    an amazing view. We now have chunks that can theoretically have
+    any shape and any texture from a range of 4096 different
+    textures in one chunk.
+    
+    This does mean that I will be removing the old textures from
+    the repo. Say goodbye shaven wawa and unkept uni, you were far
+    too shiny and 4k for this world. And also the separate grass
+    texture as it is not needed anymore, as well as other, useless
+    test files from the older project.
+
+commit 27ded14db8ba8bf6922a38644d967312ca02f6ed
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Fri Feb 14 03:27:32 2025 +0300
+
+    Adding working chunks
+    
+    Chunks work!! Now you can initialize a chunk from voxel.h, and arrange them
+    in order. They produce meshes for you that you can integrate into the
+    render queue, and they work quite solidly. I've tested a majority of the
+    features.
+    
+    However, we could do for some upgrading on the textures. I plan to be
+    able to use a numerous amount of textures and seeing as we wont be giving
+    the user the responsibility of a list of meshes, I think we should get
+    to work on making a texture-atlas system or we could wrangle our meshes
+    to get a mesh variant that can bind multiple texture objects per vertex
+    and coordinate textures for certain vertices? Maybe not.
+    
+    But regardless, the demo works. I also was able to add in some fixes to
+    the perspective for the camera. It sorta looks a bit better for it since
+    it doesnt warp by the value, but I think I will have to fix this in the
+    future.
+    
+    WAWACRAFT:EVOLVED FOREVER!!!
+    
+    And seeing as this is valentine's day ;), I think I should push my commits
+    to my most lovable project ever: Wawacraft:Evolved.
+
+commit 99ac600dcb3632878a73a5ad5c135ddde6fa6b55
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Feb 1 05:15:47 2025 +0300
+
+    Added complete voxel and chunk management WITH optimization
+    
+    So this commit is pretty nice, I think I'll be doing a lot more
+    considering the future science fair that I'll have to make a
+    project for with the code of this project, but if I can morph
+    this into a half voxel manager and half flight simulator I could
+    definitely make it. Chunk optimization can successfully block
+    out unneeded block faces and whilst the unit test doesnt test
+    _every_ condition, I'm pretty sure it works. This is pretty
+    flipping epic!
+    
+    WAWACRAFT:EVOLVED FOREVER!!!!
+
+commit 7b321a44a85e44e7841134ba8d0084c8d8c7d47f
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Fri Jan 24 21:48:29 2025 +0300
+
+    Small update
+
+commit a7b556ca75d8820d576361278ddee8feabf7d7bc
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Fri Jan 24 20:49:29 2025 +0300
+
+    Added new voxel class
+    
+    So far I tested it, and the voxels work as distinct objects, and can be given to
+    the render queue, but ironically they can't work in an array. Maybe I will have
+    to make them work in arrays first before we get into chunking, however we have
+    lots of good improvements for textures and voxels work on their own. Adding
+    functionality might include modifying the voxel class to be more memory conservant,
+    though I did create a special shader just for foregoing color data. I also
+    deleted old shaders since they dont follow standards. Docs coming soon...
+    
+    Meshes also now can operate without a constructor though you'll have to do all
+    the work on your own. Maybe I'll add a discrete init function for it, or is it
+    just OK to document?
+    
+    Well, it's all pretty good work. Also, heres a small bug I might need to fix:
+    Adjacent voxel faces z-fight. Usually if you have a transparent texture this kind
+    of thing is permitted at the cost of not expecting transparent details to show
+    through, but since my kitty textures mess around with alpha values I'll just have
+    to make them opaque or read documents to see how I could fix this.
+    
+    WAWACRAFT:EVOLVED FOREVER!!!!
+
+commit bda0b36ed4121952995cdbba6961bc568be8dde2
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Fri Jan 24 00:28:59 2025 +0300
+
+    Fixed texture class
+    
+    Fixed the texture class to allow multiple textures to coexist.
+    Now most of it works! Time to work on the game logic sync
+    system and the block/chunking system :)
+    
+    Documentation reading galore!
+    
+    Wawacraft:Evolved FOREVER!!!
+
+commit 1cefd1efab459c1fc142443a1ac1435443f8784f
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Tue Jan 21 18:17:53 2025 +0300
+
+    Changes to the structure of render_environment and its render callback
+    
+    As it is already known, render_environment is a render environment
+    holding a pointer to both types of meshes, which casts these types
+    to void pointers to get them to pass through to the class window, which
+    later sends it to a user-defined callback which can cast these back
+    in a canonical use of the engine to a mesh_3d or whatever they may so
+    like :).
+    
+    Now these pointers have been updated to mesh_base** and mesh_3d** to allow
+    for more meshes to be given, preferrably through a mesh*[] which holds pointers
+    to all the meshes you need to render.
+    
+    I've seen relatively good success in fixing this issue on the rewrite,
+    and will try to see what I can do to try and make textures work
+    such that multiple textures can render at once. Currently, there is a
+    bug where only the first binded texture works. Perhaps you need to bind
+    the textures manually first? Though I do do that already...
+    
+    Well, that's a good commit for the day, isn't it?
+    
+    WAWACRAFT:EVOLVED FOREVER!!!
+
+commit 1790d42292916d82133e661d4a9ecd7f40a79f63
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Sun Jan 19 21:11:04 2025 +0300
+
+    removed debug paranoia :3
+
+commit 4406dc91232b3b42fb4c11e846f6093aae0a4d21
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Sun Jan 19 20:56:29 2025 +0300
+
+    Fixed rotation order of quaternions for model matrix
+    
+    God debugging quaternions is so much easier than the raw matrices
+    Thank god I got into these early enough! :3
+
+commit d0b5841089c74af29c8ff5f9ee5c560a07634bca
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Sun Jan 19 20:54:28 2025 +0300
+
+    Fixed small bug wherein turning >180 degrees around Y axis makes rotations around X axis inverted
+    
+    Small thing. I guess I mistook the rotations themselves. I'll go ahead and fix it
+    for the model matrix too
+
+commit 009a20e090e8402cb69cad0896b35c027d05f5d0
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Jan 18 22:03:08 2025 +0300
+
+    REWRITE COMPLETE
+    
+    After 6 months of developing Wawacraft:Evolved, multiple
+    renditions of the engine, and multiple library switches,
+    as well as 4 months developing a complete rewrite, I am
+    happy to announce that the Wawacraft:Evolved engine is
+    relatively complete! This means that I can release
+    Wawacraft:Evolved Alpha 0.1.1 on Jan 19th (Wawacraft Day).
+    
+    I am so delighted after all of this work, and having achieved
+    so much, granted in a very long time due to school and the
+    such.
+    
+    NOTES: The view matrix issue from the previous version
+    has been solved through using quaternions purely instead of
+    a lookAt matrix as most literature on OpenGL would recommend
+    you use. Maybe it makes Wawacraft especially unique, and I
+    think it is a bit hypocritical even of me to say that I
+    completed the engine when I didn't fix around the edges. I
+    mean, I didn't even configure a useful method through matrix
+    to make a view matrix, but I think the current view matrix
+    will serve as an archive for anybody trying to use such a
+    thing. I know I sure won't.
+    
+    Now, I have to go to school tommorow, and go to sleep now,
+    It's an hour past 9 PM.
+    
+    WAWACRAFT:EVOLVED FOREVER!!!
+
+commit 9ac6d79ac96fa3a72e1a23f775cd3fa650c66468
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Fri Jan 17 19:31:41 2025 +0300
+
+    Wait.. Im Goated
+
+commit 265190c276197d9e44f1c3dff7ac176792e8b736
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Fri Jan 17 18:30:12 2025 +0300
+
+    Math library went through a unit-test phase, and 3D rendering is complete
+    
+    Yes, for the very first time, I unit tested parts of my code. Previous
+    WIP commits will show that I did unit test the quaternions and matrices,
+    which were especially proving hard to work with for some time. Glad I
+    did it, because I spotted a bug to take out during the matrix multiplication.
+    Previously, I made some insomnia-induced bad code that made vertex(homogenous)
+    dot products for the matrices, and whilst that is mathematically and
+    conceptually exactly what ur supposed to do, I forgot the older implementation
+    had the 'proper' implementation using for-loops.
+    
+    I also ported old code for the projection matrix. This is not as bad when
+    you realize its just defining in a different way. I'll probably make it
+    be defined inline but to be honest its a non-choice(there is just about
+    nothing changed during runtime, its all smoke-and-mirrors).
+    
+    Finally, I did do something brave and made the model matrix use quaternions
+    for rotation, which is **much** more elegant and a lot easier to work
+    with considering I implemented euler angles which blocked functionality(
+    gimbal lock).
+    
+    This is 2 days before WAWACRAFT DAY(The Wawacraft Project's First Anniversary).
+    I think I can implement a view matrix that works without bugs pretty soon,
+    but now to trudge through pages upon pages of linear algebra just to brush
+    up on how view matrices were done. To be fair, this was the driving issue
+    that brought bugs to the game and made it load in modes which we will not
+    mention in name because of their metaphysical risk. If I can fix the view
+    matrix problems here(half of them were just bad quaternion code) then I
+    will have solved the problem the rewrite aimed to achieve, and I can finally
+    enter the good stuff(block systems, control architecture, and movement).
+    
+    WAWACRAFT:EVOLVED FOREVER!!!
+
+commit 3e83f5b1c3cd16eebfb4df09741f36a9c98d6782
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Tue Jan 14 21:21:14 2025 +0300
+
+    WIP
+
+commit 79d19c23f72dac9fd6e5f02f91cddd2e1553bb71
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Tue Jan 14 21:20:52 2025 +0300
+
+    WIP
+
+commit a8d3321053420c3e0fd0ab80a5df8493f2ee1959
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Fri Jan 10 15:47:09 2025 +0300
+
+    WIP just need to integrate the camera into the render environment
+
+commit e6bf480b2befb7a188526ae8ef50374454f2ac62
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Fri Jan 10 15:02:38 2025 +0300
+
+    wip
+
+commit cc2edb36eb82fc8d82f1f9019ecc00f26fcd7371
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Fri Jan 10 14:42:23 2025 +0300
+
+    WIP
+    
+    I think I should be soon able to cobble together 2 of the matrices for
+    projection needed. Just besides the view matrix, I still have PTSD from
+    that awful debugging sesh on that black night.
+    
+    Alright why the hell am i describing a WIP commit before I switch
+    branches? IDK
+
+commit 5f09f8e0fb72038fd087c89aac4dd5539e2ca4a0
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Jan 4 02:24:45 2025 +0300
+
+    WIP
+
+commit 4184fd423ce91a7938ac1a7f579c883c863bb7d0
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Jan 4 01:53:56 2025 +0300
+
+    Finished up initial version of mathlib
+    
+    I finished the math library. It still is rough around the edges
+    in that the classes dont yet have operator functions, but seeing
+    as it isn't written too dumb, I could probably use it for later.
+    Every day the horrors of unit testing come closer to me, but
+    seeing as I have school quite soon(FLIPPING TOMMOROW), I'll
+    just add operator functions in a bit, clean up the code, and
+    commit.
+    
+    Today is push day, I'll get to push my commits pretty soon and
+    finish up most development before I just send in this laptop
+    for repair.
+    
+    WAWACRAFT:EVOLVED FOREVER!!!
+
+commit 089f1f96ac9602f2f4000d86d7338edbd1f9b45f
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Jan 1 22:03:58 2025 +0300
+
+    WIP
+    
+    even though its a work in progress, I got 2 out of the 4 classes needed to complete
+    the math. Then I'll probably define some variables like PI and other, etc. Other
+    than that, I think we can finally make a stable math library. I'll use it in unit
+    testing first, then I'll try to get to using it in the project.
+
+commit 2459f9fddc99fe1409c079713cd794a4c842a3a8
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Jan 1 15:22:52 2025 +0300
+
+    wip
+
+commit c6cec9a6c3e09cdf304a8626f27cb52b83071add
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Jan 1 01:52:44 2025 +0300
+
+    Adding texture support
+    
+    After a bit of unit testing, it is quite obvious that if you are going to play with the
+    mesh display attributes, you better be prepared to edit the shaders that you use to
+    reflect that choice. Regardless, it wasn't very hard setting up textures in here, so I
+    guess this will bring us into making the math library to prepare for our 3d projection
+    and the MVP matrix trilogy.
+    
+    Also, Happy New Years! This is the first commit of the year to Wawacraft Evolved!
+    
+    Better get done with a proper demo before Jan 19th.
+    
+    WAWACRAFT:EVOLVED FOREVER!!!!
+
+commit f35b318da4b14aa2172b270cd7163e9290260171
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Dec 28 13:49:11 2024 +0300
+
+    Finally set up a basic system
+    
+    So my ideas for the rendering environment code did work! I just had to change up a
+    few things in there to ensure good codebase management. The render environment will
+    allow you to mess around with shaders and meshes in the render callback instead of
+    having an empty shell of a render callback as was happening in the previous source.
+    
+    Since the render environment is just a beautiful little shell for rendering AROUND
+    mainly what is the window class, its render callback function is simply a frontend
+    for calling window::run_render_loop() (now with void pointers for the shader and mesh).
+    This does pose a few risks of "What if we mess something up during casting process?"
+    but I made the design choice that all of this will be documented in the docs and that
+    the risks are only present if I forget to patch around the security risks in the
+    render function.
+    
+    Regardless, I did set up some basic functions for meshes, and meshes will be part of
+    a large family tree of meshes all stemming from mesh_base. Extra functionality is added
+    that way in order to give anybody using the engine a choice to interact with a type
+    of mesh from the class family depending on what functionality they would like. UI
+    meshes might have completely different systematic frontends than 3d object meshes, and
+    meshes for the skybox could also be completely different, so on.
+    
+    All is well and most of the new code actually works. I want to at least finish semi
+    OK development before New Years, and more importantly, before Jan 19th. Low-level things
+    mostly dealt with, future development will entail setting up a handwritten math
+    library that actually works and a proper keyboard input control system with
+    keymapping to allow later on control edits.
+    
+    Well, that's a nice commit out of the way, now to go play Extreme Tux Racer.
+
+commit 8b8e83ee7b10a6eadf849b6697c85ab53554f065
+Author: Stephen P. Hurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Dec 28 00:22:29 2024 +0300
+
+    WIP
+
+commit 4a8a080570691808cfad84e81b76412a1c229694
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Fri Dec 20 20:51:46 2024 +0300
+
+    Short update, testing out things in this branch. Promise that I'm actually working on the rewrite
+
+commit c720779179270f93fbba053ffec77c216ce1d693
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Tue Dec 17 20:38:27 2024 +0300
+
+    Just added a bit of config to allow for the game to load in floating mode
+    
+    This is in relation to window resolution and the way that Wawacraft:Evolved operates in
+    relation to tiling window managers. Obviously, there really isn't a solution I found that
+    works here other than just writing some config in your wm of choice to boot Wawacraft windows
+    as floating. I have been testing out Wawacraft runs in i3wm, which inspired this.
+    
+    Perhaps we may continue this soon.
+
+commit ea08e92d56c45fd7bd77581d1385c85fdcf004aa
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Fri Dec 13 13:04:54 2024 +0300
+
+    Implemented a basic shader system
+    
+    It's been a long time since I checked this project, since I have exam season.
+    I did remember that I implemented the shaders before but just didn't have time
+    to test them. Yes, even now, I didn't test them yet. The project just compiles
+    well enough that this be a commit.
+    
+    Now to figure out where between the render environment and window loop does all
+    the rendering go, and how we structure it.
+
+commit 8bd9f7eccc5c3d324575a540aa78201928f55f36
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Thu Nov 28 01:57:15 2024 +0300
+
+    Temporary edit, but I'll have to check some of my old code
+
+commit 8ec06b7763bb4890cfabf311630699558419f404
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Nov 27 22:07:29 2024 +0300
+
+    Added render_environment class
+    
+    In a flash of genius, I decided that a render environment should be
+    made. It will contain the necessary tools and supplies needed to generate
+    a 3D image. So far, it is simple.
+    
+    I also made sure to add more error codes for when things mess up, both the
+    window and render_environment class have function pointers, which means
+    you HAVE to keep pointer safety.
+    
+    I unit-tested the feature of setting the colors, but I will not write
+    unit tests to see if I can properly change things about the render
+    environment because I already know the function works.
+    
+    WAWACRAFT:EVOLVED FOREVER!!!!!
+
+commit 736880876ca295f420fae616c579dd8f3cab9409
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Nov 20 22:16:11 2024 +0300
+
+    Added window class
+    
+    For the rewrite, I added a better interpretation of the window
+    class. It is now supplied with most of the things we had before, but
+    in a relatively OK structure. The window class now contains methods to
+    rename and reassign resolutions, which is very useful.
+    
+    I've also unit-tested each new function of the class, and it all works
+    successfully. I don't exactly know how the formal way to document unit
+    tests are, but I assume they're integrated into a larger commit rather
+    than just their own commits.
+    
+    Something that might be a point of hate is that I did not use a
+    typedef for the function void
+    (*window::get_render_loop_callback(void))(window* pwin). I think
+    typedefs as of now wouldn't be useful, and especially not a global
+    typedef. So far, most things are clear enough such that a typedef
+    isn't exactly needed. I might consider writing a typedef for it when
+    it is required, but as of now, its perfectly OK.
+    
+    This also brings me to talk about the structure of the program in the
+    rewrite. Considering how the render cycle wasn't as organized as it is
+    being built to be now, I should discuss how this is.
+    
+    As far as I've read, I'm pretty sure self-descriptive render objects
+    are generally agreed on in a graphics program with the need to render
+    for a non-test environment. But, there will inevitably be a separation
+    between 2d rendering (UI, Text, images, etc.), and 3d rendering (3d
+    worlds, uni staring at you endlessly, wawa shrine, etc.). This means
+    that we will have 2 types of render objects:
+    
+    2D render objects (most probably simple meshes rendered in 2d, and are
+    self reliant, only requiring a prepared render environment).
+    
+    3D render objects (complex meshes, with independent shaders, and
+    dependent on a greater set of information)
+    
+    In the old code structure, for 3d objects, I assigned 3d objects to be
+    rendered through a camera class, which would supply the view and
+    projection matrices to complete rendering in the shader. I don't
+    exactly remember how the shaders were dealt with, but IIRC the shaders
+    were independently sourced by caller. I made the bad mistake of making
+    a 3d object also double as a 2d object, with heavy responsibilities on
+    the caller to structure vertex information and supply textures.
+    
+    Textures also are a bit of a hard thing to understand. I know that
+    graphics programs usually try to sparingly load textures, and keep
+    them in easy access for practically everybody. Would that mean that
+    textures are not associated with meshes? I mean UV coordinates are
+    associated with the mesh, so I see it optimal to associate
+    textures(even if a copy) with the mesh as a fallback. Considering it
+    as an engine, it's better to assign textures to objects rather than
+    keep them in a public domain array where any mesh can easily source
+    textures.
+    
+    But for 3d objects, a 3d environment must be established on top of the
+    existing 2d environment. This environment should be able to be
+    separated from the 2d environment, so that they work simultaneously. I
+    assume writing 3d objects to the screen before writing 2d objects
+    would work. But this idea of setting up environments before rendering
+    is a good idea.
+    
+    We could make a bool or a public flag that both classes can access, or
+    have them exchange flags from each other. static bool 3dengaged and
+    static bool 2dengaged would work. Maybe itd be a better structural
+    choice to have the caller take responsibility for which render mode is
+    engaged.
+    
+    So we understand now that unifying the render cycle, we must create a
+    render environment object which manages both 3d and 2d rendering. It
+    is a factor required in the independent rendering of 3d and 2d
+    objects. They will have the camera objects pointer in them, and will
+    allow the caller to immediately access the camera in use. And 2d
+    objects will simply not use the 3d tools.
+    
+    And for control environments... That requires for me to write
+    keymapping functions to make a virtual keyboard object, and assign
+    functions to every single key
+    
+    More realistically, we could define key objects, which handle the
+    reception of different keys, and allow the caller to get their
+    state. Then I could make getKeyStatus(KEY_ENUM)==true turn into an
+    operator overload like KEY_OBJECT~ which returns the state of the key.
+    
+    Regardless, this is a good way to start development for the
+    rewrite. I've got a mount of studying outside of this to do, so I'll
+    make a rewrite for the render environment when I have actual free time
+    to spare.
+    
+    WAWACRAFT:EVOLVED FOREVER!!!!
+
+commit 8a2a23a7e7268ac3cc3d588f645a6f4428f86e13
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Nov 20 18:57:30 2024 +0300
+
+    Fixed up makefile
+    
+    In older versions, the object files would be compiled in different
+    directories. I figure that it would be better to have .o files compile
+    over to the bin directory to keep sources separate from object
+    files. Makefile changes are a bit better, and I am a bit happier that
+    I kept my make system clean and organized now, since it was easy to
+    make this.
+
+commit 8aa6992a9c35133bdad02e0e087089051fb6379a
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Nov 16 20:19:59 2024 +0300
+
+    Getting ready for a rewrite
+
+commit d9e4c5b2a6c6ac4c36b61047069fd73ea7311d00
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Nov 16 19:58:58 2024 +0300
+
+    deleted the test
+
+commit a3041e5f81f2170b162d28982930878ae3216b30
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Nov 16 19:58:10 2024 +0300
+
+    test
+
+commit d5d8b3fe4b49dba4d86c41aec363e25e5e753879
+Author: sphurlsmith <69852944+sphurlsmith@users.noreply.github.com>
+Date:   Sat Nov 16 18:22:03 2024 +0300
+
+    Update README.md
+
+commit 0aa9dd33657266fe40de2a6eaa2e8462031facc5
+Author: sphurlsmith <69852944+sphurlsmith@users.noreply.github.com>
+Date:   Sat Nov 16 18:21:23 2024 +0300
+
+    Update README.md
+    
+    just updated the readme to really display the images
+
+commit e8244d5f826acd563c3efe16b41370919994048a
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Nov 16 18:14:50 2024 +0300
+
+    v0.0.1-Alpha/Evolved Uni Demo Release
+    
+    An amazing day for Wawacraft Evolved. This commit marks version 0.0.1
+    alpha of Wawacraft Evolved. Read the README.md for this version to
+    see some of the reasons as to what has been updated during this version.
+    
+    In the upcoming version of Wawacraft:Evolved, I plan to rewrite EVERYTHING.
+    FROM. SCRATCH. Read the blog, which I will have updated by the time this
+    is uploaded online.
+    
+    Much love, and
+    WAWACRAFT EVOLVED FOREVER!!!
+
+commit 6a6a6edef755615a3a9ae97f7ad844c0b651e5d5
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Fri Nov 15 18:57:00 2024 +0300
+
+    Fixed up vertical rotation
+    
+    It works!! Code is absolutely horrid, and we need
+    to fix the cursed boots of Wawacraft Evolved.
+    
+    Two types of cursed-boot bugs come up:
+    
+    - Altered rotation such that horizontal rotation is
+      just completely off the hook fast
+    - Horizontal rotation just disappears sometimes
+      and in these boots you always end west of the
+      block facing north. (this is most probably because
+      the rotation is just cursed on boot so awfully that
+      it can't even make the initial rotation somehow)
+    
+    I suppose there are 2 main reasons why this bug happens:
+    
+    Either some initial thing is happening with the target
+    vector's numbers such that no horizontal multiplication works on
+    them. Or the rotation is being cancelled out by something
+    greater. We know in the other half of boots that the
+    rotation can work fine, so I'm definitely considering that
+    its some kind of race condition.
+    
+    WAWACRAFT EVOLVED FOREVER!!!!!!!!!!!!
+
+commit e471064ec11af9ad1089dae974761a221b4edcbe
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Nov 9 21:52:22 2024 +0300
+
+    Added a little visual effect
+    
+    Fixing up stuff and added a visual effect of a rotating
+    cube. Trying out different rewritings of this
+    project soon.
+
+commit cd8660561fcf2d9287625d04d0333915663d3c7b
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Nov 9 19:36:49 2024 +0300
+
+    Fixed strafing
+    
+    Fixed strafing. We still have some emergent nasty bugs with
+    vertical rotation and we still have cursed boots of
+    Wawacraft:Evolved so we still need more work, but this is
+    better than nothing.
+
+commit 213a2b13b4a1f22da0cf9ef251d27cbe3b7d64e8
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Nov 9 18:48:12 2024 +0300
+
+    HORIZONTAL ROTATION WORKS
+    
+    AFTER WEEKS... WEEKS OF EFFORT. I FINALLY DID IT!! YESS! I
+    FOUND THE SECRET!!!!! THANK YOU GOD !!!! THANK YOU GOD !!!
+    
+    Turns out the secret to making the rotation synchronize
+    with the translation was to multiply Translation*Rotation
+    and NOT the other way around.
+    
+    Now to add the vertical rotation, and see what to do
+    with that quatMatrix function I made out of desperation.
+    Alpha 0.0.1 coming soon??? Maybe even a VIDEO??!!! LETS
+    GOOOOOOOOOO
+    
+    Wawacraft:Evolved FOREVER!!!!!!!!!!
+
+commit 2660982291e0a4ab22b9b188acf0586d2ead3e3f
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Thu Oct 31 16:20:11 2024 +0300
+
+    Added New Screenshotsgit add . for the Alpha 0.0.0 Release
+
+commit 88a4e45afa33968a139d4d5f5e563a7ae7ec8c79
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Thu Oct 31 16:09:47 2024 +0300
+
+    Finished up the October 31st Release
+
+commit 6e680ff2e7a5bc4f06b44d4d2030683472d509a6
+Author: sphurlsmith <69852944+sphurlsmith@users.noreply.github.com>
+Date:   Fri Nov 1 17:22:42 2024 +0300
+
+    Update README.md
+    
+    Added some release notes for now, going to change  the title in the main.cpp area
+
+commit aeab931bf7e0abf5700afeb3cfddf15bac6d5c82
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Thu Oct 31 10:13:36 2024 +0300
+
+    October 31st Commit!
+    
+    We could call this Alpha 0.0.1, though I have not uploaded any of this work
+    to the repo quite yet. Fixed up the quaternion rotation, and now we can use
+    the arrow keys to rotate the camera in place to view around the cube.
+    
+    We have a couple of bugs - however - which require some attention in further
+    commits:
+            - Orientation can be flipped if you make a diagonal view shift
+            - View matrix makes it so that the wawa cube rotates around the
+              origin rather than the camera place. This ties into the fact that
+            - The movement is completely separate from the rotation!!! The
+              target vector isnt handled well, as it is quite literally never
+              altered throughout the program run. I left it so because I was
+              preventing another bug where the target vector would update constantly,
+              making a dizzying effect of the camera being in constant rotation.
+            - Sometimes, the program boots with multiples of e in the view matrix,
+              corrupting the projection. As a result, you can get 'cursed boots' of
+              Wawacraft Alpha 0.0.1, where the wawa cube is non existent (or rather
+              just in a very far place outside of render distance).
+    
+    Regardless, we have made considerable progress. I almost went crazy trying to
+    see where the bugs were in my quaternion class implementation were. Turns out
+    I never really checked for the static quat quat::product() function.
+    
+    Wawacraft day is 19th of January. Wawacraft:Evolved day is 31st of October. A
+    much better day than Halloween.
+    
+    PS: If you dont see an Alpha 0.0.1 (or 0.0.0 since thats more fitting) tag,
+    then remember that I suck at using git. No problem though.
+    
+    Its been a crazy few weeks.
+    
+    Wawacraft Evolved Forever!!!
+
+commit 60672ad3204bd4d8245d3232fde008a63e8197a0
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Tue Oct 22 03:49:49 2024 +0300
+
+    Not exactly the best we've got but i got homework to do so
+
+commit a0d213c3f7b5d1082511815165e6b469d491221a
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Tue Oct 22 03:29:51 2024 +0300
+
+    Added debug output and working around with the camera class
+    
+    Reviewing through the quaternion class because we are getting
+    multiples of e in the view matrix for some reason, and it
+    worked when i sent in the debug output so?????
+
+commit 772302aff9bf6bbc416e8dbddf35817b5f78ac11
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Mon Oct 21 22:57:23 2024 +0300
+
+    Added basic WASD PUP PDW movement
+    
+    Now the camera can move by a speed of .2 in all 3d directions. Soon to fix up the
+    quaternion code and allow for rotations using the arrow keys and later on the
+    mouse.
+
+commit baa2591d94d7cb384321802850b6b305d680465a
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Oct 16 18:32:58 2024 +0300
+
+    just cause... I dont like seeing the emacs backups in the remote repo
+
+commit 128ebd4dbbff8cb05de9d8bc838a6d31f76f16b5
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Sun Sep 15 23:58:48 2024 +0300
+
+    Deleted a file with an offensive name
+
+commit dab3b74c56f42d81d609b9042fc50776b5640c4d
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Sun Sep 15 22:35:49 2024 +0300
+
+    Fucked up version of wawacraft where trying to turn with a or d makes wawa cube go Fuck You and flies into the astral plane
+
+commit 5ccd5ed96755706fa894d562ff432bf9788ad37e
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Sun Sep 15 20:45:48 2024 +0300
+
+    Deleting old archive for executable
+    
+    Its confusing a lot of the time.
+
+commit 4f273c2d8fbc9771864fe922e022a159265f5296
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Sun Sep 15 20:41:29 2024 +0300
+
+    Added screenshots for real
+
+commit 45340bfdad3ef140c898c68730b1eb3c444b6114
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Sun Sep 15 20:40:07 2024 +0300
+
+    Getting in all the screenshots together. Will be very fun to upload later.
+    
+    So arc/ is no longer in the gitignore... docs/ is a bit redundant though if it
+    does change we will change out stuff in the gitignore
+
+commit 1cb558433cfc95dc1afc7c20ec82e2aca22b539e
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Sun Sep 15 19:15:30 2024 +0300
+
+    Yeah so I figured it would be a lot nicer to just have an executable without an
+    unnecessary file extension.
+
+commit 5ea9541d87f9bfba42f72947a95341b979843499
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Sun Sep 15 14:21:10 2024 +0300
+
+    I made a moving environment, but I dont think the view matrix is constructed correctly, This is why there is some funky movement styles. However, I did notice it was incredibly disgusting to write the movement code since everything was stuck in main function
+
+commit 994cc9ecef917846ef26d756a5c4a63d66f7c674
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Sun Sep 15 11:44:21 2024 +0300
+
+    Cleaning up!
+    
+    Cleaning up stuff to remove the extra files, and defualt the wc_vertex_3d.glsl
+    shader to not manually do a perspective divide. I love computing!!
+
+commit e7de903025615fe274c5a3f2a2411163f655e500
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Sun Sep 15 11:40:14 2024 +0300
+
+    Corrected Texture Mapping!!
+    
+    Turns out, you don't need to do any fancy math, because GLSL manages
+    texture mapping for you. I was doing a manual perspective divide in the
+    vertex shader. Once it is removed however, we immediately gain correct
+    texture mapping thanks to OpenGL.
+    
+    This means that we no longer need the new shaders, just to correct the
+    default shaders for texture mapping!
+
+commit ea5172a88ba46d78b4967fbecc6a58cc48de0a3c
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Sep 14 13:26:21 2024 +0300
+
+    Added a libary for controls
+    
+    nswincon in control.h will help give us controls. Now to create a structure
+    for game states, since shoving everything in the main function is not a
+    sustainable idea.
+
+commit 40b38838294701e98d3b6211824d0d9b52fe1034
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Sep 14 11:44:53 2024 +0300
+
+    engineering in 2072(wawa cube completed)
+    
+    we made a wawa cube. Lots of screenshots to show as well
+
+commit 98747e8c3a3a39fb1ce155946251c9dc19c0aec4
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Sep 14 11:32:43 2024 +0300
+
+    Fifth Face!
+    
+    Yup! Lets go!
+
+commit c1f5aa5bd69f9463a4df446538b8177a2ab7d149
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Sep 14 11:23:27 2024 +0300
+
+    Fourth Face Lets Go! :3
+    
+    We did it! Manual hand modelling takes a lot of work, but i love it!
+    However, after I'm done with this, we need movement code, we also need
+    to fix up the texture warping crap that happens so much with these faces.
+
+commit d03a9c3c570f094ef6410f1b6855607b4c35dec8
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Sep 14 11:10:34 2024 +0300
+
+    Three Faces of a cube!!
+    
+    We are progressing into making a cube. Turns out vertex data was just
+    off. Also, I can notice some weird warping with the coordinates a bit?
+    Lets Goo! :3
+
+commit f0cc015772871ac11a0286ca21ac30b6091562bf
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Sat Sep 14 10:46:35 2024 +0300
+
+    OpenGL issues with rendering a complete cube
+    
+    I've been trying really hard, but so far, I've only been able to render
+    the front and back faces of the wawa cube. Is it vertex data issues ?
+    I've been using the exact same coordinates so something must be a bit
+    off. Perhaps it's a texture coordinate issue? Regardless, I will try as
+    hard as I can in order to make a real cube.
+
+commit bf96210230dc5cc38c3a171d231290a8b36bd2b9
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Fri Sep 13 19:14:06 2024 +0300
+
+    View matrix works surprisingly well. Time to create ourselves a control mechanism
+
+commit 35a5a736aee3c668ca0214294ee54f4f0f2baa94
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Fri Sep 13 19:08:09 2024 +0300
+
+    Trying out view matrix stuff
+
+commit dcfd05c174a2c7bf5a32a829d63288c1e809b2f6
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Thu Sep 12 15:02:44 2024 +0300
+
+    yeah i just added a new screenshot to archive. Should I delete the SPA archives?
+
+commit 8e9cdc63a151859eb747fa17fe5a054ba681121b
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Thu Sep 12 14:35:08 2024 +0300
+
+    Correcting collateral damage after merge with branch fix-modelmatrix
+
+commit 246b50b2a70fd26898d017bf5b18b45a48bd4044
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Sep 11 16:12:43 2024 +0300
+
+    Testing out all axes of rotation. and it all works quite nice and dandy. I'm going to fix up the view matrix from now
+
+commit aa38f0c7dcc50709d286e014c6e71e4766d42e7f
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Sep 11 16:08:20 2024 +0300
+
+    Shit works nowgit add .
+
+commit db7d151acfd702246ee176a7e566dca950276bc4
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Sep 11 16:07:24 2024 +0300
+
+    Directly adding translation data solves the problem. Well thats cool. Alright. Now to try and clean up the code and make a pull request
+
+commit 03fe8957e88e6c5f20fb67aeb60224b7d0e2f130
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Sep 11 16:04:31 2024 +0300
+
+    Adding debug output. Translation element is not inserted into the matrix. As expected
+
+commit 127abdceebbc8a23eb0b85d81319755fa439b728
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Sep 11 15:59:41 2024 +0300
+
+    So we have rotation all working. Fine and dandy. But the translation element must also be included
+
+commit f0f83e451c41a4d947e2c4752b4dee2f16909eeb
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Sep 11 15:48:21 2024 +0300
+
+    Made matrices default to identity matrices upon creation
+
+commit 524dcdf10678673151eb8bd91cb1bea1c6e9b00e
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Sep 11 15:44:52 2024 +0300
+
+    Silly me, I used an integer buffer instead of a float buffer, rounding every decimal to 0. :3
+
+commit e31cd3a0bf2de2236716dcc00c85838211f399b7
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Sep 11 15:35:48 2024 +0300
+
+    Faulty matrix multiplication. What the hell is wrong with it now?
+
+commit 877ca83943d97d0f02950708154e79499445bfeb
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Sep 11 15:13:32 2024 +0300
+
+    Outputting the raw matrix product of roxy and royz. Well find out now what this is
+
+commit d9f7d7f5fcb8bfd821a7f6d5c3c22d1ee2beb081
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Sep 11 15:10:56 2024 +0300
+
+    Something is flippin wrong with the rotation matrices. ro is nothing like whats expected of
+
+commit 7bf693e0d8379535c917707516e4c80cfc10da2c
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Sep 11 15:04:42 2024 +0300
+
+    Improved Debug Output. As well as a new executable. Still in debug
+
+commit a1e53c97f8a2064cc09ebcde2b24c348571b0514
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Sep 11 14:55:41 2024 +0300
+
+    Lets try looking at debug output(I added bin/tex/art)
+
+commit 44456a125688b05faea1ed051b1a27ab972d4cf3
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Sep 11 14:47:05 2024 +0300
+
+    Adding debug output and seeing what happened
+
+commit 428693d5bb795a597499aea244c66e7eb25fc927
+Author: sphurlsmith <69852944+sphurlsmith@users.noreply.github.com>
+Date:   Wed Sep 11 10:45:38 2024 +0300
+
+    Update README.md
+    
+    Added a part about external resources not being applied under those licenses
+
+commit 96429909cac311cd8660038585ab31b4c0d946a9
+Author: sphurlsmith <69852944+sphurlsmith@users.noreply.github.com>
+Date:   Wed Sep 11 10:35:44 2024 +0300
+
+    Updated README.md for fun ;3
+    
+    added more text and GPL license note
+
+commit 5df2bf7045ec4f9ac1721babae2ec3eb80cadd71
+Author: sphurlsmith <69852944+sphurlsmith@users.noreply.github.com>
+Date:   Wed Sep 11 10:32:32 2024 +0300
+
+    Update README.md with better formatting and a logo
+    
+    yea read the last commit about this lol
+
+commit 379fec707f62ca8cecff2fd5e6127627faf52854
+Merge: 81b5eb6 5e785b2
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Sep 11 10:23:51 2024 +0300
+
+    Merge branch 'main' of https://www.github.com/sphurlsmith/wawacraft-evolved
+    Pulling stuff from remote into local for convenience purposes. :3
+
+commit 81b5eb6e5ad4f65e5f41900859ccc63af4a9f34c
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Sep 11 10:23:23 2024 +0300
+
+    Added an art directory for some art that I could use in the project.
+
+commit 5e785b2c0390d3daac07de96b2d84e16ee770e22
+Author: sphurlsmith <69852944+sphurlsmith@users.noreply.github.com>
+Date:   Wed Sep 11 10:19:43 2024 +0300
+
+    Updated README.md for a description
+    
+    Added an extended description for the README so that people
+    would have some information concerning the project, as well
+    as some links. Will also consider adding in the game logo
+
+commit f4d5dbdda6c6be4aa02f3bf18a7950882b8b016f
+Merge: 3d4fce7 f3af242
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Sep 11 10:01:26 2024 +0300
+
+    Merge branch 'main' of https://www.github.com/sphurlsmith/wawacraft-evolved
+    This merge is necessary to get rid of the fact that we have 2 unnecessary branches
+    in the remote repository.
+    
+    When I set up the remote repo, it psuhed the master branch, but Github likes to
+    default to 'main' and not 'master'. So what is happening is that I rename the original
+    master branch locally to main, and push it in, so that we get the license and readme
+    added as well
+    
+    Much love :3
+
+commit 3d4fce7a0b1c34ffa1c71a1604f34135be123b44
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Tue Sep 10 21:11:32 2024 +0300
+
+    Removed a file
+
+commit dc05785c3921ee366f04a8a6e080b5c7f5897b48
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Tue Sep 10 19:42:41 2024 +0300
+
+    Matrix multiplicatin function nsproj::multiplyMatrix() fixed so that it actually multiplies things. However something that I dont understand is that the complete model matrix is not fully done, and only keeps the translation elements. Even though in theory each of the rotation matrices have had small areas where they decay into identity matrices if the angle permits that nothing happen. Well, this was interesting!
+
+commit 90fb185da015f12a4394273605bd3c614fc9daca
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Mon Sep 9 17:43:53 2024 +0300
+
+    Horrid debug output keeps bugging me, so I removed it.
+
+commit f3af24293f8fd5ab878a260732cf8fc4d1f111b4
+Author: sphurlsmith <69852944+sphurlsmith@users.noreply.github.com>
+Date:   Mon Sep 9 12:23:04 2024 +0300
+
+    Initial commit
+
+commit 69b66ad83f3928216e44f95b2f950de1e2a303bf
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Sun Sep 8 23:42:50 2024 +0300
+
+    Added archive folder to be ignored as well
+
+commit cd9e0fa81c73f12421bc12e52902c0e864ba2559
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Sun Sep 8 23:42:13 2024 +0300
+
+    Added a screenshot and a .gitignore file
+
+commit bbc16403f70aa54521560fe0a9809f705ce97857
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Sun Sep 8 23:14:01 2024 +0300
+
+    Fixed projection matrix to use positive instead of negative Z values. Things are looking a lot more accurate that way
+
+commit 58a69d2ac50cf4a7d9bcefc780fc154336b8cf51
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Sun Sep 8 22:26:45 2024 +0300
+
+    Projection matrices work?!! Wawa is upside down but it does not matter!! Lets try rotation and other elements
+
+commit d69de4d2fbf64ffed70217d7a769949679651fdc
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Sun Sep 8 22:14:21 2024 +0300
+
+    Still in a debugging session to find out where it went wrong
+
+commit 73e38044ebb2ea87b51c9b324346325cc302f735
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Sun Sep 8 21:12:55 2024 +0300
+
+    Hold up
+
+commit 8c54d1adffe36bee099bb5a2397f13f955f89176
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Sun Sep 8 16:38:16 2024 +0300
+
+    Alternative approach to projection matrix
+
+commit 3323113b709a3c84ebc537f8a21e0730461cbd5a
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Fri Sep 6 20:00:43 2024 +0300
+
+    Fuck this Shit.
+
+commit 0b7767db37b7252eb9620bc3ab62b2b21ea71bf5
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Fri Sep 6 19:19:42 2024 +0300
+
+    The Shader was complaining of a vec3 assigned to a vec2, but then when I solved the issue, the mesh disappeared. Even changing rotation to default didnt change anything. I'm suspecting we were not feeding in the matrices correctly?
+
+commit e9bbc807aeee12151237b5d4bc871c9cc9dd71ab
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Fri Sep 6 19:11:02 2024 +0300
+
+    Stable version, but no projection in sight. Sorry!
+
+commit 2727d4e16d2812483c75e29f058ea31878f2edc0
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Fri Sep 6 19:09:24 2024 +0300
+
+    Test worked when abstaining from seeing if projection worked. Will try with altered object rotation
+
+commit 34c20d818418c32ad85d0ab96580ed7635249bcd
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Fri Sep 6 18:41:26 2024 +0300
+
+    Adding in a new vertex shader that supports our wc_Camera shader settings for uniforms mod, view, and proj
+
+commit b19518206d3fbc8bce269d6edb073bb3b2681103
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Fri Sep 6 18:22:45 2024 +0300
+
+    updated makefile, and added missing shader.h include in object.h and object.cpp
+
+commit 18652e03c866251425f62b231260062e9f96cbb5
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Fri Sep 6 18:19:55 2024 +0300
+
+    test coming soon. 3d code utilities ready. Code not commented, and new shader not created. Commiting just in case anything goes wrong in the future.
+
+commit 216e56b263ea27fd9b322d817ed265029277677e
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Sep 4 16:58:51 2024 +0300
+
+    Added model, view, and projection matrices
+
+commit 39ba51bd188ffa12ee99f20147a2e75b8d69f8e2
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Mon Sep 2 14:38:57 2024 +0300
+
+    Finally added projection.h to the build, and now with a matrix for projection. However there are some issues: the mat4 is actually pretty much a struct holding an array which is a hack but hey what can i say? And secondly we need to create 2 classes to mimic any 3d engine, and that is an object and camera class, so ill see ya later
+
+commit 1a89d6251f97ffd05ef3798beced17d6e8f5e443
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Fri Aug 30 23:21:29 2024 +0300
+
+    Added an overload for static void wc_Window::resizeWindow() that supports OpenGL feeding in 2 ints instead of a struct with 2 ints
+
+commit e24d383ddd81ed1b3f0cdbff6d8ed573b9c9f401
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Fri Aug 30 22:11:28 2024 +0300
+
+    Adding in the projection code, will add to the makefile when I find a use for it. We are going to move into 3d quite soon, but first I need to fix an error with window resizing
+
+commit d7f19345ef33855963b89bbce993a113e7b097aa
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Fri Aug 30 14:56:45 2024 +0300
+
+    stable release now baby, texture attributes work now
+
+commit 55eedbe3d8f85e7b9d131ef7b1779245132f0e6f
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Fri Aug 30 14:53:53 2024 +0300
+
+    This new commit is not very good, still some issues with the codebase beyond bugs, and as well as textures not setting to the settings I specified.. stable commit coming soon
+
+commit 846e6892faa67f6cefc2a96b57bcf52153e19050
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Fri Aug 30 14:43:31 2024 +0300
+
+    Added more code comments to document things. it was really tiring but it at least helped me fix a bit of the code. We do need to change the shader class to be wc_Shader since that way it works with the rest of the gang
+
+commit 767635bd12bde098036a202193221d65890d0152
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Thu Aug 29 15:22:34 2024 +0300
+
+    I think its more formal to make the documentation directory docs and not wiki
+
+commit 015e489a8b3b81c465d694cfff6173ffca4cefaa
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Thu Aug 29 11:29:04 2024 +0300
+
+    turns out my mesh and texture classes were written perfectly, just that I disabled textures in the fragment shader for debug purposes. Well, thats a success for today, and ending the debug
+
+commit 1db4c9a84817ed01a3571b2d72d37613ee3f63e0
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Thu Aug 29 11:13:59 2024 +0300
+
+    Found the error. The methods static void shader::createXShader(const int& shaderet, const char* s) had been using instanced openGL statemachine objects. If you pass by reference it actually compiles the real shader instead of a temporary copy that dies after the function finishes... So the mesh was working completely correctly, its just a matter of getting the textures to work that will finish this debug session
+
+commit 5f1a9acd7cc6081c14a945118ef05f5f072a95a1
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Thu Aug 29 10:11:33 2024 +0300
+
+    the wiki backups are here again
+
+commit 88cc8ec7945cd8c9b0d4d7730f16bd14a2c338c6
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Aug 28 23:46:32 2024 +0300
+
+    throwing in the towel, lets try tommorow
+
+commit a8615b90957a0f28c37a2fe3e453900ac9d32015
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Aug 28 21:14:40 2024 +0300
+
+    We are in the midst of a debugging session. The textures and mesh classes are all done but we have some issues with nothing rendering. Not a stable build but not exactly the worst considering we have more code to use, which is also more code to maintain. HHaagh, im getting annoyed.
+
+commit 136b6aa4545ec65f398128857930a1b540481195
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Wed Aug 28 17:50:14 2024 +0300
+
+    Updating the repository for the moment. God i hate emacs backup files why cant they be dotfiles
+
+commit d9fa703a4291e078645a64de5fd9a3fd0fd684d2
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Tue Aug 27 11:03:56 2024 +0300
+
+    i got a fly new makefile that dont do everything in one go. basically i moved each source file compilation to its own command and then got them all to happen at the main command
+
+commit 3ce197c3888982897c3ce6f20fd262cf24e52640
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Tue Aug 27 10:29:24 2024 +0300
+
+    added a new makefile feature to copy textures into the bin directory. Preparing to add texture functionality like before
+
+commit 20420526775feaad4ac119c7df13d39a45f99195
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Tue Aug 27 10:26:58 2024 +0300
+
+    silly me, forgot to add the files i was talking about
+
+commit 492505ab0502d81b16d3dd5fac2616d002628fb8
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Tue Aug 27 10:26:13 2024 +0300
+
+    Fixed an error in voic wc_BasicMesh::configureBufferObjects() where it returns the value of the first element instead of the address as OpenGL expects haha. As well as a new working executable
+
+commit e3dba3baec1f71040a6899288dde456c91764b97
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Tue Aug 27 10:21:09 2024 +0300
+
+    Trying out a new mesh class rq and lets see if it runs! :3
+
+commit c9c16ab7eb8fc968bb9436069e79889e7554c8ed
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Mon Aug 26 19:55:13 2024 +0300
+
+    added a new executable
+
+commit b6878977e1df6355cccae36453ce3f26357cff56
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Mon Aug 26 19:53:41 2024 +0300
+
+    fixed the codebase to use the new names of directories and the makefile as well to copy shaders into the bin directory
+
+commit 3f9d1c526cfbcaf68f603d625ec41f578b746f90
+Author: sphurlsmith <sphurlsmith@gmail.com>
+Date:   Sun Aug 25 20:08:24 2024 +0300
+
+    First commit to the project

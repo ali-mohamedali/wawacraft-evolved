@@ -118,7 +118,8 @@ am_wawacraft_evolved_OBJECTS = src/wawacraft_evolved-glad.$(OBJEXT) \
 	src/reserve.$(OBJEXT) src/sieve.$(OBJEXT) src/window.$(OBJEXT) \
 	src/shader-obj_shader.$(OBJEXT) src/shader.$(OBJEXT) \
 	src/asset-path.$(OBJEXT) src/image-loader.$(OBJEXT) \
-	src/texture.$(OBJEXT) path.$(OBJEXT)
+	src/texture.$(OBJEXT) src/projection.$(OBJEXT) \
+	src/camera.$(OBJEXT) path.$(OBJEXT)
 wawacraft_evolved_OBJECTS = $(am_wawacraft_evolved_OBJECTS)
 am__DEPENDENCIES_1 =
 wawacraft_evolved_DEPENDENCIES = $(am__DEPENDENCIES_1)
@@ -139,12 +140,13 @@ depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = ./$(DEPDIR)/path.Po src/$(DEPDIR)/asset-path.Po \
 	src/$(DEPDIR)/blurbs-help-table.Po src/$(DEPDIR)/blurbs.Po \
-	src/$(DEPDIR)/events.Po src/$(DEPDIR)/file.Po \
-	src/$(DEPDIR)/flag.Po src/$(DEPDIR)/gl-handle.Po \
-	src/$(DEPDIR)/image-loader.Po src/$(DEPDIR)/logging.Po \
-	src/$(DEPDIR)/main.Po src/$(DEPDIR)/manager-register.Po \
-	src/$(DEPDIR)/manager.Po src/$(DEPDIR)/node.Po \
-	src/$(DEPDIR)/options.Po src/$(DEPDIR)/parser.Po \
+	src/$(DEPDIR)/camera.Po src/$(DEPDIR)/events.Po \
+	src/$(DEPDIR)/file.Po src/$(DEPDIR)/flag.Po \
+	src/$(DEPDIR)/gl-handle.Po src/$(DEPDIR)/image-loader.Po \
+	src/$(DEPDIR)/logging.Po src/$(DEPDIR)/main.Po \
+	src/$(DEPDIR)/manager-register.Po src/$(DEPDIR)/manager.Po \
+	src/$(DEPDIR)/node.Po src/$(DEPDIR)/options.Po \
+	src/$(DEPDIR)/parser.Po src/$(DEPDIR)/projection.Po \
 	src/$(DEPDIR)/reserve.Po src/$(DEPDIR)/shader-obj_shader.Po \
 	src/$(DEPDIR)/shader.Po src/$(DEPDIR)/sieve.Po \
 	src/$(DEPDIR)/texture.Po \
@@ -394,6 +396,7 @@ wawacraft_evolved_CFLAGS = $(GLFW_CFLAGS)
 wawacraft_evolved_LDADD = $(GLFW_LIBS) -lGL
 wawacraft_evolved_SOURCES = src/glad.c \
 src/stb_image.c \
+src/khrplatform.h \
 src/main.cpp \
 src/blurbs.cpp \
 src/events.cpp \
@@ -433,6 +436,14 @@ src/asset-path.hpp \
 src/image-loader.cpp \
 src/texture.hpp \
 src/texture.cpp \
+src/vector.hpp \
+src/matrix.hpp \
+src/quat.hpp \
+src/projection.hpp \
+src/projection.cpp \
+src/camera.hpp \
+src/camera.cpp \
+path.h \
 path.cpp
 
 all: config.h
@@ -581,6 +592,10 @@ src/image-loader.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/texture.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
+src/projection.$(OBJEXT): src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/camera.$(OBJEXT): src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
 
 wawacraft-evolved$(EXEEXT): $(wawacraft_evolved_OBJECTS) $(wawacraft_evolved_DEPENDENCIES) $(EXTRA_wawacraft_evolved_DEPENDENCIES) 
 	@rm -f wawacraft-evolved$(EXEEXT)
@@ -597,6 +612,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/asset-path.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/blurbs-help-table.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/blurbs.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/camera.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/events.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/file.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/flag.Po@am__quote@ # am--include-marker
@@ -609,6 +625,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/node.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/options.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/parser.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/projection.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/reserve.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/shader-obj_shader.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/shader.Po@am__quote@ # am--include-marker
@@ -1037,6 +1054,7 @@ distclean: distclean-recursive
 	-rm -f src/$(DEPDIR)/asset-path.Po
 	-rm -f src/$(DEPDIR)/blurbs-help-table.Po
 	-rm -f src/$(DEPDIR)/blurbs.Po
+	-rm -f src/$(DEPDIR)/camera.Po
 	-rm -f src/$(DEPDIR)/events.Po
 	-rm -f src/$(DEPDIR)/file.Po
 	-rm -f src/$(DEPDIR)/flag.Po
@@ -1049,6 +1067,7 @@ distclean: distclean-recursive
 	-rm -f src/$(DEPDIR)/node.Po
 	-rm -f src/$(DEPDIR)/options.Po
 	-rm -f src/$(DEPDIR)/parser.Po
+	-rm -f src/$(DEPDIR)/projection.Po
 	-rm -f src/$(DEPDIR)/reserve.Po
 	-rm -f src/$(DEPDIR)/shader-obj_shader.Po
 	-rm -f src/$(DEPDIR)/shader.Po
@@ -1109,6 +1128,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/$(DEPDIR)/asset-path.Po
 	-rm -f src/$(DEPDIR)/blurbs-help-table.Po
 	-rm -f src/$(DEPDIR)/blurbs.Po
+	-rm -f src/$(DEPDIR)/camera.Po
 	-rm -f src/$(DEPDIR)/events.Po
 	-rm -f src/$(DEPDIR)/file.Po
 	-rm -f src/$(DEPDIR)/flag.Po
@@ -1121,6 +1141,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/$(DEPDIR)/node.Po
 	-rm -f src/$(DEPDIR)/options.Po
 	-rm -f src/$(DEPDIR)/parser.Po
+	-rm -f src/$(DEPDIR)/projection.Po
 	-rm -f src/$(DEPDIR)/reserve.Po
 	-rm -f src/$(DEPDIR)/shader-obj_shader.Po
 	-rm -f src/$(DEPDIR)/shader.Po

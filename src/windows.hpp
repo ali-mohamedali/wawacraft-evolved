@@ -45,7 +45,7 @@ namespace windows{
     static const bool YES;
     static const bool NO;
     
-  private:
+  protected:
     void poll();
     
     void initialize();
@@ -55,7 +55,8 @@ namespace windows{
 
     void update_name();
     void update_resolution();
-    
+
+  private:
     bool initialized;
 
     int* instances;

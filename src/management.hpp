@@ -21,6 +21,8 @@ namespace windows{
     virtual void window_respond(events::keyboard::event);
     
     window* window_get();
+
+    manager* superior_get();
     
     graphics::gl_handle render_handle_get();
     

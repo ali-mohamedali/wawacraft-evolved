@@ -40,6 +40,11 @@ windows::window* windows::node::window_get()
   return &identity;
 }
 
+windows::manager* windows::node::superior_get()
+{
+  return superior;
+}
+
 graphics::gl_handle windows::node::render_handle_get()
 {
   return graphics::gl_handle(&identity);

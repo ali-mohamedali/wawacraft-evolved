@@ -16,6 +16,7 @@ wawacraft_evolved_LDADD=$(GLFW_LIBS) -lGL
 
 wawacraft_evolved_SOURCES=src/glad.c \
 src/stb_image.c \
+src/khrplatform.h \
 src/main.cpp \
 src/blurbs.cpp \
 src/events.cpp \
@@ -55,4 +56,12 @@ src/asset-path.hpp \
 src/image-loader.cpp \
 src/texture.hpp \
 src/texture.cpp \
+src/vector.hpp \
+src/matrix.hpp \
+src/quat.hpp \
+src/projection.hpp \
+src/projection.cpp \
+src/camera.hpp \
+src/camera.cpp \
+path.h \
 path.cpp
