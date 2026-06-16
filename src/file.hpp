@@ -23,11 +23,12 @@ namespace file{
 
     std::string file_get();
     std::string path_get();
+
+  protected:
+    std::fstream file_stream;
     
   private:
     loader();
-    
-    std::fstream file_stream;
   };
 
   class image_loader: public generic_loader{

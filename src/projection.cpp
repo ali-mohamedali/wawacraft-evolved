@@ -34,7 +34,7 @@ math::matrix<float, 4, 4> math::matrix_model(math::vector<float, 3> translation,
     };
   math::matrix<float, 4, 4> translate(mtrans);
   
-  return translate*scale*rotate;
+  return translate*rotate*scale;
 }
 
 math::matrix<float, 4, 4> math::matrix_view(math::vector<float, 3> target, math::vector<float, 3> camera)

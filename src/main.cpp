@@ -14,6 +14,7 @@
 #include "camera.hpp"
 #include "time.hpp"
 #include "mesh.hpp"
+#include "obj.hpp"
 #include "../config.h"
 
 float inc=0;
@@ -129,7 +130,7 @@ public:
       glUniformMatrix4fv(glGetUniformLocation(shawader->get(), "view"), 1, GL_FALSE, cam.view_get()->address());
       glUniformMatrix4fv(glGetUniformLocation(shawader->get(), "projection"), 1, GL_FALSE, cam.projection_get(window_get()->get_width()/(float)window_get()->get_height())->address());
 
-      duplicate(offset, 10);
+      shawa->render();
       
       local_handle.drop();
     }
@@ -138,12 +139,14 @@ public:
   void init()
   {
     graphics::gl_handle local_handle=render_handle_get();
+
+    file::obj_loader bunny("teapot.obj");
     
     if(local_handle.hold()==graphics::gl_handle::SUCCESS){
       vertex=new graphics::obj_shader("shaders/vertex-3d.glsl", graphics::obj_shader_type::VERTEX);
       fragment=new graphics::obj_shader("shaders/fragment-default.glsl", graphics::obj_shader_type::FRAGMENT);
       shawader=new graphics::shader(vertex, fragment);
-      shawa=new graphics::textured_mesh(math::matrix_model(math::vector<float, 3>({0, 0, 2}), math::quat<float>(1, 0, 0, 0), 1), shawa_vert, shawa_i, &shawafile);
+      shawa=new graphics::textured_mesh(math::matrix_model(math::vector<float, 3>({0, 0, 2}), math::quat<float>(1, 0, 0, 0), 1), bunny.vertices, bunny.indices, &shawafile);
       
       glClearColor(0.5, 0.5, 0.7, 1);
       glEnable(GL_DEPTH_TEST);
@@ -151,40 +154,7 @@ public:
       local_handle.drop();
     }
   }
-private:
-  std::vector<float> shawa_vert=
-    {
-      -1, -1, -1, 0, 0,
-      0, 1, 0, 0.5, 1,
-      0, 1, 0, 0.5, 1,
-      1, -1, -1, 1, 0,
-      -1, -1, 1, 0, 0,
-      0, 1, 0, 0.5, 1,
-      0, 1, 0, 0.5, 1,
-      1, -1, 1, 1, 0,
-      -1, -1, -1, 0, 0,
-      0, 1, 0, 0.5, 1,
-      0, 1, 0, 0.5, 1,
-      -1, -1, 1, 1, 0,
-      1, -1, -1, 0, 0,
-      0, 1, 0, 0.5, 1,
-      0, 1, 0, 0.5, 1,
-      1, -1, 1, 1, 0,
-      -1, -1, 1, 0, 1,
-      1, -1, 1, 1, 1,
-      -1, -1, -1, 0, 0,
-      1, -1, -1, 1, 0
-    };
-
-  std::vector<unsigned int> shawa_i=
-    {
-      0, 1, 2, 0, 2, 3,
-      4, 5, 6, 4, 6, 7,
-      8, 9, 10, 8, 10, 11,
-      12, 13, 14, 12, 14, 15,
-      16, 17, 18, 19, 17, 18
-    };
-      
+private:      
   graphics::gl_handle local_handle=render_handle_get();
 
   unsigned int shawa_vbo;

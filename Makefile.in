@@ -120,7 +120,8 @@ am_wawacraft_evolved_OBJECTS = src/wawacraft_evolved-glad.$(OBJEXT) \
 	src/asset-path.$(OBJEXT) src/image-loader.$(OBJEXT) \
 	src/texture.$(OBJEXT) src/projection.$(OBJEXT) \
 	src/camera.$(OBJEXT) src/time.$(OBJEXT) src/mesh.$(OBJEXT) \
-	src/mesh-textured_mesh.$(OBJEXT) path.$(OBJEXT)
+	src/mesh-textured_mesh.$(OBJEXT) src/obj.$(OBJEXT) \
+	path.$(OBJEXT)
 wawacraft_evolved_OBJECTS = $(am_wawacraft_evolved_OBJECTS)
 am__DEPENDENCIES_1 =
 wawacraft_evolved_DEPENDENCIES = $(am__DEPENDENCIES_1)
@@ -147,12 +148,12 @@ am__depfiles_remade = ./$(DEPDIR)/path.Po src/$(DEPDIR)/asset-path.Po \
 	src/$(DEPDIR)/logging.Po src/$(DEPDIR)/main.Po \
 	src/$(DEPDIR)/manager-register.Po src/$(DEPDIR)/manager.Po \
 	src/$(DEPDIR)/mesh-textured_mesh.Po src/$(DEPDIR)/mesh.Po \
-	src/$(DEPDIR)/node.Po src/$(DEPDIR)/options.Po \
-	src/$(DEPDIR)/parser.Po src/$(DEPDIR)/projection.Po \
-	src/$(DEPDIR)/reserve.Po src/$(DEPDIR)/shader-obj_shader.Po \
-	src/$(DEPDIR)/shader.Po src/$(DEPDIR)/sieve.Po \
-	src/$(DEPDIR)/texture.Po src/$(DEPDIR)/time.Po \
-	src/$(DEPDIR)/wawacraft_evolved-glad.Po \
+	src/$(DEPDIR)/node.Po src/$(DEPDIR)/obj.Po \
+	src/$(DEPDIR)/options.Po src/$(DEPDIR)/parser.Po \
+	src/$(DEPDIR)/projection.Po src/$(DEPDIR)/reserve.Po \
+	src/$(DEPDIR)/shader-obj_shader.Po src/$(DEPDIR)/shader.Po \
+	src/$(DEPDIR)/sieve.Po src/$(DEPDIR)/texture.Po \
+	src/$(DEPDIR)/time.Po src/$(DEPDIR)/wawacraft_evolved-glad.Po \
 	src/$(DEPDIR)/wawacraft_evolved-stb_image.Po \
 	src/$(DEPDIR)/window.Po src/$(DEPDIR)/windows-reserve.Po
 am__mv = mv -f
@@ -450,6 +451,8 @@ src/time.cpp \
 src/mesh.hpp \
 src/mesh.cpp \
 src/mesh-textured_mesh.cpp \
+src/obj.hpp \
+src/obj.cpp \
 path.h \
 path.cpp
 
@@ -607,6 +610,7 @@ src/time.$(OBJEXT): src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
 src/mesh.$(OBJEXT): src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
 src/mesh-textured_mesh.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
+src/obj.$(OBJEXT): src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
 
 wawacraft-evolved$(EXEEXT): $(wawacraft_evolved_OBJECTS) $(wawacraft_evolved_DEPENDENCIES) $(EXTRA_wawacraft_evolved_DEPENDENCIES) 
 	@rm -f wawacraft-evolved$(EXEEXT)
@@ -636,6 +640,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/mesh-textured_mesh.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/mesh.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/node.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/obj.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/options.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/parser.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/projection.Po@am__quote@ # am--include-marker
@@ -1081,6 +1086,7 @@ distclean: distclean-recursive
 	-rm -f src/$(DEPDIR)/mesh-textured_mesh.Po
 	-rm -f src/$(DEPDIR)/mesh.Po
 	-rm -f src/$(DEPDIR)/node.Po
+	-rm -f src/$(DEPDIR)/obj.Po
 	-rm -f src/$(DEPDIR)/options.Po
 	-rm -f src/$(DEPDIR)/parser.Po
 	-rm -f src/$(DEPDIR)/projection.Po
@@ -1158,6 +1164,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/$(DEPDIR)/mesh-textured_mesh.Po
 	-rm -f src/$(DEPDIR)/mesh.Po
 	-rm -f src/$(DEPDIR)/node.Po
+	-rm -f src/$(DEPDIR)/obj.Po
 	-rm -f src/$(DEPDIR)/options.Po
 	-rm -f src/$(DEPDIR)/parser.Po
 	-rm -f src/$(DEPDIR)/projection.Po

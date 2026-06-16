@@ -68,5 +68,7 @@ src/time.cpp \
 src/mesh.hpp \
 src/mesh.cpp \
 src/mesh-textured_mesh.cpp \
+src/obj.hpp \
+src/obj.cpp \
 path.h \
 path.cpp
