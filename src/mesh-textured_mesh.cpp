@@ -1,24 +1,22 @@
 #include "libs.hpp"
 #include "mesh.hpp"
 
-graphics::textured_mesh::textured_mesh(file::image_loader* g_image):
-  texture(g_image)
+graphics::textured_mesh::textured_mesh()
 {
   attributes_set();
 }
 
-graphics::textured_mesh::textured_mesh(math::matrix<float, 4, 4> g_model, std::vector<float> g_vertices, std::vector<unsigned int> g_indices, file::image_loader* g_image):
-  mesh(g_model, g_vertices, g_indices),
-  texture(g_image)
+graphics::textured_mesh::textured_mesh(math::matrix<float, 4, 4> g_model, std::vector<float> g_vertices, std::vector<unsigned int> g_indices):
+  mesh(g_model, g_vertices, g_indices)
 {
   attributes_set();
 }
 
-void graphics::textured_mesh::render()
+void graphics::textured_mesh::render(graphics::texture* g_texture)
 {
   int shader;
   glGetIntegerv(GL_CURRENT_PROGRAM, &shader);
-  glBindTexture(GL_TEXTURE_2D, texture.get());
+  if(g_texture){g_texture->use();}
   glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, GL_FALSE, model.address());
   
   glBindVertexArray(vertex_array);

@@ -121,6 +121,8 @@ am_wawacraft_evolved_OBJECTS = src/wawacraft_evolved-glad.$(OBJEXT) \
 	src/texture.$(OBJEXT) src/projection.$(OBJEXT) \
 	src/camera.$(OBJEXT) src/time.$(OBJEXT) src/mesh.$(OBJEXT) \
 	src/mesh-textured_mesh.$(OBJEXT) src/obj.$(OBJEXT) \
+	src/voxel.$(OBJEXT) src/voxel-chunk.$(OBJEXT) \
+	src/voxel-chunk_scheme.$(OBJEXT) src/noise.$(OBJEXT) \
 	path.$(OBJEXT)
 wawacraft_evolved_OBJECTS = $(am_wawacraft_evolved_OBJECTS)
 am__DEPENDENCIES_1 =
@@ -148,12 +150,15 @@ am__depfiles_remade = ./$(DEPDIR)/path.Po src/$(DEPDIR)/asset-path.Po \
 	src/$(DEPDIR)/logging.Po src/$(DEPDIR)/main.Po \
 	src/$(DEPDIR)/manager-register.Po src/$(DEPDIR)/manager.Po \
 	src/$(DEPDIR)/mesh-textured_mesh.Po src/$(DEPDIR)/mesh.Po \
-	src/$(DEPDIR)/node.Po src/$(DEPDIR)/obj.Po \
-	src/$(DEPDIR)/options.Po src/$(DEPDIR)/parser.Po \
-	src/$(DEPDIR)/projection.Po src/$(DEPDIR)/reserve.Po \
-	src/$(DEPDIR)/shader-obj_shader.Po src/$(DEPDIR)/shader.Po \
-	src/$(DEPDIR)/sieve.Po src/$(DEPDIR)/texture.Po \
-	src/$(DEPDIR)/time.Po src/$(DEPDIR)/wawacraft_evolved-glad.Po \
+	src/$(DEPDIR)/node.Po src/$(DEPDIR)/noise.Po \
+	src/$(DEPDIR)/obj.Po src/$(DEPDIR)/options.Po \
+	src/$(DEPDIR)/parser.Po src/$(DEPDIR)/projection.Po \
+	src/$(DEPDIR)/reserve.Po src/$(DEPDIR)/shader-obj_shader.Po \
+	src/$(DEPDIR)/shader.Po src/$(DEPDIR)/sieve.Po \
+	src/$(DEPDIR)/texture.Po src/$(DEPDIR)/time.Po \
+	src/$(DEPDIR)/voxel-chunk.Po \
+	src/$(DEPDIR)/voxel-chunk_scheme.Po src/$(DEPDIR)/voxel.Po \
+	src/$(DEPDIR)/wawacraft_evolved-glad.Po \
 	src/$(DEPDIR)/wawacraft_evolved-stb_image.Po \
 	src/$(DEPDIR)/window.Po src/$(DEPDIR)/windows-reserve.Po
 am__mv = mv -f
@@ -453,6 +458,12 @@ src/mesh.cpp \
 src/mesh-textured_mesh.cpp \
 src/obj.hpp \
 src/obj.cpp \
+src/voxel.hpp \
+src/voxel.cpp \
+src/voxel-chunk.cpp \
+src/voxel-chunk_scheme.cpp \
+src/noise.hpp \
+src/noise.cpp \
 path.h \
 path.cpp
 
@@ -611,6 +622,12 @@ src/mesh.$(OBJEXT): src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
 src/mesh-textured_mesh.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/obj.$(OBJEXT): src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/voxel.$(OBJEXT): src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/voxel-chunk.$(OBJEXT): src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/voxel-chunk_scheme.$(OBJEXT): src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/noise.$(OBJEXT): src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
 
 wawacraft-evolved$(EXEEXT): $(wawacraft_evolved_OBJECTS) $(wawacraft_evolved_DEPENDENCIES) $(EXTRA_wawacraft_evolved_DEPENDENCIES) 
 	@rm -f wawacraft-evolved$(EXEEXT)
@@ -640,6 +657,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/mesh-textured_mesh.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/mesh.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/node.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/noise.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/obj.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/options.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/parser.Po@am__quote@ # am--include-marker
@@ -650,6 +668,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/sieve.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/texture.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/time.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/voxel-chunk.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/voxel-chunk_scheme.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/voxel.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/wawacraft_evolved-glad.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/wawacraft_evolved-stb_image.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/window.Po@am__quote@ # am--include-marker
@@ -1086,6 +1107,7 @@ distclean: distclean-recursive
 	-rm -f src/$(DEPDIR)/mesh-textured_mesh.Po
 	-rm -f src/$(DEPDIR)/mesh.Po
 	-rm -f src/$(DEPDIR)/node.Po
+	-rm -f src/$(DEPDIR)/noise.Po
 	-rm -f src/$(DEPDIR)/obj.Po
 	-rm -f src/$(DEPDIR)/options.Po
 	-rm -f src/$(DEPDIR)/parser.Po
@@ -1096,6 +1118,9 @@ distclean: distclean-recursive
 	-rm -f src/$(DEPDIR)/sieve.Po
 	-rm -f src/$(DEPDIR)/texture.Po
 	-rm -f src/$(DEPDIR)/time.Po
+	-rm -f src/$(DEPDIR)/voxel-chunk.Po
+	-rm -f src/$(DEPDIR)/voxel-chunk_scheme.Po
+	-rm -f src/$(DEPDIR)/voxel.Po
 	-rm -f src/$(DEPDIR)/wawacraft_evolved-glad.Po
 	-rm -f src/$(DEPDIR)/wawacraft_evolved-stb_image.Po
 	-rm -f src/$(DEPDIR)/window.Po
@@ -1164,6 +1189,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/$(DEPDIR)/mesh-textured_mesh.Po
 	-rm -f src/$(DEPDIR)/mesh.Po
 	-rm -f src/$(DEPDIR)/node.Po
+	-rm -f src/$(DEPDIR)/noise.Po
 	-rm -f src/$(DEPDIR)/obj.Po
 	-rm -f src/$(DEPDIR)/options.Po
 	-rm -f src/$(DEPDIR)/parser.Po
@@ -1174,6 +1200,9 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/$(DEPDIR)/sieve.Po
 	-rm -f src/$(DEPDIR)/texture.Po
 	-rm -f src/$(DEPDIR)/time.Po
+	-rm -f src/$(DEPDIR)/voxel-chunk.Po
+	-rm -f src/$(DEPDIR)/voxel-chunk_scheme.Po
+	-rm -f src/$(DEPDIR)/voxel.Po
 	-rm -f src/$(DEPDIR)/wawacraft_evolved-glad.Po
 	-rm -f src/$(DEPDIR)/wawacraft_evolved-stb_image.Po
 	-rm -f src/$(DEPDIR)/window.Po

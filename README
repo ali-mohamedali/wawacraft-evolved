@@ -1,11 +1,45 @@
-Wawacraft:Evolved version 0.3.9 [TetraSHAWAhedron]
+Wawacraft:Evolved version 0.3.12 [Satisfaction]
 
-just a small release that I need to quickly get out.
+Wawacraft:Evolved is a free/libre 3D voxel-based
+sandbox game with minimal features and maximal 
+hack-ability.  It is written in C++, and uses C
+libraries.
 
-I got 3d stuff working, so congrats to me :::)
-Controls are WASD and Arrow keys to turn your head, don't get lost!
+It can run on both Linux and Windows, and is 
+intended to run on any platform following sane 
+standards.  Your machine needs to have the 
+following libraries available, GLFW, support 
+C++, and OpenGL >=3.3
 
-Any fun?
+Wawacraft:Evolved is open to change, so if you
+would like to contribute, please email me at 
+<someguyshutup5@gmail.com> so we can work
+together.
 
-Much love,
-Ali Mohamed Ali AKA Stephen P. Hurlsmith
+Wawacraft:Evolved is licensed under the GNU GPLv3 
+License, and all its assets, (as found in the folders
+archive and textures) are distributed under the 
+CC-BY-SA 4.0 license, credited in authorship to
+Ali Mohamed Ali (AKA the pseudonymous Stephen P. 
+Hurlsmith).
+
+Controls currently are:
+WASD for movement
+Arrow keys for rotation
+Enter and Backspace for block editing
+Tab for switching block types
+
+Credits to libraries that I use in this project:
+GLAD - responsible for glad.h, glad.c, khrplatform.h
+ * Copyright (C) 2013-2022 David Herberth
+MIT License, please check OTHER_LICENSES
+
+GLFW 3.4 - Must be installed separately, responsible for most
+       window code
+ * Copyright (c) 2002-2006 Marcus Geelnard
+ * Copyright (c) 2006-2019 Camilla Löwy <elmindreda@glfw.org>
+zlib/libpng license is GLFW's license
+
+stb_image - Responsible for image loading (stb_image.h,
+            stb_image.c)
+Public domain utility code ::)

@@ -10,7 +10,11 @@ namespace graphics{
   public:
     texture(file::image_loader*);
 
+    void use();
+    
     unsigned int get();
+
+    file::image_loader* image_get();
     
   protected:
     virtual void parameters_set();

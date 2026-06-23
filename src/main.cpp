@@ -15,6 +15,7 @@
 #include "time.hpp"
 #include "mesh.hpp"
 #include "obj.hpp"
+#include "voxel.hpp"
 #include "../config.h"
 
 float inc=0;
@@ -23,7 +24,7 @@ class test_node: public windows::node{
 public:
   test_node(const windows::window& g_window):
     node(g_window),
-    shawafile("textures/wawa.png"),
+    shawafile("textures/spritesheet.png"),
     cam(math::vector<float, 3>({0, 0, 0}), math::quat<float>(cos(0), 0, 0, sin(0)), 50, 1, 800)
   {
     init();
@@ -34,7 +35,6 @@ public:
     delete vertex;
     delete fragment;
     delete shawader;
-    delete shawa;
   }
 
   void quickly()
@@ -85,22 +85,23 @@ public:
   void window_respond(events::keyboard::event given)
   {
     quickly();
-  }
+    graphics::gl_handle local_handle=render_handle_get();
+    static world::voxel_type cursor_type=world::VOX_NONE;
 
-  void duplicate(math::vector<float, 3> offset, unsigned int depth)
-  {
-    math::vector<float, 3> left({2*depth, 2*depth, 2});
-    math::vector<float, 3> right({-2*(signed int)depth, 2*depth, 2});
-    
-    math::quat<float> rotation(cos(inc*math::deg2rad), 0, sin(inc*math::deg2rad), 0);
-    
-    shawa->model_set(math::matrix_model(offset, rotation, 1));
-    shawa->render();
-
-    if(depth!=0){
-      duplicate(offset+left, depth-1);
-      duplicate(offset+right, depth-1);
+    local_handle.hold();
+    if(given.state==events::keyboard::KB_KEY_PRESSED){
+      if(given.bkey==events::keyboard::KB_KEY_ENTER){
+	world::voxel& v=chunks->raycast(cam.position_get(), cam.forward_get(), common::signals::YES);
+	v.type_set(1+cursor_type);
+	v.presence_set(common::signals::YES);
+	
+      }else if(given.bkey==events::keyboard::KB_KEY_BACKSPACE){
+	chunks->raycast(cam.position_get(), cam.forward_get()).presence_set(common::signals::NO);
+      }else if(given.bkey==events::keyboard::KB_KEY_TAB){
+	cursor_type=((((int)cursor_type)+1)%6);
+      }
     }
+    local_handle.drop();
   }
   
   void window_update()
@@ -111,15 +112,6 @@ public:
 
     quickly();
     wtime::reset();
-
-    math::vector<float, 3> offset({0, 0, 4});
-    math::vector<float, 3> left({2, 2, 0});
-    math::vector<float, 3> right({-2, 2, 0});
-    
-    math::quat<float> rotation(cos(inc*math::deg2rad), 0, sin(inc*math::deg2rad), 0);
-    math::matrix<float, 4, 4> model=math::matrix_model(offset, rotation, 1);
-
-    shawa->model_set(model);
     
     if(local_handle.hold()==graphics::gl_handle::SUCCESS){
       local_handle.clear();
@@ -130,7 +122,8 @@ public:
       glUniformMatrix4fv(glGetUniformLocation(shawader->get(), "view"), 1, GL_FALSE, cam.view_get()->address());
       glUniformMatrix4fv(glGetUniformLocation(shawader->get(), "projection"), 1, GL_FALSE, cam.projection_get(window_get()->get_width()/(float)window_get()->get_height())->address());
 
-      shawa->render();
+      chunks->raycast(cam.position_get(), cam.forward_get(), common::signals::YES);
+      chunks->render(cam.position_get());
       
       local_handle.drop();
     }
@@ -139,17 +132,22 @@ public:
   void init()
   {
     graphics::gl_handle local_handle=render_handle_get();
-
-    file::obj_loader bunny("teapot.obj");
     
     if(local_handle.hold()==graphics::gl_handle::SUCCESS){
       vertex=new graphics::obj_shader("shaders/vertex-3d.glsl", graphics::obj_shader_type::VERTEX);
       fragment=new graphics::obj_shader("shaders/fragment-default.glsl", graphics::obj_shader_type::FRAGMENT);
       shawader=new graphics::shader(vertex, fragment);
-      shawa=new graphics::textured_mesh(math::matrix_model(math::vector<float, 3>({0, 0, 2}), math::quat<float>(1, 0, 0, 0), 1), bunny.vertices, bunny.indices, &shawafile);
+
+      chunks=new world::chunk_scheme(&shawafile);
       
       glClearColor(0.5, 0.5, 0.7, 1);
+
       glEnable(GL_DEPTH_TEST);
+      glEnable(GL_BLEND);
+      
+      glEnable(GL_CULL_FACE);
+      glCullFace(GL_BACK);
+      glFrontFace(GL_CW);
       
       local_handle.drop();
     }
@@ -163,7 +161,7 @@ private:
 
   file::image_loader shawafile;
 
-  graphics::textured_mesh* shawa;
+  world::chunk_scheme* chunks;
 
   graphics::camera cam;
   
@@ -179,7 +177,7 @@ int main(int argc, char** argv)
 
   windows::manager manager;
 
-  test_node* my_win=new test_node(windows::window(640, 480, "Wawacraft:Evolved v"+common::PROGRAM_VERSION+" [TetraSHAWAhedron]"));
+  test_node* my_win=new test_node(windows::window(640, 480, "Wawacraft:Evolved v"+common::PROGRAM_VERSION+" [Satisfaction]"));
 
   manager.nodes_add(my_win);
   

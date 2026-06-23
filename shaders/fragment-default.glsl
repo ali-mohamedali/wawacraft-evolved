@@ -8,4 +8,7 @@ uniform sampler2D gtexture;
 void main()
 {
   fColor=texture(gtexture, gtexcoord);
+  if(fColor.a < 0.1){
+    discard;
+  }
 }

@@ -2,7 +2,8 @@
 #include "texture.hpp"
 
 graphics::texture::texture(file::image_loader* g_image):
-  image(g_image)
+  image(g_image),
+  id(0)
 {
   logging::log pen("texture", "graphics::texture", "New texture object created.");
   
@@ -19,6 +20,11 @@ graphics::texture::texture(file::image_loader* g_image):
   }
 
   glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void graphics::texture::use()
+{
+  glBindTexture(GL_TEXTURE_2D, id);
 }
 
 void graphics::texture::parameters_set()
@@ -40,4 +46,9 @@ unsigned int graphics::texture::channels()
 {
   return (image->channels_get()==3 ? GL_RGB :
 	  (image->channels_get()==4 ? GL_RGBA : GL_RGB));
+}
+
+file::image_loader* graphics::texture::image_get()
+{
+  return image;
 }

@@ -66,9 +66,17 @@ void graphics::mesh::set(std::vector<float> g_vertices)
 
 void graphics::mesh::set(std::vector<float> g_vertices, std::vector<unsigned int> g_indices)
 {
-  std::copy(g_vertices.begin(), g_vertices.end(), vertices.begin());
-  std::copy(g_indices.begin(), g_indices.end(), indices.begin());
+  vertices=g_vertices;
+  indices=g_indices;
   
+  buffers_bind();
+}
+
+void graphics::mesh::wipe()
+{
+  vertices.clear();
+  indices.clear();
+
   buffers_bind();
 }
 

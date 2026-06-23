@@ -70,5 +70,11 @@ src/mesh.cpp \
 src/mesh-textured_mesh.cpp \
 src/obj.hpp \
 src/obj.cpp \
+src/voxel.hpp \
+src/voxel.cpp \
+src/voxel-chunk.cpp \
+src/voxel-chunk_scheme.cpp \
+src/noise.hpp \
+src/noise.cpp \
 path.h \
 path.cpp

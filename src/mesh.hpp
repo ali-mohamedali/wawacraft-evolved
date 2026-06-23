@@ -20,6 +20,8 @@ namespace graphics{
     void set(std::vector<float>);
     void set(std::vector<float>, std::vector<unsigned int>);
 
+    void wipe();
+
     math::matrix<float, 4, 4> model_get();
 
     std::vector<float> vertices_get();
@@ -43,18 +45,14 @@ namespace graphics{
 
   class textured_mesh: public mesh{
   public:
-    textured_mesh(file::image_loader*);
-    textured_mesh(math::matrix<float, 4, 4>, std::vector<float>, std::vector<unsigned int>, file::image_loader*);
+    textured_mesh();
+    textured_mesh(math::matrix<float, 4, 4>, std::vector<float>, std::vector<unsigned int>);
 
-    void render();
+    void render(graphics::texture*);
     
-    graphics::texture texture;
-
   protected:
     void attributes_set();
-
-  private:
-    textured_mesh();
+    
   };
 }
 

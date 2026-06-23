@@ -9,7 +9,7 @@ namespace math{
   public:
     vector();
     vector(type[dimension]);
-    vector(std::vector<type>);
+    vector(const std::vector<type>&);
 
     void set(unsigned int, type);
 
@@ -32,6 +32,9 @@ namespace math{
     vector operator-(const vector<type, dimension>&);
     vector operator^(const vector<type, dimension>&);
     vector operator~();
+
+    bool operator==(const vector<type, dimension>&);
+    bool operator!=(const vector<type, dimension>&);
 
     vector norm();
     vector conjugate();
@@ -59,7 +62,7 @@ namespace math{
   }
   
   template<typename type, unsigned int dimension>
-  vector<type, dimension>::vector(std::vector<type> g_init)
+  vector<type, dimension>::vector(const std::vector<type>& g_init)
   {
     for(int i=0; i<dimension; i++){
       data[i]=0;
@@ -222,6 +225,30 @@ namespace math{
   vector<type, dimension> vector<type, dimension>::operator~()
   {
     return norm();
+  }
+
+  template<typename type, unsigned int dimension>
+  bool vector<type, dimension>::operator==(const vector<type, dimension>& rhs)
+  {
+    bool accumulate=true;
+
+    for(int i=0; i<dimension; i++){
+      accumulate=accumulate && (data[i]==rhs[i]);
+    }
+
+    return accumulate;
+  }
+
+  template<typename type, unsigned int dimension>
+  bool vector<type, dimension>::operator!=(const vector<type, dimension>& rhs)
+  {
+    bool accumulate=false;
+
+    for(int i=0; i<dimension; i++){
+      accumulate=accumulate || (data[i]!=rhs[i]);
+    }
+
+    return accumulate;
   }
 }
 

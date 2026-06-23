@@ -60,14 +60,17 @@ void file::obj_loader::load()
 	}
 
 	std::string tnum;
-	for(++i; i<word.size(); i++){
+        i++;
+        for(i; i<word.size(); i++){
 	  if(word[i]=='/'){
 	    break;
 	  }
-	  
+
 	  tnum+=word[i];
 	}
 
+	std::cout << tnum << std::endl;
+	
 	vertices.push_back(vertex[((std::stoi(vnum)-1)*3)]);
 	vertices.push_back(vertex[((std::stoi(vnum)-1)*3)+1]);
 	vertices.push_back(vertex[((std::stoi(vnum)-1)*3)+2]);
@@ -76,28 +79,15 @@ void file::obj_loader::load()
 	  vertices.push_back(texture[((std::stoi(tnum)-1)*2)]);
 	  vertices.push_back(texture[((std::stoi(tnum)-1)*2)+1]);
 	}else{
-	  float ut;
-	  float vt;
-
-	  if(f==1){
-	    ut=0;
-	    vt=0;
-	  }else if(f==2){
-	    ut=0.5; vt=1;
-	  }else{
-	    ut=1;
-	    vt=0;
-	  }
-	  
-	  vertices.push_back(ut);
-	  vertices.push_back(vt);
+	  vertices.push_back(0);
+	  vertices.push_back(0);
 	}
 
 	int size=indices.size();
 	indices.push_back(size);
 
 	f--;
-	}
+      }
     }
   }
 }
