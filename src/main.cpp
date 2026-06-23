@@ -67,16 +67,16 @@ public:
     }
 
     if(up.state==events::keyboard::KB_KEY_PRESSED){
-      cam.rotate(0, 5*(speed*wtime::now()), 0);
+      cam.rotate(0, 2*(speed*wtime::now()), 0);
     }
     if(down.state==events::keyboard::KB_KEY_PRESSED){
-      cam.rotate(0, -5*(speed*wtime::now()), 0);
+      cam.rotate(0, -2*(speed*wtime::now()), 0);
     }
     if(left.state==events::keyboard::KB_KEY_PRESSED){
-      cam.rotate(0, 0, 5*(speed*wtime::now()));
+      cam.rotate(0, 0, 2*(speed*wtime::now()));
     }
     if(right.state==events::keyboard::KB_KEY_PRESSED){
-      cam.rotate(0, 0, -5*(speed*wtime::now()));
+      cam.rotate(0, 0, -2*(speed*wtime::now()));
     }
 
     cam.position_set(p);

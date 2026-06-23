@@ -1,3 +1,50 @@
+commit e47328df1e30aa2b2629c5ab13b930bc0c08e29d
+Author: Ali Mohamed Ali <someguyshutup5@gmail.com>
+Date:   Tue Jun 23 12:30:47 2026 +0300
+
+    PAtch no. 12 good version
+
+commit 3e230dceee6dbbb665413c364ff08e8e51499c32
+Author: Ali Mohamed Ali <someguyshutup5@gmail.com>
+Date:   Tue Jun 16 09:25:51 2026 +0300
+
+    Patch no. 11 Rudimentary OBJ parser included!
+    
+    Now the game is able to load basic 3d models from .OBJ files
+    through a file::obj_loader object. Currently it only supports lines
+    starting with #, v, vt, or f.  Quite spartan now, but will be
+    improved in the future.
+
+commit 7cc2a1332495dd912fb0f464799038cacd87f6e5
+Author: Ali Mohamed Ali <someguyshutup5@gmail.com>
+Date:   Sun Jun 14 16:39:49 2026 +0300
+
+    Patch no. 10, no publishing, just that I may have improved existing classes
+
+commit 79452c29a61a30546839a72e300aa675f7b6e8b4
+Author: Ali Mohamed Ali <someguyshutup5@gmail.com>
+Date:   Sun Jun 14 12:15:14 2026 +0300
+
+    Patch no.9 Added 3D maths support
+    
+    Matrices are not in the OpenGL tradition of facing the camera
+    south, they face north.
+    
+    Added quaternions, matrices, projection code, no identity function.
+    Rotation through quaternions, use of time, a minimal camera
+    class have been added.
+    
+    Current demo is a tetrashawahedron :::), spinning cube.
+    
+    Currentlly immediate controls must be manually polled due to the
+    structuring of the library, so no solution there.  However the
+    existing input system does manage typing events well enough which
+    is important for specific commands like attack, block place, etc.
+    the convenience of which had to be manually emulated on the
+    old system.
+    
+    WAWACRAFT:EVOLVED FOREVER!
+
 commit 53d7854aba86077707c62ab222e724854d6ae5ec
 Author: Ali Mohamed Ali <someguyshutup5@gmail.com>
 Date:   Wed Jun 10 22:01:09 2026 +0300
