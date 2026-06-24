@@ -1,9 +1,26 @@
-# The wiki is to be removed from the git repository. No updating it.
-docs/
 # My binaries for ME only
 bin/*
+bin
+./wawacraft-evolved
+wawacraft-evolved
 # I hate backups getting in the repo too
-/#*#
-/#*
+*#
+.#*
 *~
 *.o
+*.save
+# Art is not necessary
+tex/art/*
+# Also automake makes a bunch of useless shite
+autom4te.cache/*
+autom4te.cache
+.deps/*
+.deps
+src/.deps
+src/.deps/*
+src/.dirstamp
+stamp-h1
+# these are somehow banned
+Makefile
+configure
+*/Makefile

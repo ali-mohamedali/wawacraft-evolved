@@ -1,7 +1,14 @@
 #include "libs.hpp"
+<<<<<<< HEAD
 #include "program/flags.hpp"
 #include "program/logging.hpp"
 #include "options.hpp"
+=======
+#include "flags.hpp"
+#include "logging.hpp"
+#include "options.hpp"
+#include "asset-path.hpp"
+>>>>>>> new_base
 
 flags::flag options::banner_flag={true, &blurbs::banner_setting};
 
@@ -14,6 +21,11 @@ flags::flag options::messages_flag={true, &logging::log::MESSAGE_LOGGING};
 flags::flag options::records_flag={true, &logging::log::RECORD_LOGGING};
 flags::flag options::errors_flag={true, &logging::log::ERROR_LOGGING};
 
+<<<<<<< HEAD
+=======
+flags::flag options::root_flag={true, NULL, true, &file::asset_path::GIVEN_ROOT};
+
+>>>>>>> new_base
 flags::synonym_table options::flag_synonyms=
   {
     {'b', "--banner"},
@@ -42,7 +54,12 @@ flags::flag_table options::flag_table=
     {"--log-messages", messages_flag},
     {"--log-records", records_flag},
     {"--log-errors", errors_flag},
+<<<<<<< HEAD
     {"--prefix", prefixing_flag}
+=======
+    {"--prefix", prefixing_flag},
+    {"--root", root_flag}
+>>>>>>> new_base
   };
 
 void options::parse(int argc, char** argv)

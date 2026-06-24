@@ -1,0 +1,15 @@
+#ifndef PATH_H
+#define PATH_H
+
+#include <string>
+
+std::string
+root_install_path()
+{
+    std::string path="@datadir@/@PACKAGE_NAME@";
+    path.replace(path.begin(), path.begin()+9, "@prefix@");
+
+    return path;
+}
+
+#endif

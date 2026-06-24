@@ -1,140 +1,70 @@
-#include "libs.h"
-#include "shader.h"
+#include "libs.hpp"
+#include "shader.hpp"
+#include "logging.hpp"
 
-shader::shader(const char* pvertex, const char* pfragment)
+graphics::shader::shader(graphics::obj_shader* g_vertex, graphics::obj_shader* g_fragment):
+  vertex(g_vertex),
+  fragment(g_fragment)
 {
-  std::string sourcevertex=shader::read_file(pvertex);
-  std::string sourcefragment=shader::read_file(pfragment);
-
-  unsigned int shadervertex=glCreateShader(GL_VERTEX_SHADER);
-  unsigned int shaderfragment=glCreateShader(GL_FRAGMENT_SHADER);
-
-  shader::shader_create_vertex(shadervertex, sourcevertex.c_str());
-  shader::shader_create_fragment(shaderfragment, sourcefragment.c_str());
-
-  shaderid=glCreateProgram();
-
-  glAttachShader(shaderid, shadervertex);
-  glAttachShader(shaderid, shaderfragment);
-  glLinkProgram(shaderid);
-
-  char log[512];
-  int success;
-
-  try{
-    glGetProgramiv(shaderid, GL_LINK_STATUS, &success);
-
-    if(!success){
-      throw "err:w-shader-shader_linking_failed";
-    }
-  }catch(const char* err){
-    std::cerr << err << std::endl;
-    std::cerr << "OpenGL shader linking log: " << log << std::endl;
-  }
-
-  glDeleteShader(shadervertex);
-  glDeleteShader(shaderfragment);
-}
-
-static void shader::shader_create_vertex(unsigned int &pshid, const char* ps)
-{
-  glShaderSource(pshid, 1, &ps, NULL);
-
-  char log[512];
-  int success;
-
-  try{
-    glCompileShader(pshid);
-    glGetShaderiv(pshid, GL_COMPILE_STATUS, &success);
-
-    if(!success){
-      throw "err:w-shader-vertex_shader_compilation_failed";
-    }
-  }catch(const char* err){
-    glGetShaderInfoLog(pshid, 512, NULL, log);
-
-    std::cerr << err << std::endl;
-    std::cerr << "OpenGL vertex shader compilation log: " << log << std::endl;
-  }
-}
-
-static void shader::shader_create_fragment(unsigned int &pshid, const char* ps)
-{
-  glShaderSource(pshid, 1, &ps, NULL);
-
-  char log[512];
-  int success;
-
-  try{
-    glCompileShader(pshid);
-    glGetShaderiv(pshid, GL_COMPILE_STATUS, &success);
-
-    if(!success){
-      throw "err:w-shader-fragment_shader_compilation_failed";
-    }
-  }catch(const char* err){
-    glGetShaderInfoLog(pshid, 512, NULL, log);
-
-    std::cerr << err << std::endl;
-    std::cerr << "OpenGL fragment shader compilation log: " << log << std::endl;
-  }
-}
-
-static std::string shader::read_file(const char* path)
-{
-  std::ifstream data_received;
-  std::stringstream data_intermediate;
-
-  std::string retstr;
-
-  data_received.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-  try{
-    data_received.open(path);
-    
-    if(data_received.good() && data_received.is_open()){
-      data_intermediate << data_received.rdbuf();
-    }else{
-      throw "err:w-shader-file-invalid";
-    }
-    
-    data_received.close();
+  logging::log pen("shader", "graphics::shader", "Creating a runtime shader program.");
   
-    retstr=data_intermediate.str();
-  }catch(std::ifstream::failure err){
-    std::cout << "ERR: FILE " << path << " COULD NOT BE READ PROPERLY." << std::endl;
-  }catch(const char* err){
-    std::cout << "ERR: " << err << std::endl;
+  id=glCreateProgram();
+
+  if(validate_pointers()){
+    pen.record("Linking program");
+    glAttachShader(id, vertex->get());
+    glAttachShader(id, fragment->get());
+    glLinkProgram(id);
+
+    int success;
+    char log[512];
+    glGetProgramiv(id, GL_LINK_STATUS, &success);
+    if(!success){
+      glGetProgramInfoLog(id, 512, NULL, log);
+
+      pen.error("Shader linkage ruined!");
+      pen.error("From OpenGL: ");
+      pen.error(log);
+    }
   }
 
-  return retstr;
+  validate_program();
 }
 
-void shader::uniform_set_bool(const char* name, bool val) const
+unsigned int graphics::shader::get()
 {
-  glUniform1i(glGetUniformLocation(shaderid, name), val);
+  return id;
 }
 
-void shader::uniform_set_int(const char* name, int val) const
+void graphics::shader::validate_program()
 {
-  glUniform1i(glGetUniformLocation(shaderid, name), val);
+  logging::log pen("validate_program", "graphics::shader", "Validating runtime shader program.");
+  glValidateProgram(id);
+
+  int status;
+  char log[512];
+  glGetProgramiv(id, GL_VALIDATE_STATUS, &status);
+  if(!status){
+    glGetProgramInfoLog(id, 512, NULL, log);
+    pen.error("Program is not valid!");
+    pen.error("From OpenGL...");
+    pen.error(log);
+  }
 }
 
-void shader::uniform_set_float(const char* name, float val) const
+bool graphics::shader::validate_pointers()
 {
-  glUniform1f(glGetUniformLocation(shaderid, name), val);
-}
+  logging::log pen("validate_pointers", "graphics::shader", "Validating given pointers.");
 
-void shader::uniform_set_matrix(const char* name, float* matrix, bool transposed) const
-{
-  glUniformMatrix4fv(glGetUniformLocation(shaderid, name), 1, transposed, matrix);
-}
+  if(vertex==NULL){
+    pen.error("Vertex shader object pointer invalid!");
+    return false;
+  }else if(fragment==NULL){
+    pen.error("Fragment shader object pointer invalid!");
+    return false;
+  }
+  
+  pen.record("All pointers valid.");
 
-void shader::activate()
-{
-  glUseProgram(shaderid);
-}
-
-unsigned int& shader::get_id()
-{
-  return shaderid;
+  return true;
 }

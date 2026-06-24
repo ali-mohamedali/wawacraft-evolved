@@ -1,261 +1,191 @@
-#include "libs.h"
-#include "windef.h"
-#include "control.h"
-#include "render.h"
-#include "shader.h"
-#include "textures.h"
-#include "voxel.h"
-#include "mesh.h"
+#include "libs.hpp"
+#include "flags.hpp"
+#include "logging.hpp"
+#include "windows.hpp"
+#include "graphics.hpp"
+#include "management.hpp"
+#include "options.hpp"
+#include "blurbs.hpp"
+#include "file.hpp"
+#include "shader.hpp"
+#include "asset-path.hpp"
+#include "texture.hpp"
+#include "projection.hpp"
+#include "camera.hpp"
+#include "time.hpp"
+#include "mesh.hpp"
+#include "obj.hpp"
+#include "voxel.hpp"
+#include "../config.h"
 
-int DEFAULT_TEXTURE_RESOLUTION=32;
-int LARGE_TEXTURE_RESOLUTION=512;
-int DEFAULT_TEXTURE_CHANNELS=4;
+float inc=0;
 
-int CLASSIC_TEXTURE_RESOLUTION=16;
-int CLASSIC_TEXTURE_CHANNELS=3;
-
-int SCLASS_TEXTURE_RESOLUTION=128;
-
-voxtype BUILDING_BLOCK=VOX_SOIL;
-
-float DEFAULT_SPEED=0.1;
-float DEFAULT_TURN=4;
-
-float DEFAULT_BLOCK_SIZE=(float)1/4;
-
-key_callback KEY_W;
-key_callback KEY_A;
-key_callback KEY_S;
-key_callback KEY_D;
-
-key_callback KEY_ARROW_LEFT;
-key_callback KEY_ARROW_RIGHT;
-key_callback KEY_ARROW_UP;
-key_callback KEY_ARROW_DOWN;
-
-key_callback KEY_TAB;
-key_callback KEY_ESC;
-
-key_callback KEY_BACKSP;
-key_callback KEY_ENTER;
-
-void render(window* pwint, void* pcmr, int argc, void** pmsh)
-{
-  mesh_base** pmesh=(mesh_base**)pmsh;
-  mesh_3d** pmesh3d=(mesh_3d**)pmsh;
-  
-  camera* pcamera=(camera*)pcmr;
-  
-  if(pcmr!=NULL){
-    for(int x=0; x<argc; x++){
-      pcamera->render_mesh(*(pmesh3d+x));
-    }
-  }else{
-    (*pmesh)->render();
-  }
-}
-
-void move_camera(int argc, char** argv)
-{
-  camera** pcamptr=(camera**)argv;
-
-  vector_3d pos=(**pcamptr).position_get();
-  vector_3d rot=(**pcamptr).rotation_get();
-
-  matrix view=*(**pcamptr).view_matrix_get();
-
-  vector_3d u(view.m[0][0], view.m[0][1], view.m[0][2]);
-  vector_3d v(view.m[1][0], view.m[1][1], view.m[1][2]);
-  vector_3d n(view.m[2][0], view.m[2][1], view.m[2][2]);
-  
-  switch(argc){
-  case 1:
-    (**pcamptr).position_set(vector_3d::add(pos, vector_3d::scalar(n, DEFAULT_SPEED)));
-    break;
-  case 2:
-    (**pcamptr).position_set(vector_3d::subtract(pos, vector_3d::scalar(n, DEFAULT_SPEED)));
-    break;
-  case 3:
-    (**pcamptr).position_set(vector_3d::subtract(pos, vector_3d::scalar(u, DEFAULT_SPEED)));
-    break;
-  case 4:
-    (**pcamptr).position_set(vector_3d::add(pos, vector_3d::scalar(u, DEFAULT_SPEED)));
-    break;
-  case 5:
-    (**pcamptr).rotation_set({rot.x, rot.y+DEFAULT_TURN*MATHLIB_DEGTORAD, rot.z});
-    break;
-  case 6:
-    (**pcamptr).rotation_set({rot.x, rot.y-DEFAULT_TURN*MATHLIB_DEGTORAD, rot.z});
-    break;
-  case 7:
-    (**pcamptr).rotation_set({rot.x+DEFAULT_TURN*MATHLIB_DEGTORAD, rot.y, rot.z});
-    break;
-  case 8:
-    (**pcamptr).rotation_set({rot.x-DEFAULT_TURN*MATHLIB_DEGTORAD, rot.y, rot.z});
-    break;
-  default:
-    break;
-  }
-}
-
-void tab(int argc, char** argv)
-{
-  BUILDING_BLOCK=BUILDING_BLOCK+1;
-
-  if(BUILDING_BLOCK>VOX_UNI){
-    BUILDING_BLOCK=VOX_GRASS;
-  }
-}
-
-void blocks(int argc, char** argv){
-  chunk_manager* chunks=(chunk_manager*)argv[0];
-  camera* cam=(camera*)argv[1];
-
-  if(argv!=NULL){
-    if(argc==0){
-      if(chunks!=NULL && cam!=NULL){
-	matrix view=*(cam->view_matrix_get());
-	vector_3d t(view.m[2][0], view.m[2][1], view.m[2][2]);
-	
-	chunks->block_break(cam->position_get(), t);
-      }else{
-	std::cout << "exc:func-blocks-argv-null" << std::endl;
-      }
-    }else{
-      if(chunks!=NULL && cam!=NULL){
-	matrix view=*(cam->view_matrix_get());
-	vector_3d t(view.m[2][0], view.m[2][1], view.m[2][2]);
-	
-	chunks->block_place(cam->position_get(), t, BUILDING_BLOCK);
-      }else{
-	std::cout << "exc:func-blocks-argv-null" << std::endl;
-      }
-    }
-  }else{
-    std::cout << "exc:func-blocks-argv-null" << std::endl;
-  }
-}
-
-int main()
-{
-  window::init_glfw();
-
-  window test(800, 600, "");
-  test.set_current_context();
-
-  glEnable(GL_DEPTH_TEST);
-  glEnable(GL_CULL_FACE);
-  glCullFace(GL_BACK);
-  glFrontFace(GL_CCW);
-  
-  render_environment test_env(&test, &render, {0.5, 0.5, 0.7, 1});
-
-  shader test_shd("shd/wac_v_m_default.glsl", "shd/wac_f_m_default.glsl");
-  shader test_sh3d("shd/wac_v_m3d_default.glsl", "shd/wac_f_m_default.glsl");
-  shader nocol3d("shd/wac_v_m3d_nocol.glsl", "shd/wac_f_m_nocol.glsl");
-
-  texture texpack("tex/spritesheet.png", LARGE_TEXTURE_RESOLUTION, LARGE_TEXTURE_RESOLUTION, DEFAULT_TEXTURE_CHANNELS, true);
-  
-  test_shd.uniform_set_int("tex", 0);
-  test_sh3d.uniform_set_int("tex", 0);
-
-  camera test_camera(800, 600, 60, 0.1, 256, {0, 4, 0}, {0, 0, 0});
-
-  chunk_manager chunks(&texpack, &nocol3d);
-  
-  mesh_3d* meshes[chunk_manager::DEFAULT_VISIBLE_AREA];
-  
-  test.set_title("Wawacraft:Evolved [v0.2.14-alpha/Spark Release] [OpenGL 3.3]");
-
-  KEY_W.keycode=GLFW_KEY_W;
-  KEY_W.callback=&move_camera;
-  
-  KEY_A.keycode=GLFW_KEY_A;
-  KEY_A.callback=&move_camera;
-
-  KEY_S.keycode=GLFW_KEY_S;
-  KEY_S.callback=&move_camera;
-
-  KEY_D.keycode=GLFW_KEY_D;
-  KEY_D.callback=&move_camera;
-
-  KEY_ARROW_LEFT.keycode=GLFW_KEY_LEFT;
-  KEY_ARROW_LEFT.callback=&move_camera;
-  
-  KEY_ARROW_RIGHT.keycode=GLFW_KEY_RIGHT;
-  KEY_ARROW_RIGHT.callback=&move_camera;
-
-  KEY_ARROW_UP.keycode=GLFW_KEY_UP;
-  KEY_ARROW_UP.callback=&move_camera;
-
-  KEY_ARROW_DOWN.keycode=GLFW_KEY_DOWN;
-  KEY_ARROW_DOWN.callback=&move_camera;
-
-  KEY_TAB.keycode=GLFW_KEY_TAB;
-  KEY_TAB.callback=&tab;
-
-  KEY_BACKSP.keycode=GLFW_KEY_BACKSPACE;
-  KEY_BACKSP.callback=&blocks;
-
-  KEY_ENTER.keycode=GLFW_KEY_ENTER;
-  KEY_ENTER.callback=&blocks;
-  
-  char* camptr=(char*)&test_camera;
-  char** camptrptr=&camptr;
-
-  double time_limit=1; // 1 second;
-
-  double previous_frame=glfwGetTime();
-  
-  bool roll=false;
-  while(test.is_open())
+class test_node: public windows::node{
+public:
+  test_node(const windows::window& g_window):
+    node(g_window),
+    shawafile("textures/spritesheet.png"),
+    cam(math::vector<float, 3>({0, 0, 0}), math::quat<float>(cos(0), 0, 0, sin(0)), 50, 1, 800)
   {
-    test_env.mesh_3d=meshes;
-    test_env.camera=&test_camera;
-
-    chunks.update(test_camera.position_get());
-
-    int MAX_CHUNKS_LOADED=chunk_manager::DEFAULT_VISIBLE_AREA;
-    for(int x=0; x<MAX_CHUNKS_LOADED; x++){
-      meshes[x]=chunks.cm_data[chunks.cm_visible[x]].mesh_get();
-    }
-
-    test_env.screen_run_render_loop_instance(chunk_manager::DEFAULT_VISIBLE_AREA, true);
-    
-    key_callback_execute_press(test.get_reference(), &KEY_ARROW_LEFT, 5, camptrptr);
-    key_callback_execute_press(test.get_reference(), &KEY_ARROW_RIGHT, 6, camptrptr);
-    key_callback_execute_press(test.get_reference(), &KEY_ARROW_UP, 7, camptrptr);
-    key_callback_execute_press(test.get_reference(), &KEY_ARROW_DOWN, 8, camptrptr);
-    
-    key_callback_execute_press(test.get_reference(), &KEY_W, 1, camptrptr);
-    key_callback_execute_press(test.get_reference(), &KEY_S, 2, camptrptr);
-    key_callback_execute_press(test.get_reference(), &KEY_A, 3, camptrptr);
-    key_callback_execute_press(test.get_reference(), &KEY_D, 4, camptrptr);
-
-    key_callback_execute_press(test.get_reference(), &KEY_TAB, 0, NULL);
-    key_callback_execute_press(test.get_reference(), &KEY_ESC, 1, NULL);
-
-    char* blocks_list[2]=
-      {
-	(char*)&chunks,
-	(char*)camptr
-      };
-    
-    key_callback_execute_press(test.get_reference(), &KEY_BACKSP, 0, blocks_list);
-    key_callback_execute_press(test.get_reference(), &KEY_ENTER, 1, blocks_list);
-    
-    roll=!roll;
-    
-    double delta=glfwGetTime()-previous_frame;
-
-    if(delta>=time_limit){
-      previous_frame=glfwGetTime();
-      chunks.block_operations_total=0;
-    }
-    
-    //std::cout << delta << std::endl;
+    init();
   }
 
-  window::kill_glfw();
+  ~test_node()
+  {
+    delete vertex;
+    delete fragment;
+    delete shawader;
+  }
+
+  void quickly()
+  {
+    const float speed=25;
+    
+    math::vector<float, 3> p=cam.position_get();
+
+    events::keyboard::event w=superior_get()->node_key_get(this, events::keyboard::KB_KEY_W);
+    events::keyboard::event a=superior_get()->node_key_get(this, events::keyboard::KB_KEY_A);
+    events::keyboard::event s=superior_get()->node_key_get(this, events::keyboard::KB_KEY_S);
+    events::keyboard::event d=superior_get()->node_key_get(this, events::keyboard::KB_KEY_D);
+
+    events::keyboard::event up=superior_get()->node_key_get(this, events::keyboard::KB_KEY_UP);
+    events::keyboard::event down=superior_get()->node_key_get(this, events::keyboard::KB_KEY_DOWN);
+    events::keyboard::event left=superior_get()->node_key_get(this, events::keyboard::KB_KEY_LEFT);
+    events::keyboard::event right=superior_get()->node_key_get(this, events::keyboard::KB_KEY_RIGHT);
+
+    if(w.state==events::keyboard::KB_KEY_PRESSED){
+      p=p+cam.forward_get()*(speed*wtime::now());
+    }
+    if(a.state==events::keyboard::KB_KEY_PRESSED){
+      p=p-cam.left_get()*(speed*wtime::now());
+    }
+    if(s.state==events::keyboard::KB_KEY_PRESSED){
+      p=p-cam.forward_get()*(speed*wtime::now());
+    }
+    if(d.state==events::keyboard::KB_KEY_PRESSED){
+      p=p+cam.left_get()*(speed*wtime::now());
+    }
+
+    if(up.state==events::keyboard::KB_KEY_PRESSED){
+      cam.rotate(0, 2*(speed*wtime::now()), 0);
+    }
+    if(down.state==events::keyboard::KB_KEY_PRESSED){
+      cam.rotate(0, -2*(speed*wtime::now()), 0);
+    }
+    if(left.state==events::keyboard::KB_KEY_PRESSED){
+      cam.rotate(0, 0, 2*(speed*wtime::now()));
+    }
+    if(right.state==events::keyboard::KB_KEY_PRESSED){
+      cam.rotate(0, 0, -2*(speed*wtime::now()));
+    }
+
+    cam.position_set(p);
+  }
+  
+  void window_respond(events::keyboard::event given)
+  {
+    quickly();
+    graphics::gl_handle local_handle=render_handle_get();
+    static world::voxel_type cursor_type=world::VOX_NONE;
+
+    local_handle.hold();
+    if(given.state==events::keyboard::KB_KEY_PRESSED){
+      if(given.bkey==events::keyboard::KB_KEY_ENTER){
+	world::voxel& v=chunks->raycast(cam.position_get(), cam.forward_get(), common::signals::YES);
+	v.type_set(1+cursor_type);
+	v.presence_set(common::signals::YES);
+	
+      }else if(given.bkey==events::keyboard::KB_KEY_BACKSPACE){
+	chunks->raycast(cam.position_get(), cam.forward_get()).presence_set(common::signals::NO);
+      }else if(given.bkey==events::keyboard::KB_KEY_TAB){
+	cursor_type=((((int)cursor_type)+1)%6);
+      }
+    }
+    local_handle.drop();
+  }
+  
+  void window_update()
+  {
+    logging::log pen("window_update", "test_node", false);
+
+    inc+=25*wtime::now();
+
+    quickly();
+    wtime::reset();
+    
+    if(local_handle.hold()==graphics::gl_handle::SUCCESS){
+      local_handle.clear();
+      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+      
+      glUseProgram(shawader->get());
+      
+      glUniformMatrix4fv(glGetUniformLocation(shawader->get(), "view"), 1, GL_FALSE, cam.view_get()->address());
+      glUniformMatrix4fv(glGetUniformLocation(shawader->get(), "projection"), 1, GL_FALSE, cam.projection_get(window_get()->get_width()/(float)window_get()->get_height())->address());
+
+      chunks->raycast(cam.position_get(), cam.forward_get(), common::signals::YES);
+      chunks->render(cam.position_get());
+      
+      local_handle.drop();
+    }
+  }
+  
+  void init()
+  {
+    graphics::gl_handle local_handle=render_handle_get();
+    
+    if(local_handle.hold()==graphics::gl_handle::SUCCESS){
+      vertex=new graphics::obj_shader("shaders/vertex-3d.glsl", graphics::obj_shader_type::VERTEX);
+      fragment=new graphics::obj_shader("shaders/fragment-default.glsl", graphics::obj_shader_type::FRAGMENT);
+      shawader=new graphics::shader(vertex, fragment);
+
+      chunks=new world::chunk_scheme(&shawafile);
+      
+      glClearColor(0.5, 0.5, 0.7, 1);
+
+      glEnable(GL_DEPTH_TEST);
+      glEnable(GL_BLEND);
+      
+      glEnable(GL_CULL_FACE);
+      glCullFace(GL_BACK);
+      glFrontFace(GL_CW);
+      
+      local_handle.drop();
+    }
+  }
+private:      
+  graphics::gl_handle local_handle=render_handle_get();
+
+  unsigned int shawa_vbo;
+  unsigned int shawa_vao;
+  unsigned int shawa_ebo;
+
+  file::image_loader shawafile;
+
+  world::chunk_scheme* chunks;
+
+  graphics::camera cam;
+  
+  graphics::obj_shader* vertex;
+  graphics::obj_shader* fragment;
+  graphics::shader* shawader;
+};
+
+int main(int argc, char** argv)
+{
+  options::parse(argc, argv);
+  blurbs::banner();
+
+  windows::manager manager;
+
+  test_node* my_win=new test_node(windows::window(640, 480, "Wawacraft:Evolved v"+common::PROGRAM_VERSION+" [Satisfaction]"));
+
+  manager.nodes_add(my_win);
+  
+  while(manager.nodes_present()){
+    manager.cycle();
+  }
+  
+  windows::reserve::end();
+  
   return 0;
 }
